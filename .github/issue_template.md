@@ -1,9 +1,7 @@
-“As a <user type>, I want to <task> so that <goal>.”
+“Als ein <Benutzertyp>, will ich <task>, sodass <Ziel>.”
 
-Bsp: “As a <customer>, I want to <create an account> so that <I can make purchases>.”
+Bsp: “Als ein <Mitarbeiter>, will ich <ein neuen Kunden erfassen>, sodass ich <den Kunden verwalten kann>.”
 
-**User Story **
+**Tasks**
 
-**Acceptance criteria**
-
-**Definition of Done**
+**Akzeptanzkriterium**
