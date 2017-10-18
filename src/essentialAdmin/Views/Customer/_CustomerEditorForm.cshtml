@@ -1,0 +1,145 @@
+﻿@model essentialAdmin.Models.CustomerViewModels.CustomerInputModel
+<form method="post" asp-controller="Customer" class="grid mui-form">
+    <div class="row  row-equal">
+        <div class="col-12 col-small-12">
+            <div class="mui-panel">
+                <div class="grid">
+                    <div class="row row-space-between">
+                        <div class="col-6 col-medium-6 col-small-12">
+                            <div class="mui--text-headline">
+                                Kunde: @ViewData["CustomerName"]                         
+                            </div>
+                        </div>
+                        <div class="col-6 col-medium-6 col-small-1 mui--text-right">
+                            <button type="submit" class="mui-btn mui-btn--primary">Speichern</button>
+                            <button formaction="delete" class="mui-btn mui-btn--danger">Kunde löschen</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row  row-equal">
+        <div class="col-8 col-small-12">
+            <div class="mui-panel">
+                <div class="mui--form-title">Anschrift</div>
+                <div class="grid">
+                    <div class="row">
+                        <div class="col-6 col-medium-12 col-small-12">
+                            <div class="mui-textfield">
+                                <input asp-for="Title" />
+                                <label asp-for="Title"></label>
+                                <span asp-validation-for="Title" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-6 hide-medium hide-small">
+                        </div>
+                        <div class="col-6 col-medium-12 col-small-12">
+                            <div class="mui-textfield">
+                                <input asp-for="FirstName" />
+                                <label asp-for="FirstName"></label>
+                                <span asp-validation-for="FirstName" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-6 col-medium-12 col-small-12">
+                            <div class="mui-textfield">
+                                <input asp-for="LastName" />
+                                <label asp-for="LastName"></label>
+                                <span asp-validation-for="LastName" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-12 col-medium-12 col-small-12">
+                            <div class="mui-textfield">
+                                <input asp-for="Street" />
+                                <label asp-for="Street"></label>
+                                <span asp-validation-for="Street" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-4 col-medium-5 col-small-12">
+                            <div class="mui-textfield">
+                                <input asp-for="Zip" />
+                                <label asp-for="Zip"></label>
+                                <span asp-validation-for="Zip" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-8 col-medium-7 col-small-12">
+                            <div class="mui-textfield">
+                                <input asp-for="City" />
+                                <label asp-for="City"></label>
+                                <span asp-validation-for="City" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-4 col-small-12">
+            <div class="mui-panel">
+                <div class="mui--form-title">
+                    Status
+
+                </div>
+            </div>
+
+        </div>
+        <div class="col-8 col-small-12">
+            <div class="mui-panel">
+                <div class="mui--form-title">Zusätzliche Daten</div>
+                <div class="grid">
+                    <div class="row">
+                        <div class="col-6 col-medium-12 col-small-12">
+                            <div class="mui-textfield">
+                                <input asp-for="Email" />
+                                <label asp-for="Email"></label>
+                                <span asp-validation-for="Email" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="col-6 col-medium-12 col-small-12">
+                            <div class="mui-textfield">
+                                <input asp-for="Phone" />
+                                <label asp-for="Phone"></label>
+                                <span asp-validation-for="Phone" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-6 col-medium-12 col-small-12">
+                            <div class="mui-textfield">
+                                <input asp-for="Company" />
+                                <label asp-for="Company"></label>
+                                <span asp-validation-for="Company" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-12 col-small-12">
+            <div class="mui-panel">
+                <div class="mui--form-title">Bemerkungen</div>
+                <div class="grid">
+                    <div class="row">
+                        <div class="col-12 col-medium-12 col-small-12">
+                            <div class="mui-textfield">
+                                <textarea asp-for="GeneralRemarks"></textarea>
+                                <label asp-for="GeneralRemarks"></label>
+                                <span asp-validation-for="GeneralRemarks" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-medium-12 col-small-12">
+                            <div class="mui-textfield">
+                                <textarea asp-for="PurchasesRemarks"></textarea>
+                                <label asp-for="PurchasesRemarks"></label>
+                                <span asp-validation-for="PurchasesRemarks" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</form>

@@ -1,0 +1,13 @@
+ Scaffold-DbContext "Server=(localdb)\mssqllocaldb;Database=essentialAdmin;Trusted_Connection=True;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Data\Models\TMPModels
+ 
+ Force:
+ -f
+
+ modify  essentialAdminContext.cs:
+ remove: 
+         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder){}
+
+ insert :
+         public essentialAdminContext(DbContextOptions<essentialAdminContext> options)
+                 : base(options)
+        { }

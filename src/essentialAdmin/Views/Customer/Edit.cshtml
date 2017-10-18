@@ -1,0 +1,12 @@
+﻿@model essentialAdmin.Models.CustomerViewModels.CustomerInputModel
+
+
+@{
+    ViewData["Title"] = "Neuer Kunde erfassen";
+    ViewData["CustomerName"] = Model.FirstName + " " + Model.LastName;
+}
+
+
+
+
+@Html.Partial("_CustomerEditorForm")

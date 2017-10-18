@@ -1,0 +1,88 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - essentialAdmin</title>
+
+    <environment include="Development">
+        <link rel="stylesheet" href="~/css/mui.css" />
+        <link rel="stylesheet" href="~/css/site.css" />
+        <link rel="stylesheet" href="~/css/responsive.css" />
+        <link rel="stylesheet" href="~/css/the-flex-grid.css" />
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    </environment>
+</head>
+<body>
+
+    <header id="header">
+        <div class="mui-appbar mui--appbar-line-height">
+            <div class="mui-container-fluid">
+                <a class="sidedrawer-toggle mui--visible-xs-inline-block mui--visible-sm-inline-block js-show-sidedrawer">☰</a>
+                <a class="sidedrawer-toggle mui--hidden-xs mui--hidden-sm js-hide-sidedrawer">☰</a>
+                <span class="mui--text-title mui--visible-xs-inline-block mui--visible-sm-inline-block">Brand.io</span>
+                <span class="appbar-title">@ViewData["Title"]</span>
+            </div>
+        </div>
+    </header>
+    <aside id="sidedrawer" class="mui--no-user-select">
+        <div id="sidedrawer-brand" class="mui--appbar-line-height">
+            <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-item">
+                <span class="mui--text-title">essentialAdmin</span>
+            </a>
+        </div>
+        <div class="mui-divider"></div>
+        <ul>
+            <li><strong><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></strong>
+            <li>
+                <strong><a asp-area="" asp-controller="Customer" asp-action="Index">Customer</a> <span class="mui-caret"></span></strong>
+
+                <ul>
+                    <li><a href="/customer/create">Create</a></li>
+                    <li><a href="#">Item 2</a></li>
+                    <li><a href="#">Item 3</a></li>
+                </ul>
+            </li>
+            <li><strong><a asp-area="" asp-controller="Home" asp-action="About">About</a></strong>
+                <ul>
+                    <li><a href="#">Item 1</a></li>
+                    <li><a href="#">Item 2</a></li>
+                    <li><a href="#">Item 3</a></li>
+                </ul></li>
+            <li><strong><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></strong></li>
+            @await Html.PartialAsync("_LoginPartial")
+
+
+        </ul>
+    </aside>
+
+
+
+    <main id="content-wrapper">
+        <div class="mui--appbar-height"></div>
+        <div class="mui-container-fluid content-container">
+            @RenderBody()
+        </div>
+        @Html.Partial("_Notifications")
+    </main>
+    <footer id="footer">
+        <div class="mui-container-fluid">
+            <br>
+            Made with ♥ by <a href="https://www.muicss.com">Philipp Leu</a>
+        </div>
+    </footer>
+
+
+
+
+    <environment include="Development">
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/js/mui.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+    </environment>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

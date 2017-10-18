@@ -1,0 +1,18 @@
+﻿@model IQueryable<essentialAdmin.Models.CustomerViewModels.CustomerViewModel>
+
+@{
+    ViewData["Title"] = "Kunden Übersicht";
+}
+
+<h2>Kunden</h2>
+
+@if (Model.Any())
+{
+    foreach (var customer in Model)
+    {
+        <h3>
+            <a asp-area="" asp-controller="Customer" asp-action="Edit" asp-route-id="@customer.Id">@customer.FirstName @customer.LastName</a>
+        </h3>
+
+    }
+}
