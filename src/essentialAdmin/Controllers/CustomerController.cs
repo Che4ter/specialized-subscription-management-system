@@ -7,6 +7,9 @@ using essentialAdmin.Data.Models;
 using essentialAdmin.Models.CustomerViewModels;
 using essentialAdmin.Extensions;
 using System.Reflection;
+using System.Text;
+using System.Data.SqlClient;
+using System.Linq.Expressions;
 
 namespace essentialAdmin.Controllers
 {
@@ -104,6 +107,71 @@ namespace essentialAdmin.Controllers
             return View();
         }
 
+        public IActionResult LoadData()
+        {
+            try
+            {
+                var draw = HttpContext.Request.Form["draw"].FirstOrDefault();
+                // Skiping number of Rows count  
+                var start = Request.Form["start"].FirstOrDefault();
+                // Paging Length 10,20  
+                var length = Request.Form["length"].FirstOrDefault();
+                // Sort Column Name                  
+                var columnIndex = Request.Form["order[0][column]"].ToString();
+
+               // var sortColumn = Request.Form["columns[" + Request.Form["order[0][column]"].FirstOrDefault() + "][name]"].FirstOrDefault();
+                string sortColumn = Request.Form[$"columns[{columnIndex}][data]"].ToString();
+
+                var sortDirection = Request.Form["order[0][dir]"].ToString();
+                // Sort Column Direction ( asc ,desc)  
+                var sortColumnDirection = Request.Form["order[0][dir]"].FirstOrDefault();
+                // Search Value from (Search box)  
+                var searchValue = Request.Form["search[value]"].FirstOrDefault();
+
+                //Paging Size (10,20,50,100)  
+                int pageSize = length != null ? Convert.ToInt32(length) : 0;
+                int skip = start != null ? Convert.ToInt32(start) : 0;
+                int recordsTotal = 0;
+
+                // Getting all Customer data  
+                var customerData = (from tempcustomer in _context.Customers
+                                    select tempcustomer);
+
+                //Sorting  
+                if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDirection)))
+                {
+                    sortColumn = sortColumn.Substring(0, 1).ToUpper() + sortColumn.Remove(0, 1); 
+                    customerData = customerData.OrderBy(sortColumn + ' ' + sortColumnDirection);
+                }
+                //Search  
+                if (!string.IsNullOrEmpty(searchValue))
+                {
+                    customerData = customerData.Where(m => m.FirstName == searchValue);
+                }
+
+                //total number of rows count   
+                recordsTotal = customerData.Count();
+                //Paging   
+                var data = customerData.Skip(skip).Take(pageSize).ToList();
+
+                //Returning Json Data  
+                return Json(new { draw = draw, recordsFiltered = recordsTotal, recordsTotal = recordsTotal, data = data });
+
+            }
+            catch (Exception ex)
+            {
+                String a = ex.Message;
+                throw;
+            }
+
+        }
+
+        private static object GetPropertyValue(object obj, string property)
+        {
+            System.Reflection.PropertyInfo propertyInfo = obj.GetType().GetProperty(property);
+            return propertyInfo.GetValue(obj, null);
+        }
+     
         #region Helper
         private Customers LoadCustomer(int id)
         {
@@ -139,4 +207,6 @@ namespace essentialAdmin.Controllers
 
         #endregion
     }
+
+   
 }

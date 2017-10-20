@@ -1,4 +1,4 @@
- Scaffold-DbContext "Server=(localdb)\mssqllocaldb;Database=essentialAdmin;Trusted_Connection=True;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Data\Models\TMPModels
+ Scaffold-DbContext "Server=(localdb)\mssqllocaldb;Database=essentialAdmin;Trusted_Connection=True;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Data\TMPModels
  
  Force:
  -f

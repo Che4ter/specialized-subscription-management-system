@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace essentialAdmin.Data.Models
 {
-    public partial class Customers
+    public partial class Customers : ITrackableEntity
     {
         public int Id { get; set; }
         public string Title { get; set; }
