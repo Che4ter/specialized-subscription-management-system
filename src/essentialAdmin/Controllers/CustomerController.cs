@@ -40,7 +40,6 @@ namespace essentialAdmin.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            this.AddNotification("test",NotificationType.SUCCESS);
                 return View();
         }
 
@@ -102,7 +101,12 @@ namespace essentialAdmin.Controllers
                 customerToEdit.GeneralRemarks = updatedCustomer.GeneralRemarks;
 
                 this._context.SaveChanges();
+                this.AddNotification("test", NotificationType.ERROR);
+                this.AddNotification("test", NotificationType.WARNING);
+                this.AddNotification("test", NotificationType.SUCCESS);
+
                 return this.RedirectToAction("Edit", customerToEdit.Id);
+
             }
             return View();
         }

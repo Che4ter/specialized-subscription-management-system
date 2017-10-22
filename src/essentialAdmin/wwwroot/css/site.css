@@ -131,7 +131,7 @@ buttons {
         padding: 6px 0px;
     }
 
-#sidedrawer  a {
+#sidedrawer a {
     color: rgba(0,0,0,.87);
 }
 /**
@@ -149,7 +149,7 @@ buttons {
 
 
 .content-container {
-    padding:15px;
+    padding: 15px;
 }
 
 .mui--form-title {
@@ -161,4 +161,86 @@ buttons {
     color: rgba(0,0,0,.87);
     line-height: inherit;
     border: 0;
+}
+
+.top-notif-holder {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+}
+
+    .top-notif-holder .mui-panel {
+        width: 300px;
+        position: relative;
+        transition: .3s;
+    }
+
+        .top-notif-holder .mui-panel.notif-error {
+            background-color: #E53935;
+            color: #fff;
+        }
+        .top-notif-holder .mui-panel.notif-warning {
+            background-color: #F4511E;
+            color: #fff;
+        }
+
+        .top-notif-holder .mui-panel.notif-success {
+            background-color: #43A047;
+            color: #fff;
+        }
+        
+        
+        
+        .top-notif-holder .mui-btn--flat.notif-close-button {
+            width: 32px;
+            height: 32px;
+            line-height: 32px;
+            padding: 0;
+            border-radius: 45px;
+            margin: 0;
+            position: absolute;
+            right: 6px;
+            top: 6px;
+            color:#fff;
+        }
+
+            .top-notif-holder .mui-btn--flat.notif-close-button:hover {
+                background-color: rgba(0,0,0,0.1);
+            }.top-notif-holder .notif-close-button > i {
+                line-height: unset;
+            }
+
+.top-notif-holder h3{
+    margin-top:0;
+    font-size:18px;
+}
+
+    .top-notif-holder .mui-panel {
+        -moz-animation: cssHideAnimation 0s ease-in 10s forwards;
+        /* Firefox */
+        -webkit-animation: cssHideAnimation 0s ease-in 10s forwards;
+        /* Safari and Chrome */
+        -o-animation: cssHideAnimation 0s ease-in 10s forwards;
+        /* Opera */
+        animation: cssHideAnimation 0s ease-in 10s forwards;
+        -webkit-animation-fill-mode: forwards;
+        animation-fill-mode: forwards;
+    }
+
+@keyframes cssHideAnimation {
+    to {
+        width: 0;
+        height: 0;
+        overflow: hidden;
+        visibility: hidden;
+    }
+}
+
+@-webkit-keyframes cssHideAnimation {
+    to {
+        width: 0;
+        height: 0;
+        visibility: hidden;
+        overflow: hidden;
+    }
 }

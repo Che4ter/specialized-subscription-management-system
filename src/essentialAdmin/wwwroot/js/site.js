@@ -48,4 +48,10 @@ jQuery(function ($) {
     $titleEls.on('click', function () {
         $(this).next().slideToggle(200);
     });
+
+
+    $(".top-notif-holder button").click(function () {
+        $(this).parents('.notif-dismissable').fadeOut(200);
+
+    });
 });
