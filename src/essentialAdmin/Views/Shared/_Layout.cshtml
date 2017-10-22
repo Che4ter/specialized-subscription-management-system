@@ -35,25 +35,14 @@
         </div>
         <div class="mui-divider"></div>
         <ul>
-            <li><strong><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></strong>
+            <li><strong><a asp-area="" asp-controller="Home" asp-action="Index">Übersicht</a></strong>
             <li>
-                <strong><a asp-area="" asp-controller="Customer" asp-action="Index">Customer</a> <span class="mui-caret"></span></strong>
+                <strong><a asp-area="" asp-controller="Customer" asp-action="Index">Kunden</a> <span class="mui-caret"></span></strong>
 
                 <ul>
-                    <li><a href="/customer/create">Create</a></li>
-                    <li><a href="#">Item 2</a></li>
-                    <li><a href="#">Item 3</a></li>
+                    <li><a href="/customer/create">neuer erfassen</a></li>
                 </ul>
             </li>
-            <li>
-                <strong><a asp-area="" asp-controller="Home" asp-action="About">About</a></strong>
-                <ul>
-                    <li><a href="#">Item 1</a></li>
-                    <li><a href="#">Item 2</a></li>
-                    <li><a href="#">Item 3</a></li>
-                </ul>
-            </li>
-            <li><strong><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></strong></li>
             @await Html.PartialAsync("_LoginPartial")
         </ul>
     </aside>

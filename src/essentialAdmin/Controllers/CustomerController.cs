@@ -64,7 +64,9 @@ namespace essentialAdmin.Controllers
                 this._context.SaveChanges();
                 return this.RedirectToAction("Edit", c.Id);                
             }
-                return View();
+            this.AddNotification("Kunde wurde nicht erstellt<br>Überprüfe die Eingaben", NotificationType.WARNING);
+
+            return View();
         }
 
         [HttpGet]
@@ -73,6 +75,8 @@ namespace essentialAdmin.Controllers
             var customerToEdit = this.LoadCustomer(id);
             if(customerToEdit == null)
             {
+                this.AddNotification("Konnte Kunde nicht laden", NotificationType.ERROR);
+
                 return this.RedirectToAction("Index");
             }
             var model = CustomerInputModel.CreateFromCustomer(customerToEdit);
@@ -105,6 +109,8 @@ namespace essentialAdmin.Controllers
                 return this.RedirectToAction("Edit", customerToEdit.Id);
 
             }
+            this.AddNotification("Kunde wurde nicht aktualisiert<br>Überprüfe die Eingaben", NotificationType.WARNING);
+
             return View();
         }
 
