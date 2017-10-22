@@ -7,7 +7,7 @@
                     <div class="row row-space-between">
                         <div class="col-6 col-medium-6 col-small-12">
                             <div class="mui--text-headline">
-                                Kunde: @ViewData["CustomerName"]                         
+                                Kunde: @ViewData["CustomerName"]
                             </div>
                         </div>
                         <div class="col-6 col-medium-6 col-small-1 mui--text-right">
@@ -78,8 +78,14 @@
             <div class="mui-panel">
                 <div class="mui--form-title">
                     Status
-
                 </div>
+                @if (@Model != null)
+                {
+                    <strong><label asp-for="DateCreated"></label>:</strong> @Model.DateCreated; <br />
+                    <strong><label asp-for="UserCreated"></label>:</strong> @Model.UserCreated; <br />
+                    <strong><label asp-for="DateModified"></label>:</strong> @Model.DateModified; <br />
+                    <strong><label asp-for="UserModified"></label>:</strong> @Model.UserModified; <br />
+                }
             </div>
 
         </div>

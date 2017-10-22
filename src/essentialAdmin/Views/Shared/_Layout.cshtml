@@ -23,6 +23,15 @@
                 <a class="sidedrawer-toggle mui--hidden-xs mui--hidden-sm js-hide-sidedrawer">☰</a>
                 <span class="mui--text-title mui--visible-xs-inline-block mui--visible-sm-inline-block">Brand.io</span>
                 <span class="appbar-title">@ViewData["Title"]</span>
+                <environment include="Development">
+                    <strong class="enviromentVersion">Development Version</strong>
+                </environment>
+                <environment include="Staging">
+                    <strong class="enviromentVersion">Staging Version</strong>
+                </environment>
+                <environment include="Production">
+                    <strong class="enviromentVersion">Production Version</strong>
+                </environment>
             </div>
         </div>
         @await Html.PartialAsync("_NotificationsPartial")
@@ -40,7 +49,7 @@
                 <strong><a asp-area="" asp-controller="Customer" asp-action="Index">Kunden</a> <span class="mui-caret"></span></strong>
 
                 <ul>
-                    <li><a href="/customer/create">neuer erfassen</a></li>
+                    <li><a href="/customer/create">Kunde erfassen</a></li>
                 </ul>
             </li>
             @await Html.PartialAsync("_LoginPartial")

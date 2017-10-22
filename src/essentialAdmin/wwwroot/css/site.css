@@ -179,6 +179,7 @@ buttons {
             background-color: #E53935;
             color: #fff;
         }
+
         .top-notif-holder .mui-panel.notif-warning {
             background-color: #F4511E;
             color: #fff;
@@ -188,32 +189,34 @@ buttons {
             background-color: #43A047;
             color: #fff;
         }
-        
-        
-        
-        .top-notif-holder .mui-btn--flat.notif-close-button {
-            width: 32px;
-            height: 32px;
-            line-height: 32px;
-            padding: 0;
-            border-radius: 45px;
-            margin: 0;
-            position: absolute;
-            right: 6px;
-            top: 6px;
-            color:#fff;
+
+
+
+    .top-notif-holder .mui-btn--flat.notif-close-button {
+        width: 32px;
+        height: 32px;
+        line-height: 32px;
+        padding: 0;
+        border-radius: 45px;
+        margin: 0;
+        position: absolute;
+        right: 6px;
+        top: 6px;
+        color: #fff;
+    }
+
+        .top-notif-holder .mui-btn--flat.notif-close-button:hover {
+            background-color: rgba(0,0,0,0.1);
         }
 
-            .top-notif-holder .mui-btn--flat.notif-close-button:hover {
-                background-color: rgba(0,0,0,0.1);
-            }.top-notif-holder .notif-close-button > i {
-                line-height: unset;
-            }
+    .top-notif-holder .notif-close-button > i {
+        line-height: unset;
+    }
 
-.top-notif-holder h3{
-    margin-top:0;
-    font-size:18px;
-}
+    .top-notif-holder h3 {
+        margin-top: 0;
+        font-size: 18px;
+    }
 
     .top-notif-holder .mui-panel {
         -moz-animation: cssHideAnimation 0s ease-in 10s forwards;
@@ -246,14 +249,18 @@ buttons {
 }
 
 
-.loginTemplate{
-    background-image:url(/images/vinbackground.jpg);
-    background-position:center;
+.loginTemplate {
+    background-image: url(/images/vinbackground.jpg);
+    background-position: center;
 }
 
-.loginTemplate main.mui-panel{
-    margin-top:10%;
-    max-width:500px;
-    margin-left:auto;
-    margin-right:auto;
+    .loginTemplate main.mui-panel {
+        margin-top: 10%;
+        max-width: 500px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+.enviromentVersion{
+    float:right;
 }

@@ -43,6 +43,18 @@ namespace essentialAdmin.Models.CustomerViewModels
         [DisplayName("Allgemeine")]
         public string GeneralRemarks { get; set; }
 
+        [DisplayName("Erstellt am")]
+        public string DateCreated { get; set; }
+
+        [DisplayName("Erstellt durch")]
+        public string UserCreated { get; set; }
+
+        [DisplayName("Zuletzt bearbeitet am")]
+        public string DateModified { get; set; }
+
+        [DisplayName("Zuletzt bearbeitet durch")]
+        public string UserModified { get; set; }
+
         public static CustomerInputModel CreateFromCustomer(Customers c)
         {
             return new CustomerInputModel()
@@ -55,8 +67,13 @@ namespace essentialAdmin.Models.CustomerViewModels
                 City = c.City,
                 Company = c.Company,
                 Phone = c.Phone,
-                PurchasesRemarks = c.PurchasesRemarks
-                
+                Email = c.Email,
+                PurchasesRemarks = c.PurchasesRemarks,
+                GeneralRemarks = c.GeneralRemarks,
+                DateCreated = c.DateCreated.Value.ToLocalTime().ToString(),
+                UserCreated = c.UserCreated,
+                DateModified = c.DateModified.Value.ToLocalTime().ToString(),
+                UserModified = c.UserModified               
             };
         }
     }

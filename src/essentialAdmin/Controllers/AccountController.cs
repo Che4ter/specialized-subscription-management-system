@@ -63,10 +63,7 @@ namespace essentialAdmin.Controllers
                     _logger.LogInformation("User logged in.");
                     return RedirectToLocal(returnUrl);
                 }
-                if (result.RequiresTwoFactor)
-                {
-                    return RedirectToAction(nameof(LoginWith2fa), new { returnUrl, model.RememberMe });
-                }
+             
                 if (result.IsLockedOut)
                 {
                     _logger.LogWarning("User account locked out.");
