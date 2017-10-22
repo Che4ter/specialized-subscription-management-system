@@ -10,6 +10,10 @@ namespace essentialAdmin.Models.CustomerViewModels
 {
     public class CustomerInputModel
     {
+
+        [DisplayName("ID")]
+        public int ID { get; set; }
+
         [DisplayName("Anrede")]
         public string Title { get; set; }
 
@@ -59,6 +63,7 @@ namespace essentialAdmin.Models.CustomerViewModels
         {
             return new CustomerInputModel()
             {
+                ID = c.Id,
                 Title = c.Title,
                 FirstName = c.FirstName,
                 LastName = c.LastName,
@@ -70,9 +75,9 @@ namespace essentialAdmin.Models.CustomerViewModels
                 Email = c.Email,
                 PurchasesRemarks = c.PurchasesRemarks,
                 GeneralRemarks = c.GeneralRemarks,
-                DateCreated = c.DateCreated.Value.ToLocalTime().ToString(),
+                DateCreated = c.DateCreated.Value.ToLocalTime().ToString() ,
                 UserCreated = c.UserCreated,
-                DateModified = c.DateModified.Value.ToLocalTime().ToString(),
+                DateModified = c.DateModified.Value.ToLocalTime().ToString() ,
                 UserModified = c.UserModified               
             };
         }

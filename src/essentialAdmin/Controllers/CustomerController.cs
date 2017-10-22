@@ -63,7 +63,7 @@ namespace essentialAdmin.Controllers
                 };
                 this._context.Customers.Add(c);
                 this._context.SaveChanges();
-                return this.RedirectToAction("Edit", c.Id);                
+                return this.RedirectToAction("Edit", new { id = c.Id });                
             }
             this.AddNotification("Kunde wurde nicht erstellt<br>Überprüfe die Eingaben", NotificationType.WARNING);
 
@@ -106,6 +106,7 @@ namespace essentialAdmin.Controllers
                 customerToEdit.GeneralRemarks = updatedCustomer.GeneralRemarks;
 
                 this._context.SaveChanges();
+
                 this.AddNotification("Kunde wurde aktualisiert", NotificationType.SUCCESS);
                 return this.RedirectToAction("Edit", customerToEdit.Id);
 
@@ -113,6 +114,25 @@ namespace essentialAdmin.Controllers
             this.AddNotification("Kunde wurde nicht aktualisiert<br>Überprüfe die Eingaben", NotificationType.WARNING);
 
             return View();
+        }
+
+        public IActionResult Delete(int id)
+        {
+            try
+            {
+                this._context.Customers.Remove(this._context.Customers.Where(r => r.Id == id).FirstOrDefault());
+                this._context.SaveChanges();
+
+                this.AddNotification("Kunde wurde gelöscht", NotificationType.SUCCESS);
+
+
+            }
+            catch (Exception ex)
+            {
+                this.AddNotification("Konnte Kunde nicht löschen", NotificationType.ERROR);
+
+            }
+            return this.RedirectToAction("Index");
         }
 
         public IActionResult LoadData()
@@ -183,6 +203,7 @@ namespace essentialAdmin.Controllers
         #region Helper
         private Customers LoadCustomer(int id)
         {
+            var a = this._context.Customers;
             var customerToEdit = this._context.Customers
                    .Where(c => c.Id == id)
                    .FirstOrDefault();
@@ -193,20 +214,23 @@ namespace essentialAdmin.Controllers
         {
             foreach (PropertyInfo pi in c.GetType().GetProperties())
             {
-                if (pi.PropertyType == typeof(string))
+                if(pi.Name != "Title")
                 {
-                    string value = (string)pi.GetValue(c);
-                    if (!string.IsNullOrEmpty(value))
+                    if (pi.PropertyType == typeof(string))
                     {
-                        return false;
+                        string value = (string)pi.GetValue(c);
+                        if (!string.IsNullOrEmpty(value))
+                        {
+                            return false;
+                        }
                     }
-                }
-                else if (pi.PropertyType == typeof(int))
-                {
-                    int value = (int)pi.GetValue(c);
-                    if (value != 0)
+                    else if (pi.PropertyType == typeof(int))
                     {
-                        return false;
+                        int value = (int)pi.GetValue(c);
+                        if (value != 0)
+                        {
+                            return false;
+                        }
                     }
                 }
             }

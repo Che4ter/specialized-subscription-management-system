@@ -12,7 +12,11 @@
                         </div>
                         <div class="col-6 col-medium-6 col-small-1 mui--text-right">
                             <button type="submit" class="mui-btn mui-btn--primary">Speichern</button>
-                            <button formaction="delete" class="mui-btn mui-btn--danger">Kunde löschen</button>
+
+                            @if (@Model != null)
+                            {
+                                <button type="button" class="mui-btn mui-btn--danger"  onclick="CustomerDeleteConfirmation(@Model.ID)">Kunde löschen</button>
+                            }
                         </div>
                     </div>
                 </div>
@@ -26,8 +30,11 @@
                 <div class="grid">
                     <div class="row">
                         <div class="col-6 col-medium-12 col-small-12">
-                            <div class="mui-textfield">
-                                <input asp-for="Title" />
+                            <div class="mui-select">
+                                <select  asp-for="Title" id="TitleSelect" >
+                                    <option selected="selected" value="Herr">Herr</option>
+                                    <option value="Frau">Frau</option>
+                                </select>                                
                                 <label asp-for="Title"></label>
                                 <span asp-validation-for="Title" class="text-danger"></span>
                             </div>
@@ -148,4 +155,7 @@
         </div>
 
     </div>
+
+   
 </form>
+
