@@ -101,10 +101,7 @@ namespace essentialAdmin.Controllers
                 customerToEdit.GeneralRemarks = updatedCustomer.GeneralRemarks;
 
                 this._context.SaveChanges();
-                this.AddNotification("test", NotificationType.ERROR);
-                this.AddNotification("test", NotificationType.WARNING);
-                this.AddNotification("test", NotificationType.SUCCESS);
-
+                this.AddNotification("Kunde wurde aktualisiert", NotificationType.SUCCESS);
                 return this.RedirectToAction("Edit", customerToEdit.Id);
 
             }

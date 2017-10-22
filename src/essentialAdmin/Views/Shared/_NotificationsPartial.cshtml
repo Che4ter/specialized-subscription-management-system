@@ -25,10 +25,10 @@
     <!-- display warnings -->
     @if (warningList != null)
     {
-        @foreach (String message in errorList)
+        @foreach (String message in warningList)
         {
             <div class="mui-panel notif-warning notif-dismissable">
-                <h3>Fehler:</h3>
+                <h3>Warnung:</h3>
 
                 <button type="button" class="mui-btn mui-btn--small mui-btn--flat notif-close-button" data-dismiss="alert" aria-hidden="true">
                     <i class="material-icons">close</i>
@@ -40,10 +40,10 @@
     <!-- display success -->
     @if (successList != null)
     {
-        @foreach (String message in errorList)
+        @foreach (String message in successList)
         {
             <div class="mui-panel notif-success notif-dismissable">
-                <h3>Fehler:</h3>
+                <h3>Hinweis:</h3>
 
                 <button type="button" class="mui-btn mui-btn--small mui-btn--flat notif-close-button" data-dismiss="alert" aria-hidden="true">
                     <i class="material-icons">close</i>
