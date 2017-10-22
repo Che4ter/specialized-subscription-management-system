@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace essentialAdmin.Models.AccountViewModels
 {
@@ -10,13 +7,15 @@ namespace essentialAdmin.Models.AccountViewModels
     {
         [Required]
         [EmailAddress]
+        [DisplayName("E-Mail Adresse")]
         public string Email { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
+        [DisplayName("Passwort")]
         public string Password { get; set; }
 
-        [Display(Name = "Remember me?")]
+        [Display(Name = "Merken?")]
         public bool RememberMe { get; set; }
     }
 }

@@ -44,6 +44,15 @@ namespace essentialAdmin
             services.AddTransient<UserResolverService>();
 
             services.AddMvc();
+
+            // Create Policies
+            services.AddAuthorization(options =>
+            {
+
+                options.AddPolicy("RequireAdminRole", policy => policy.RequireRole("Administrator"));
+                options.AddPolicy("RequireEmployeeRole", policy => policy.RequireRole("Administrator","Mitarbeiter"));
+
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

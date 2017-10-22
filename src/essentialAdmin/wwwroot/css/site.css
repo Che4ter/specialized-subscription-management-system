@@ -244,3 +244,16 @@ buttons {
         overflow: hidden;
     }
 }
+
+
+.loginTemplate{
+    background-image:url(/images/vinbackground.jpg);
+    background-position:center;
+}
+
+.loginTemplate main.mui-panel{
+    margin-top:10%;
+    max-width:500px;
+    margin-left:auto;
+    margin-right:auto;
+}

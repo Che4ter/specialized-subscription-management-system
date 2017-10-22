@@ -10,9 +10,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using essentialAdmin.Models;
 using essentialAdmin.Models.ManageViewModels;
 using essentialAdmin.Services;
+using essentialAdmin.Data;
 
 namespace essentialAdmin.Controllers
 {

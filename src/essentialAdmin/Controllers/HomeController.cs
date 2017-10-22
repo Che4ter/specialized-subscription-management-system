@@ -5,11 +5,16 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using essentialAdmin.Models;
+using essentialAdmin.Data.Models;
 
 namespace essentialAdmin.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
+        public HomeController(essentialAdminContext context) : base(context)
+        {
+        }
+
         public IActionResult Index()
         {
             return View();

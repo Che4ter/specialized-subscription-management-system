@@ -10,6 +10,7 @@ using System.Reflection;
 using System.Text;
 using System.Data.SqlClient;
 using System.Linq.Expressions;
+using Microsoft.AspNetCore.Authorization;
 
 namespace essentialAdmin.Controllers
 {

@@ -1,4 +1,6 @@
 ﻿@using essentialAdmin.Views.Manage
+@using essentialAdmin.Data
+
 @inject SignInManager<ApplicationUser> SignInManager
 @{
     var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
