@@ -45,6 +45,8 @@ namespace essentialAdmin
 
             services.AddMvc();
 
+            services.AddScoped<ICustomerService, CustomerService>();
+
             // Create Policies
             services.AddAuthorization(options =>
             {

@@ -1,23 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using essentialAdmin.Data.Models;
 using essentialAdmin.Models.CustomerViewModels;
 using essentialAdmin.Extensions;
 using System.Reflection;
-using System.Text;
-using System.Data.SqlClient;
-using System.Linq.Expressions;
-using Microsoft.AspNetCore.Authorization;
+using essentialAdmin.Services;
 
 namespace essentialAdmin.Controllers
 {
     public class CustomerController : BaseController
     {
-        public CustomerController(essentialAdminContext context) : base(context)
+        private ICustomerService _cService;
+        public CustomerController(essentialAdminContext context, ICustomerService cService) : base(context)
         {
+            _cService = cService;
         }
 
         public IActionResult Index()
@@ -35,35 +32,27 @@ namespace essentialAdmin.Controllers
                     City = e.City
                 });
             return View(customers);
-            
+
         }
 
         [HttpGet]
         public IActionResult Create()
         {
-                return View();
+            return View();
         }
 
         [HttpPost, ValidateAntiForgeryToken]
         public IActionResult Create(CustomerInputModel newCustomer)
         {
+
             if (!isCustomerEmpty(newCustomer) && ModelState.IsValid)
             {
-                var c = new Customers()
+                var _id = _cService.createNewCustomer(newCustomer);
+                if (_id > 0)
                 {
-                    Title = newCustomer.Title,
-                    FirstName = newCustomer.FirstName,
-                    LastName = newCustomer.LastName,
-                    Street = newCustomer.Street,
-                    Zip = newCustomer.Zip,
-                    City = newCustomer.City,
-                    Company = newCustomer.Company,
-                    Phone = newCustomer.Phone,
-                    PurchasesRemarks = newCustomer.PurchasesRemarks
-                };
-                this._context.Customers.Add(c);
-                this._context.SaveChanges();
-                return this.RedirectToAction("Edit", new { id = c.Id });                
+                    return this.RedirectToAction("Edit", new { id = _id });
+                }
+
             }
             this.AddNotification("Kunde wurde nicht erstellt<br>Überprüfe die Eingaben", NotificationType.WARNING);
 
@@ -73,44 +62,26 @@ namespace essentialAdmin.Controllers
         [HttpGet]
         public IActionResult Edit(int id)
         {
-            var customerToEdit = this.LoadCustomer(id);
-            if(customerToEdit == null)
+            var model = _cService.loadCustomerInputModel(id);
+
+            if (model == null)
             {
                 this.AddNotification("Konnte Kunde nicht laden", NotificationType.ERROR);
 
                 return this.RedirectToAction("Index");
             }
-            var model = CustomerInputModel.CreateFromCustomer(customerToEdit);
             return View(model);
         }
 
         [HttpPost, ValidateAntiForgeryToken]
         public IActionResult Edit(int id, CustomerInputModel updatedCustomer)
         {
-            var customerToEdit = this.LoadCustomer(id);
-            if (customerToEdit == null)
+            if (_cService.updateCustomer(updatedCustomer))
             {
-                return this.RedirectToAction("Index");
-            }
-            if (updatedCustomer != null && ModelState.IsValid)
-            {
-                customerToEdit.Title = updatedCustomer.Title;
-                customerToEdit.FirstName = updatedCustomer.FirstName;
-                customerToEdit.LastName = updatedCustomer.LastName;
-                customerToEdit.Street = updatedCustomer.Street;
-                customerToEdit.Zip = updatedCustomer.Zip;
-                customerToEdit.City = updatedCustomer.City;
-                customerToEdit.Company = updatedCustomer.Company;
-                customerToEdit.Phone = updatedCustomer.Phone;
-                customerToEdit.PurchasesRemarks = updatedCustomer.PurchasesRemarks;
-                customerToEdit.GeneralRemarks = updatedCustomer.GeneralRemarks;
-
-                this._context.SaveChanges();
-
                 this.AddNotification("Kunde wurde aktualisiert", NotificationType.SUCCESS);
-                return this.RedirectToAction("Edit", customerToEdit.Id);
-
+                return this.RedirectToAction("Edit", updatedCustomer.ID);
             }
+
             this.AddNotification("Kunde wurde nicht aktualisiert<br>Überprüfe die Eingaben", NotificationType.WARNING);
 
             return View();
@@ -118,79 +89,17 @@ namespace essentialAdmin.Controllers
 
         public IActionResult Delete(int id)
         {
-            try
+            if (_cService.deleteCustomer(id))
             {
-                this._context.Customers.Remove(this._context.Customers.Where(r => r.Id == id).FirstOrDefault());
-                this._context.SaveChanges();
-
                 this.AddNotification("Kunde wurde gelöscht", NotificationType.SUCCESS);
-
-
             }
-            catch (Exception ex)
-            {
-                this.AddNotification("Konnte Kunde nicht löschen", NotificationType.ERROR);
-
-            }
+            this.AddNotification("Konnte Kunde nicht löschen", NotificationType.ERROR);
             return this.RedirectToAction("Index");
         }
 
         public IActionResult LoadData()
         {
-            try
-            {
-                var draw = HttpContext.Request.Form["draw"].FirstOrDefault();
-                // Skiping number of Rows count  
-                var start = Request.Form["start"].FirstOrDefault();
-                // Paging Length 10,20  
-                var length = Request.Form["length"].FirstOrDefault();
-                // Sort Column Name                  
-                var columnIndex = Request.Form["order[0][column]"].ToString();
-
-               // var sortColumn = Request.Form["columns[" + Request.Form["order[0][column]"].FirstOrDefault() + "][name]"].FirstOrDefault();
-                string sortColumn = Request.Form[$"columns[{columnIndex}][data]"].ToString();
-
-                var sortDirection = Request.Form["order[0][dir]"].ToString();
-                // Sort Column Direction ( asc ,desc)  
-                var sortColumnDirection = Request.Form["order[0][dir]"].FirstOrDefault();
-                // Search Value from (Search box)  
-                var searchValue = Request.Form["search[value]"].FirstOrDefault();
-
-                //Paging Size (10,20,50,100)  
-                int pageSize = length != null ? Convert.ToInt32(length) : 0;
-                int skip = start != null ? Convert.ToInt32(start) : 0;
-                int recordsTotal = 0;
-
-                // Getting all Customer data  
-                var customerData = (from tempcustomer in _context.Customers
-                                    select tempcustomer);
-
-                //Sorting  
-                if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDirection)))
-                {
-                    sortColumn = sortColumn.Substring(0, 1).ToUpper() + sortColumn.Remove(0, 1); 
-                    customerData = customerData.OrderBy(sortColumn + ' ' + sortColumnDirection);
-                }
-                //Search  
-                if (!string.IsNullOrEmpty(searchValue))
-                {
-                    customerData = customerData.Where(m => m.FirstName == searchValue);
-                }
-
-                //total number of rows count   
-                recordsTotal = customerData.Count();
-                //Paging   
-                var data = customerData.Skip(skip).Take(pageSize).ToList();
-
-                //Returning Json Data  
-                return Json(new { draw = draw, recordsFiltered = recordsTotal, recordsTotal = recordsTotal, data = data });
-
-            }
-            catch (Exception ex)
-            {
-                String a = ex.Message;
-                throw;
-            }
+            return _cService.loadCustomerDataTable(Request);
 
         }
 
@@ -199,22 +108,15 @@ namespace essentialAdmin.Controllers
             System.Reflection.PropertyInfo propertyInfo = obj.GetType().GetProperty(property);
             return propertyInfo.GetValue(obj, null);
         }
-     
+
         #region Helper
-        private Customers LoadCustomer(int id)
-        {
-            var a = this._context.Customers;
-            var customerToEdit = this._context.Customers
-                   .Where(c => c.Id == id)
-                   .FirstOrDefault();
-            return customerToEdit;
-        }
+
 
         private bool isCustomerEmpty(CustomerInputModel c)
         {
             foreach (PropertyInfo pi in c.GetType().GetProperties())
             {
-                if(pi.Name != "Title")
+                if (pi.Name != "Title")
                 {
                     if (pi.PropertyType == typeof(string))
                     {
@@ -240,5 +142,5 @@ namespace essentialAdmin.Controllers
         #endregion
     }
 
-   
+
 }

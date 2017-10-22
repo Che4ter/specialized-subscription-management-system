@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace essentialAdmin.Services
 {
-    public class UserResolverService
+    public class UserResolverService : IUserResolverService
     {
         private readonly IHttpContextAccessor _context;
         public UserResolverService(IHttpContextAccessor context)
