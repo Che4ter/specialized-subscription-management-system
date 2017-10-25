@@ -10,7 +10,7 @@
     <div class="row">
         <div class="col-12 col-medium-12 col-small-12">
             <div class="mui-panel">
-                <table id="customerTable" class="mui-table mui-table--bordered " width="100%" cellspacing="0">
+                <table id="customerTable" class="mui-table mui-table--bordered" cellspacing="0">
                     <thead>
                         <tr>
                             <th>Id</th>
@@ -19,9 +19,9 @@
                             <th>Strasse</th>
                             <th>PLZ</th>
                             <th>Ort</th>
-                            <th>EMail</th>
-                            <th>Edit</th>
-                            <th>Delete</th>
+                            <th>E-Mail</th>
+                            @*<th>Edit</th>
+                            <th>Delete</th>*@
                         </tr>
                     </thead>
                 </table>
@@ -32,14 +32,15 @@
 
 <environment include="Development">
     @section scripts {
-    <script src="~/lib/sweetalert2/sweetalert2.js" asp-append-version="true"></script>
-
+        <script src="~/lib/sweetalert2/sweetalert2.js" asp-append-version="true"></script>
         <script src="~/lib/DataTables/datatables.js" asp-append-version="true"></script>
+        <script src="~/lib/jquery-contextMenu/dist/jquery.contextMenu.js" asp-append-version="true"></script>
         <script src="~/js/customerDatatable.js" asp-append-version="true"></script>
     }
     @section styles {
+        <link rel="stylesheet" href="~/lib/jquery-contextMenu/dist/jquery.contextMenu.css" />
         <link rel="stylesheet" href="~/lib/DataTables/datatables.css" />
-    <link rel="stylesheet" href="~/lib/sweetalert2/sweetalert2.css" />
+        <link rel="stylesheet" href="~/lib/sweetalert2/sweetalert2.css" />
 
     }
 </environment>

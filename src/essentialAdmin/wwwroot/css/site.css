@@ -162,7 +162,46 @@ buttons {
     line-height: inherit;
     border: 0;
 }
+/**
+* Datatable
+*/
 
+#customerTable tbody tr:hover {
+    background-color: #c1d5e0;
+}
+
+.dataTables_wrapper .dataTables_filter input[type=search] {
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    box-sizing: border-box;
+    background-color: transparent;
+    color: rgba(0, 0, 0, 0.87);
+    border: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.26);
+    outline: none;
+    padding: 0;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    border-radius: 0px;
+    font-size: 16px;
+    font-family: inherit;
+    line-height: inherit;
+    background-image: none;
+}
+
+    .dataTables_wrapper .dataTables_filter input[type=search]:focus {
+        border-color: #2196F3;
+        border-width: 2px;
+    }
+
+.dataTables_wrapper .dataTables_length select {
+    outline: none;
+}
+
+/**
+* Notify
+*/
 .top-notif-holder {
     position: absolute;
     top: 24px;
@@ -261,6 +300,6 @@ buttons {
         margin-right: auto;
     }
 
-.enviromentVersion{
-    float:right;
+.enviromentVersion {
+    float: right;
 }

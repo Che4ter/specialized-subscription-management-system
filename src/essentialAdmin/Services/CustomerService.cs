@@ -99,7 +99,7 @@ namespace essentialAdmin.Services
                 //Search  
                 if (!string.IsNullOrEmpty(searchValue))
                 {
-                    customerData = customerData.Where(m => m.FirstName == searchValue);
+                    customerData = customerData.Where(m => m.FirstName.StartsWith(searchValue) || m.LastName.StartsWith(searchValue) || m.Street.StartsWith(searchValue) || m.Zip.StartsWith(searchValue) || m.City.StartsWith(searchValue) || m.Email.StartsWith(searchValue));
                 }
 
                 //total number of rows count   

@@ -1,9 +1,11 @@
 ﻿$(document).ready(function () {
-    $("#customerTable").DataTable({
+    var customertable = $("#customerTable").DataTable({
         "processing": true, // for show progress bar
         "serverSide": true, // for process server side
         "filter": true, // this is for disable filter (search box)
         "orderMulti": false, // for disable multiple column at once
+        "pageLength": 25,
+        "lengthMenu": [[10, 25, 50, 100], [10, 25, 50, 100]],
         "language": {
             "url": "/lib/DataTables/dataTablesGerman.json"
         },
@@ -26,19 +28,51 @@
             { "data": "zip", "name": "PLz", "autoWidth": true },
             { "data": "city", "name": "Ort", "autoWidth": true },
             { "data": "email", "name": "Email", "autoWidth": true },
-
-            {
-                "render": function (data, type, full, meta)
-                { return '<a class="btn btn-info" href="/Customer/Edit/' + full.id + '">Edit</a>'; }
-            },
-            {
-                data: null, render: function (data, type, row) {
-                    return "<a href='#' class='btn btn-danger' onclick=CustomerDeleteConfirmation('" + row.id + "'); >Delete</a>";
-                }
-            },
+            //{
+            //    "render": function (data, type, full, meta)
+            //    { return '<a class="btn btn-info" href="/Customer/Edit/' + full.id + '">Edit</a>'; }
+            //},
+            //{
+            //    data: null, render: function (data, type, row) {
+            //        return "<a href='#' class='btn btn-danger' onclick=CustomerDeleteConfirmation('" + row.id + "'); >Delete</a>";
+            //    }
+            //},
         ]
 
     });
+
+
+    $('#customerTable').on('draw.dt', function () {
+
+        $(".paginate_button").removeClass("paginate_button").addClass("mui-btn mui-btn--flat");
+        $(".mui-btn mui-btn--flat.current").addClass("mui-btn--primary");
+        });
+
+    $.contextMenu({
+        selector: '#customerTable tbody td',
+        callback: function (key, options) {        
+            var cellIndex = parseInt(options.$trigger[0].cellIndex),
+                row = customertable.row(options.$trigger[0].parentNode),
+                rowIndex = row.index();
+            switch (key) {
+                case 'edit':
+                    window.location.href = '/Customer/Edit/' + customertable.cell(rowIndex, 0).data() ;
+                    //edit action here
+                    break;          
+                case 'delete':
+                    CustomerDeleteConfirmation(customertable.cell(rowIndex, 0).data());
+                    break;
+                default:
+                    break;
+            }
+        },
+        items: {
+            "edit": { name: "Edit", icon: "edit" },         
+            "delete": { name: "Delete", icon: "delete" },
+        }
+    });
+
+
 });
 
 function CustomerDeleteConfirmation(CustomerID) {
