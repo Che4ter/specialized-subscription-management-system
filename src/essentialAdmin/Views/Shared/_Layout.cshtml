@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - essentialAdmin</title>
 
-    <environment include="Development">
+    <environment include="Development,Preview">
         <link rel="stylesheet" href="~/css/mui.css" />
         <link rel="stylesheet" href="~/css/site.css" />
         <link rel="stylesheet" href="~/css/responsive.css" />
@@ -29,8 +29,8 @@
                 <environment include="Development">
                     <strong class="enviromentVersion">Development Version</strong>
                 </environment>
-                <environment include="Staging">
-                    <strong class="enviromentVersion">Staging Version</strong>
+                <environment include="Preview">
+                    <strong class="enviromentVersion">Preview Version</strong>
                 </environment>
                 <environment include="Production">
                     <strong class="enviromentVersion">Production Version</strong>
@@ -93,7 +93,7 @@
         </div>
     </footer>
 
-    <environment include="Development">
+    <environment include="Development,Preview">
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/js/mui.js"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>
