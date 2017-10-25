@@ -43,6 +43,10 @@
             </a>
         </div>
         <div class="mui-divider"></div>
+        <div id="sidedrawer-account">
+            @await Html.PartialAsync("_LoginPartial")
+        </div>
+        <div class="mui-divider"></div>
         <ul>
             <li><strong><a asp-area="" asp-controller="Home" asp-action="Index">Übersicht</a></strong>
             <li>
@@ -52,7 +56,6 @@
                     <li><a href="/customer/create">Kunde erfassen</a></li>
                 </ul>
             </li>
-            @await Html.PartialAsync("_LoginPartial")
         </ul>
     </aside>
 

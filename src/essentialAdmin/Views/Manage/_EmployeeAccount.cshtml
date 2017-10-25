@@ -1,0 +1,13 @@
+﻿@model EmployeeAccountViewModel
+@using (Html.BeginForm("EmployeeAccount", "Manage", FormMethod.Post))
+{
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <div class="mui-textfield">
+        <label asp-for="Email"></label>
+
+        <input asp-for="Email" class="form-control" />
+
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+    <button type="submit" class="mui-btn mui-btn--primary">Benutzername aktualisieren</button>
+}

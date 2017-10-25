@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace essentialAdmin.Models.ManageViewModels
 {
-    public class TwoFactorAuthenticationViewModel
+    public class EmployeeAccountViewModel
     {
-        public bool HasAuthenticator { get; set; }
-
-        public int RecoveryCodesLeft { get; set; }
-
-        public bool Is2faEnabled { get; set; }
+        [Required]
+        [EmailAddress]
+        [DisplayName("Benutzername")]
+        public string Email { get; set; }
     }
 }

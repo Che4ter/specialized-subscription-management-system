@@ -78,18 +78,58 @@ buttons {
     transform: translate(200px);
 }
 
-
 /**
+ * Sidedrawer Account
+ */
+#sidedrawer.active {
+    transform: translate(200px);
+}
+#sidedrawer-account {
+    text-align:center;
+    padding-bottom:10px;
+}
+
+#sidedrawer-account .sidebar-profilename {
+    width: 100%;
+    display: inline-block;
+    text-align: center;
+    padding-top: 10px;
+    padding-bottom: 8px;
+}
+
+#sidedrawer-account  .sidebar-icon-button{
+    width:35px;
+    height:35px;
+    outline:none;
+    background-color:transparent;
+    border:1px solid #fff;
+    display:inline-block;
+    border-radius:4px;
+    text-align:center;
+    padding:0;
+    margin:0;
+    cursor:pointer;
+}
+
+    #sidedrawer-account .sidebar-icon-button:hover {
+        border: 1px solid #78909C;
+    }
+
+
+    #sidedrawer-account .sidebar-icon-button i {
+        font-size: 26px;
+        line-height: 35px;
+    }
+    /**
  * Header CSS
  */
-
-.sidedrawer-toggle {
-    color: #fff;
-    cursor: pointer;
-    font-size: 20px;
-    line-height: 20px;
-    margin-right: 10px;
-}
+    .sidedrawer-toggle {
+        color: #fff;
+        cursor: pointer;
+        font-size: 20px;
+        line-height: 20px;
+        margin-right: 10px;
+    }
 
     .sidedrawer-toggle:hover {
         color: #fff;
