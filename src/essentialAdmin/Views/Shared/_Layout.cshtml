@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Authorization
+
+@inject IAuthorizationService AuthorizationService
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -48,7 +51,7 @@
         </div>
         <div class="mui-divider"></div>
         <ul>
-            <li><strong><a asp-area="" asp-controller="Home" asp-action="Index">Übersicht</a></strong>
+            <li><strong><a asp-area="" asp-controller="Home" asp-action="Index">Übersicht</a></strong></li>
             <li>
                 <strong><a asp-area="" asp-controller="Customer" asp-action="Index">Kunden verwaltung</a> <span class="mui-caret"></span></strong>
 
@@ -56,7 +59,25 @@
                     <li><a href="/customer/create">Kunde erfassen</a></li>
                 </ul>
             </li>
+
         </ul>
+        @if ((await AuthorizationService.AuthorizeAsync(User, "RequireAdminRole")).Succeeded)
+        {
+            <div class="mui-divider"></div>
+
+            <ul>
+                <li><span class="nav-title">Administration</span></li>
+
+                <li>
+                    <strong><a asp-area="" asp-controller="employee" asp-action="Index">Mitarbeiter verwaltung</a> <span class="mui-caret"></span></strong>
+
+                    <ul>
+                        <li><a href="/employee/create">Mitarbeiter erfassen</a></li>
+                    </ul>
+                </li>
+
+            </ul>
+        }
     </aside>
 
     <main id="content-wrapper">

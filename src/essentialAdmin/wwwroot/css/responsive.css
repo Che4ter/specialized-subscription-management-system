@@ -1,18 +1,18 @@
 ﻿@media (min-width: 768px) {
     #header {
-        left: 200px;
+        left: 220px;
     }
 
     #sidedrawer {
-        transform: translate(200px);
+        transform: translate(220px);
     }
 
     #content-wrapper {
-        margin-left: 200px;
+        margin-left: 220px;
     }
 
     #footer {
-        margin-left: 200px;
+        margin-left: 220px;
     }
 
     body.hide-sidedrawer #header {

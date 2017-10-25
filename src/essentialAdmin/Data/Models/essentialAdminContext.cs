@@ -104,6 +104,10 @@ namespace essentialAdmin.Data.Models
 
                 entity.Property(e => e.Email).HasMaxLength(256);
 
+                entity.Property(e => e.FirstName).HasMaxLength(256);
+
+                entity.Property(e => e.LastName).HasMaxLength(256);
+
                 entity.Property(e => e.NormalizedEmail).HasMaxLength(256);
 
                 entity.Property(e => e.NormalizedUserName).HasMaxLength(256);

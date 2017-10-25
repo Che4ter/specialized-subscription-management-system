@@ -32,8 +32,8 @@ buttons {
     position: fixed;
     top: 0;
     bottom: 0;
-    width: 200px;
-    left: -200px;
+    width: 220px;
+    left: -220px;
     overflow: auto;
     z-index: 2;
     background-color: #fff;
@@ -74,15 +74,21 @@ buttons {
 /**
  * Toggle Sidedrawer
  */
+
+.navbar-item {
+    outline:none;
+}
+
+
 #sidedrawer.active {
-    transform: translate(200px);
+    transform: translate(220px);
 }
 
 /**
  * Sidedrawer Account
  */
 #sidedrawer.active {
-    transform: translate(200px);
+    transform: translate(220px);
 }
 #sidedrawer-account {
     text-align:center;
@@ -156,6 +162,12 @@ buttons {
     #sidedrawer > ul > li:first-child {
         padding-top: 15px;
     }
+
+
+#sidedrawer .nav-title {
+    padding: 15px 22px;
+    font-weight: bolder;
+}
 
 #sidedrawer strong {
     display: block;
