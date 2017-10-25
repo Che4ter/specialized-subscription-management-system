@@ -47,12 +47,18 @@ namespace essentialAdmin.Controllers
 
             if (!isCustomerEmpty(newCustomer) && ModelState.IsValid)
             {
-                var _id = _cService.createNewCustomer(newCustomer);
-                if (_id > 0)
+                if(_cService.isEmailUnique(newCustomer.Email))
                 {
-                    return this.RedirectToAction("Edit", new { id = _id });
+                    var _id = _cService.createNewCustomer(newCustomer);
+                    if (_id > 0)
+                    {
+                        return this.RedirectToAction("Edit", new { id = _id });
+                    }
                 }
-
+                else
+                {
+                    this.AddNotification("Kunde wurde nicht erstellt<br>E-Mail ist nicht eindeutig", NotificationType.WARNING);
+                }
             }
             this.AddNotification("Kunde wurde nicht erstellt<br>Überprüfe die Eingaben", NotificationType.WARNING);
 
@@ -76,12 +82,24 @@ namespace essentialAdmin.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public IActionResult Edit(int id, CustomerInputModel updatedCustomer)
         {
-            if (_cService.updateCustomer(updatedCustomer))
-            {
-                this.AddNotification("Kunde wurde aktualisiert", NotificationType.SUCCESS);
-                return this.RedirectToAction("Edit", updatedCustomer.ID);
-            }
 
+            if (!isCustomerEmpty(updatedCustomer) && ModelState.IsValid)
+            {
+
+                if (_cService.isEmailUnique(updatedCustomer.Email, updatedCustomer.ID))
+                {
+
+                    if (_cService.updateCustomer(updatedCustomer))
+                    {
+                        this.AddNotification("Kunde wurde aktualisiert", NotificationType.SUCCESS);
+                        return this.RedirectToAction("Edit", updatedCustomer.ID);
+                    }
+                }
+                else
+                {
+                    this.AddNotification("Kunde wurde nicht aktualisiert<br>E-Mail ist nicht eindeutig", NotificationType.WARNING);
+                }
+            }
             this.AddNotification("Kunde wurde nicht aktualisiert<br>Überprüfe die Eingaben", NotificationType.WARNING);
 
             return View();

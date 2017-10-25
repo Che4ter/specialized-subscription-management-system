@@ -14,5 +14,9 @@ namespace essentialAdmin.Services
         bool deleteCustomer(int id);
 
         JsonResult loadCustomerDataTable(HttpRequest Request);
+
+        bool isEmailUnique(string email);
+
+        bool isEmailUnique(string email, int id);
     }
 }

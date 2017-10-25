@@ -28,9 +28,11 @@ namespace essentialAdmin.Services
                     Street = newCustomer.Street,
                     Zip = newCustomer.Zip,
                     City = newCustomer.City,
+                    Email = newCustomer.Email,
                     Company = newCustomer.Company,
                     Phone = newCustomer.Phone,
-                    PurchasesRemarks = newCustomer.PurchasesRemarks
+                    PurchasesRemarks = newCustomer.PurchasesRemarks,
+                    GeneralRemarks = newCustomer.GeneralRemarks
                 };
                 this._context.Customers.Add(c);
                 this._context.SaveChanges();
@@ -147,8 +149,9 @@ namespace essentialAdmin.Services
                 customerToEdit.Street = customerToUpdate.Street;
                 customerToEdit.Zip = customerToUpdate.Zip;
                 customerToEdit.City = customerToUpdate.City;
-                customerToEdit.Company = customerToUpdate.Company;
+                customerToEdit.Email = customerToUpdate.Email;
                 customerToEdit.Phone = customerToUpdate.Phone;
+                customerToEdit.Company = customerToUpdate.Company;
                 customerToEdit.PurchasesRemarks = customerToUpdate.PurchasesRemarks;
                 customerToEdit.GeneralRemarks = customerToUpdate.GeneralRemarks;
 
@@ -161,6 +164,28 @@ namespace essentialAdmin.Services
                 return false;
             }
 
+        }
+
+        public bool isEmailUnique(string email)
+        {
+            return isEmailUnique(email, 0);
+        }
+
+        public bool isEmailUnique(string email, int id)
+        {
+            if(String.IsNullOrEmpty(email))
+            {
+                return true;
+            }
+            else if(id>0)
+            {
+                return !_context.Customers.Any(x => x.Email == email && x.Id != id);
+
+            }
+            else
+            {
+                return !_context.Customers.Any(x => x.Email == email);
+            }
         }
     }
 }
