@@ -9,17 +9,19 @@ namespace essentialAdmin.Models.AccountViewModels
     public class ResetPasswordViewModel
     {
         [Required]
+        [Display(Name = "E-Mail Adresse")]
         [EmailAddress]
         public string Email { get; set; }
 
         [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 4)]
+        [Display(Name = "Neues Passwort")]
+        [StringLength(100, ErrorMessage = "Das {0} muss mindestens {2} Zeichen lang sein", MinimumLength = 4)]
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [Display(Name = "Passwort bestätigen")]
+        [Compare("Password", ErrorMessage = "Die Passwörter stimmen nicht überein")]
         public string ConfirmPassword { get; set; }
 
         public string Code { get; set; }

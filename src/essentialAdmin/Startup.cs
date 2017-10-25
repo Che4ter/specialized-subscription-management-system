@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using essentialAdmin.Services;
 using essentialAdmin.Data;
+using System;
 
 namespace essentialAdmin
 {
@@ -27,6 +28,13 @@ namespace essentialAdmin
             services.AddDbContext<Data.Models.essentialAdminContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
+            var lockoutOptions = new LockoutOptions()
+            {
+                AllowedForNewUsers = true,
+                DefaultLockoutTimeSpan = TimeSpan.FromMinutes(15),
+                MaxFailedAccessAttempts = 5
+            };
+
             services.AddIdentity<ApplicationUser, IdentityRole>(options =>
             {
                 options.Password.RequireDigit = false;
@@ -35,6 +43,8 @@ namespace essentialAdmin
                 options.Password.RequiredUniqueChars = 0;
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequiredLength = 4;
+                options.Lockout = lockoutOptions;
+
             })
               .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
@@ -46,7 +56,7 @@ namespace essentialAdmin
             services.AddMvc();
 
             services.AddScoped<ICustomerService, CustomerService>();
-
+            services.Configure<EmailSettings>(Configuration.GetSection("EmailSettings"));
             // Create Policies
             services.AddAuthorization(options =>
             {

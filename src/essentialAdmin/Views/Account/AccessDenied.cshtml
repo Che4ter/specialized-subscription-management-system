@@ -1,8 +1,10 @@
 ﻿@{
-    ViewData["Title"] = "Access denied";
+    ViewData["Title"] = "Kein Zugriff";
+    Layout = "~/Views/Shared/_LoginLayout.cshtml";
 }
 
-<header>
-    <h2 class="text-danger">ViewData["Title"]</h2>
-    <p class="text-danger">You do not have access to this resource.</p>
-</header>
+<h2>@ViewData["Title"]</h2>
+<hr />
+<p>
+    Du hast keinen Zugriff auf die aufgerufene Seite. Sollte dies ein Fehler sein wende dich bitte an deinen Systemadministrator.
+</p>

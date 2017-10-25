@@ -9,12 +9,14 @@ using Microsoft.Extensions.Logging;
 using essentialAdmin.Models.AccountViewModels;
 using essentialAdmin.Services;
 using essentialAdmin.Data;
+using essentialAdmin.Extensions;
+using essentialAdmin.Data.Models;
 
 namespace essentialAdmin.Controllers
 {
     [Authorize]
     [Route("[controller]/[action]")]
-    public class AccountController : Controller
+    public class AccountController : BaseController
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
@@ -25,7 +27,8 @@ namespace essentialAdmin.Controllers
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             IEmailSender emailSender,
-            ILogger<AccountController> logger)
+            ILogger<AccountController> logger,
+            essentialAdminContext context) : base(context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -57,7 +60,7 @@ namespace essentialAdmin.Controllers
             {
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
+                var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: true);
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
@@ -130,7 +133,7 @@ namespace essentialAdmin.Controllers
         {
             await _signInManager.SignOutAsync();
             _logger.LogInformation("User logged out.");
-            return RedirectToAction(nameof(HomeController.Index), "Home");
+            return this.RedirectToAction("Login");
         }
 
         [HttpGet]
@@ -165,7 +168,7 @@ namespace essentialAdmin.Controllers
             if (ModelState.IsValid)
             {
                 var user = await _userManager.FindByEmailAsync(model.Email);
-                if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
+                if (user == null)
                 {
                     // Don't reveal that the user does not exist or is not confirmed
                     return RedirectToAction(nameof(ForgotPasswordConfirmation));
@@ -197,7 +200,9 @@ namespace essentialAdmin.Controllers
         {
             if (code == null)
             {
-                throw new ApplicationException("A code must be supplied for password reset.");
+                this.AddNotification("Der Zurücksetzt Link war ungültig.", NotificationType.ERROR);
+
+                return this.RedirectToAction("Login");
             }
             var model = new ResetPasswordViewModel { Code = code };
             return View(model);
