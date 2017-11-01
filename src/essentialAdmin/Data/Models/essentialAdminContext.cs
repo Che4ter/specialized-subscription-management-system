@@ -17,6 +17,8 @@ namespace essentialAdmin.Data.Models
         public virtual DbSet<AspNetUsers> AspNetUsers { get; set; }
         public virtual DbSet<AspNetUserTokens> AspNetUserTokens { get; set; }
         public virtual DbSet<Customers> Customers { get; set; }
+        public virtual DbSet<Plans> Plans { get; set; }
+        public virtual DbSet<Templates> Templates { get; set; }
 
         private string _user;
         public essentialAdminContext(DbContextOptions<essentialAdminContext> options, Services.UserResolverService userService)
@@ -150,6 +152,35 @@ namespace essentialAdmin.Data.Models
                 entity.Property(e => e.UserModified).HasMaxLength(450);
 
                 entity.Property(e => e.Zip).HasMaxLength(11);
+            });
+
+            modelBuilder.Entity<Plans>(entity =>
+            {
+                entity.Property(e => e.Deadline).HasColumnType("date");
+
+                entity.Property(e => e.FkTemplateLabel).HasColumnName("fk_templateLabel");
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(128);
+
+                entity.Property(e => e.Price).HasColumnType("decimal(19, 4)");
+
+                entity.Property(e => e.UserCreated).HasMaxLength(450);
+
+                entity.Property(e => e.UserModified).HasMaxLength(450);
+
+                entity.HasOne(d => d.FkTemplateLabelNavigation)
+                    .WithMany(p => p.Plans)
+                    .HasForeignKey(d => d.FkTemplateLabel)
+                    .HasConstraintName("FK_Plans_Templates_Id");
+            });
+
+            modelBuilder.Entity<Templates>(entity =>
+            {
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(80);
             });
         }
 

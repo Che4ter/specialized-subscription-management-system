@@ -15,7 +15,6 @@ using Microsoft.AspNetCore.Identity;
 namespace essentialAdmin.Controllers
 {
     [Authorize(Policy = "RequireAdminRole")]
-
     public class Employee : BaseController
     {
         private IEmployeeService _eService;

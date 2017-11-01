@@ -57,6 +57,7 @@ namespace essentialAdmin
 
             services.AddScoped<ICustomerService, CustomerService>();
             services.AddScoped<IEmployeeService, EmployeeService>();
+            services.AddScoped<IPlanService, PlanService>();
 
             services.Configure<EmailSettings>(Configuration.GetSection("EmailSettings"));
             // Create Policies

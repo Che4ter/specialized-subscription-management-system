@@ -90,7 +90,7 @@ namespace essentialAdmin.Controllers
             }
             this.AddNotification("Kunde wurde nicht aktualisiert<br>Überprüfe die Eingaben", NotificationType.WARNING);
 
-            return View();
+            return View(updatedCustomer);
         }
 
         public IActionResult Delete(int id)

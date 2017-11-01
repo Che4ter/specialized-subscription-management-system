@@ -11,6 +11,7 @@ namespace essentialAdmin.Data
         {
             //create database schema if none exists
             context.Database.EnsureCreated();
+            
 
             //If there is already an User with Administrator role, abort
             string roleID = context.Roles.Where(r => r.Name == "Administrator").Select(r => r.Id).FirstOrDefault();

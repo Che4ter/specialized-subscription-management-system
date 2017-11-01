@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace essentialAdmin.Models.CustomerViewModels
+namespace essentialAdmin.Models.PlanViewModels
 {
-    public class PlanViewModel
+    public class CustomerViewModel
     {
         public int Id { get; set; }
         public string Title { get; set; }
