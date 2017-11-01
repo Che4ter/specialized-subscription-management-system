@@ -33,6 +33,8 @@
             { "data": "name", "name": "Name", "autoWidth": true },
             { "data": "price", "name": "Preis", "autoWidth": true },
             { "data": "duration", "name": "Laufzeit", "autoWidth": true },
+            { "data": "inuse", "name": "In Gebrauch", "autoWidth": true },
+
             //{
             //    "render": function (data, type, full, meta)
             //    { return '<a class="btn btn-info" href="/Plan/Edit/' + full.id + '">Edit</a>'; }

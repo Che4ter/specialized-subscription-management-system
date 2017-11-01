@@ -2,8 +2,18 @@
     ViewData["Title"] = "Kunden Übersicht";
 }
 
-<h2>Kunden</h2>
-
+<div class="col-12 col-medium-12 col-small-12">
+    <div class="grid">
+        <div class="row row-space-between overview-header-row">
+            <div class="col-6 col-medium-6 col-small-12">
+                <h2>Kunden</h2>
+            </div>
+            <div class="col-6 col-medium-6 col-small-1 mui--text-right">
+                <a asp-area="" asp-controller="Customer" asp-action="Create" class="mui-btn mui-btn--primary">Neuer Kunde erfassen</a>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="grid mui-form">
     <div class="row">
         <div class="col-12 col-medium-12 col-small-12">

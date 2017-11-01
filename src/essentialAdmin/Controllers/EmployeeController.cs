@@ -41,22 +41,22 @@ namespace essentialAdmin.Controllers
         }
 
         [HttpPost, ValidateAntiForgeryToken]
-        public async System.Threading.Tasks.Task<IActionResult> Create(EmployeeCreateViewModel newCustomer)
+        public async System.Threading.Tasks.Task<IActionResult> Create(EmployeeCreateViewModel newEmployee)
         {
             if (ModelState.IsValid)
             {
-                if (_eService.isUsernameUnique(newCustomer.Email))
+                if (_eService.isUsernameUnique(newEmployee.Email))
                 {
-                    var user = new ApplicationUser { UserName = newCustomer.Email, Email = newCustomer.Email, FirstName = newCustomer.FirstName, LastName = newCustomer.LastName, EmailConfirmed = true };
-                    var result = await _userManager.CreateAsync(user, newCustomer.Password);
+                    var user = new ApplicationUser { UserName = newEmployee.Email, Email = newEmployee.Email, FirstName = newEmployee.FirstName, LastName = newEmployee.LastName, EmailConfirmed = true };
+                    var result = await _userManager.CreateAsync(user, newEmployee.Password);
 
                     if (result.Succeeded)
                     {
-                        await _userManager.AddToRoleAsync(user, newCustomer.Role);
+                        await _userManager.AddToRoleAsync(user, newEmployee.Role);
 
                         this.AddNotification("Mitarbeiter wurde erstellt", NotificationType.SUCCESS);
 
-                        return this.RedirectToAction("Edit", new { username = newCustomer.Email });
+                        return this.RedirectToAction("Edit", new { username = newEmployee.Email });
                     }
                     else
                     {
@@ -69,19 +69,17 @@ namespace essentialAdmin.Controllers
                 else
                 {
                     this.AddNotification("Benutzername wurde bereits verwendet", NotificationType.ERROR);
-
                 }
             }
             else
             {
                 this.AddNotification("Benutzer konnte nicht erstellt werden", NotificationType.ERROR);
-
             }
 
-            newCustomer.EmployeeRoles = _eService.getAvailableRoles();
+            newEmployee.EmployeeRoles = _eService.getAvailableRoles();
 
             // If we got this far, something failed, redisplay form
-            return View(newCustomer);
+            return View(newEmployee);
         }
 
         [HttpGet]
@@ -121,9 +119,9 @@ namespace essentialAdmin.Controllers
         {
             if (_eService.deleteEmployee(username).Result)
             {
-                this.AddNotification("Kunde wurde gelöscht", NotificationType.SUCCESS);
+                this.AddNotification("Mitarbeiter wurde gelöscht", NotificationType.SUCCESS);
             }
-            this.AddNotification("Konnte Kunde nicht löschen", NotificationType.ERROR);
+            this.AddNotification("Konnte Mitarbeiter nicht löschen", NotificationType.ERROR);
             return this.RedirectToAction("Index");
         }
 

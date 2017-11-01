@@ -50,7 +50,7 @@ namespace essentialAdmin.Controllers
             }
             this.AddNotification("Kunde wurde nicht erstellt<br>Überprüfe die Eingaben", NotificationType.ERROR);
 
-            return View();
+            return View(newCustomer);
         }
 
         [HttpGet]

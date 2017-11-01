@@ -15,7 +15,7 @@
 
                             @if (@Model != null)
                             {
-                                <button type="button" class="mui-btn mui-btn--danger"  onclick="CustomerDeleteConfirmation(@Model.ID)">Kunde löschen</button>
+                                <button type="button" class="mui-btn mui-btn--danger" onclick="CustomerDeleteConfirmation(@Model.ID)">Kunde löschen</button>
                             }
                         </div>
                     </div>
@@ -31,10 +31,10 @@
                     <div class="row">
                         <div class="col-6 col-medium-12 col-small-12">
                             <div class="mui-select">
-                                <select  asp-for="Title" id="TitleSelect" >
+                                <select asp-for="Title" id="TitleSelect">
                                     <option selected="selected" value="Herr">Herr</option>
                                     <option value="Frau">Frau</option>
-                                </select>                                
+                                </select>
                                 <label asp-for="Title"></label>
                                 <span asp-validation-for="Title" class="text-danger"></span>
                             </div>
@@ -81,21 +81,23 @@
             </div>
 
         </div>
-        <div class="col-4  col-medium-4 col-small-12">
-            <div class="mui-panel">
-                <div class="mui--form-title">
-                    Status
-                </div>
-                @if (@Model != null)
-                {
+        @if (@Model != null)
+        {
+            <div class="col-4  col-medium-4 col-small-12">
+                <div class="mui-panel">
+                    <div class="mui--form-title">
+                        Status
+                    </div>
+
                     <strong><label asp-for="DateCreated"></label>:</strong> @Model.DateCreated; <br />
                     <strong><label asp-for="UserCreated"></label>:</strong> @Model.UserCreated; <br />
                     <strong><label asp-for="DateModified"></label>:</strong> @Model.DateModified; <br />
                     <strong><label asp-for="UserModified"></label>:</strong> @Model.UserModified; <br />
-                }
-            </div>
 
-        </div>
+                </div>
+
+            </div>
+        }
         <div class="col-8  col-medium-8 col-small-12">
             <div class="mui-panel">
                 <div class="mui--form-title">Zusätzliche Daten</div>
@@ -156,6 +158,5 @@
 
     </div>
 
-   
-</form>
 
+</form>

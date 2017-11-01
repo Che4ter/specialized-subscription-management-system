@@ -2,8 +2,18 @@
     ViewData["Title"] = "Patenschafts Pläne Übersicht";
 }
 
-<h2>Pläne</h2>
-
+<div class="col-12 col-medium-12 col-small-12">
+    <div class="grid">
+        <div class="row row-space-between overview-header-row">
+            <div class="col-6 col-medium-6 col-small-12">
+                <h2>Patenschafts Pläne</h2>
+            </div>
+            <div class="col-6 col-medium-6 col-small-1 mui--text-right">
+                <a asp-area="" asp-controller="Plan" asp-action="Create" class="mui-btn mui-btn--primary">Neuer Plan erstellen</a>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="grid mui-form">
     <div class="row">
         <div class="col-12 col-medium-12 col-small-12">
@@ -15,6 +25,7 @@
                             <th>Name</th>
                             <th>Preis</th>
                             <th>Laufzeit</th>
+                            <th>In Gebrauch</th>
                             @*<th>Edit</th>
                                 <th>Delete</th>*@
                         </tr>

@@ -95,7 +95,6 @@ namespace essentialAdmin.Controllers
         public IActionResult LoadData()
         {
             return _pService.loadPlanDataTable(Request);
-
         }
 
         private static object GetPropertyValue(object obj, string property)
@@ -105,7 +104,6 @@ namespace essentialAdmin.Controllers
         }
 
         #region Helper
-
 
         private bool isPlanEmpty(PlanInputViewModel c)
         {

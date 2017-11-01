@@ -100,7 +100,7 @@ namespace essentialAdmin.Services
 
                 // Getting all Customer data  
                 var planData = (from tempplan in _context.Plans
-                                    select tempplan);
+                                    select new { Id = tempplan.Id, Name = tempplan.Name, Price = tempplan.Price, Duration = tempplan.Duration, inuse = "notimplemented" });
 
                 //Sorting  
                 if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDirection)))
