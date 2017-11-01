@@ -1,0 +1,21 @@
+﻿@model esencialAdmin.Models.PlanViewModels.PlanInputViewModel
+
+@{
+
+    ViewData["Title"] = "Patenschafts Plan bearbeiten";
+    ViewData["PlanName"] = Model?.Name;
+}
+
+
+@Html.Partial("_PlanEditorForm")
+
+<environment include="Development,Preview">
+    @section scripts {
+        <script src="~/lib/sweetalert2/sweetalert2.js" asp-append-version="true"></script>
+        <script src="~/js/plan.js" asp-append-version="true"></script>
+    }
+
+    @section styles {
+        <link rel="stylesheet" href="~/lib/sweetalert2/sweetalert2.css" />
+    }
+</environment>

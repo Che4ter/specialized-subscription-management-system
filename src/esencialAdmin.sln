@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27004.2006
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "esencialAdmin", "esencialAdmin\esencialAdmin.csproj", "{C8B2933B-9E47-4B1D-AA2B-733DDFB6EA9D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{69C7DACD-3D86-4946-8359-5C881DF3094D}"
+	ProjectSection(SolutionItems) = preProject
+		Scaffolding.txt = Scaffolding.txt
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "esencialAdminTests", "esencialAdminTests\esencialAdminTests.csproj", "{1FE9C27A-F991-4167-8604-BAF8AB109B95}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C8B2933B-9E47-4B1D-AA2B-733DDFB6EA9D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C8B2933B-9E47-4B1D-AA2B-733DDFB6EA9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C8B2933B-9E47-4B1D-AA2B-733DDFB6EA9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C8B2933B-9E47-4B1D-AA2B-733DDFB6EA9D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1FE9C27A-F991-4167-8604-BAF8AB109B95}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1FE9C27A-F991-4167-8604-BAF8AB109B95}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1FE9C27A-F991-4167-8604-BAF8AB109B95}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1FE9C27A-F991-4167-8604-BAF8AB109B95}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6FC1DCD9-CAA7-4187-8F04-F1949D748F86}
+	EndGlobalSection
+EndGlobal

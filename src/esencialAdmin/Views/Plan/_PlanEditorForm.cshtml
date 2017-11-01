@@ -1,0 +1,107 @@
+﻿@model esencialAdmin.Models.PlanViewModels.PlanInputViewModel
+<form method="post" asp-controller="Plan" class="grid mui-form">
+    <div class="row  row-equal">
+        <div class="col-12 col-medium-12 col-small-12">
+            <div class="mui-panel">
+                <div class="grid">
+                    <div class="row row-space-between">
+                        <div class="col-6 col-medium-6 col-small-12">
+                            <div class="mui--text-headline">
+                                Patenschaft: @ViewData["PlanName"]
+                            </div>
+                        </div>
+                        <div class="col-6 col-medium-6 col-small-1 mui--text-right">
+                            <button type="submit" class="mui-btn mui-btn--primary">Speichern</button>
+
+                            @if (@Model.ID != 0)
+                            {
+                                <button type="button" class="mui-btn mui-btn--danger" onclick="PlanDeleteConfirmation(@Model.ID)">Plan löschen</button>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row  row-equal">
+        <div class="col-8  col-medium-8 col-small-12">
+            <div class="mui-panel">
+                <div class="mui--form-title">Patenschafts Daten</div>
+                <div class="grid">
+                    <div class="row">
+                        <div class="col-6 col-medium-12 col-small-12">
+                            <div class="mui-select">
+                                <div class="mui-textfield">
+                                    <input asp-for="Name" />
+                                    <label asp-for="Name"></label>
+                                    <span asp-validation-for="Name" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6 hide-medium hide-small">
+                        </div>
+                        <div class="col-6 col-medium-12 col-small-12">
+                            <div class="mui-textfield">
+                                <input asp-for="Price" />
+                                <label asp-for="Price"></label>
+                                <span asp-validation-for="Price" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-6 col-medium-12 col-small-12">
+                            <div class="mui-select">
+                                @{
+                                    var selectList = new List<SelectListItem>();
+                                    foreach (var tmp in Model.Templates)
+                                    {
+                                        SelectListItem item = new SelectListItem();
+                                        item.Value = tmp.Id.ToString();
+                                        item.Text = tmp.Name;
+
+                                        selectList.Add(item);
+                                    }
+                                    selectList.FirstOrDefault().Selected = true;
+                                }
+
+                                <select asp-for="TemplateID" id="TemplateSelect" asp-items="selectList"></select>
+                                <label asp-for="TemplateID"></label>
+                                <span asp-validation-for="TemplateID" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-6 col-medium-12 col-small-12">
+                            <div class="mui-textfield">
+                                <input asp-for="Duration" />
+                                <label asp-for="Duration"></label>
+                                <span asp-validation-for="Duration" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-6 col-medium-12 col-small-12">
+                            <div class="mui-textfield">
+                                <input asp-for="Deadline" />
+                                <label asp-for="Deadline"></label>
+                                <span asp-validation-for="Deadline" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        @if (@Model.ID != 0)
+        {
+            <div class="col-4  col-medium-4 col-small-12">
+                <div class="mui-panel">
+                    <div class="mui--form-title">
+                        Status
+                    </div>
+
+                    <strong><label asp-for="DateCreated"></label>:</strong> @Model.DateCreated; <br />
+                    <strong><label asp-for="UserCreated"></label>:</strong> @Model.UserCreated; <br />
+                    <strong><label asp-for="DateModified"></label>:</strong> @Model.DateModified; <br />
+                    <strong><label asp-for="UserModified"></label>:</strong> @Model.UserModified; <br />
+
+                </div>
+
+            </div>
+        }
+    </div>
+</form>
