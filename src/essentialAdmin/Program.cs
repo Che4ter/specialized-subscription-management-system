@@ -26,11 +26,13 @@ namespace essentialAdmin
                 try
                 {
                     var context = services.GetRequiredService<ApplicationDbContext>();
+                    var econtext = services.GetRequiredService<essentialAdminContext>();
+
                     var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
 
                     var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
 
-                    Task<bool> hasSeeded = DbInitializer.Initialize(context, userManager, roleManager);
+                    Task<bool> hasSeeded = DbInitializer.Initialize(context, econtext, userManager, roleManager);
                     hasSeeded.Wait();
                 }
                 catch (Exception ex)

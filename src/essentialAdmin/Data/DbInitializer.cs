@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using essentialAdmin.Data.Models;
+using Microsoft.AspNetCore.Identity;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -7,11 +8,25 @@ namespace essentialAdmin.Data
     public static class DbInitializer 
     {
         //This example just creates an Administrator role and one Admin users
-        public async static Task<bool> Initialize(ApplicationDbContext context, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
+        public async static Task<bool> Initialize(ApplicationDbContext context, essentialAdminContext essentialAdminContext, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             //create database schema if none exists
             context.Database.EnsureCreated();
-            
+            essentialAdminContext.Database.EnsureCreated();
+
+            if(!essentialAdminContext.Templates.Any())
+            {
+                var template1 = new Templates(){
+                    Name = "Wein Etikette"
+                };
+
+                var template2 = new Templates()
+                {
+                    Name = "Olivenöl Etikette"
+                };
+                essentialAdminContext.Templates.Add(template1);
+                essentialAdminContext.Templates.Add(template2);
+            }
 
             //If there is already an User with Administrator role, abort
             string roleID = context.Roles.Where(r => r.Name == "Administrator").Select(r => r.Id).FirstOrDefault();
