@@ -16,7 +16,7 @@ namespace essentialAdmin.Services
 
         public string GetUser()
         {
-            return _context.HttpContext.User?.Identity?.Name;
+            return _context?.HttpContext?.User?.Identity?.Name;
         }
     }
 }

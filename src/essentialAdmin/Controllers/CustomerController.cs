@@ -48,7 +48,7 @@ namespace essentialAdmin.Controllers
                     this.AddNotification("Kunde wurde nicht erstellt<br>E-Mail ist nicht eindeutig", NotificationType.WARNING);
                 }
             }
-            this.AddNotification("Kunde wurde nicht erstellt<br>Überprüfe die Eingaben", NotificationType.WARNING);
+            this.AddNotification("Kunde wurde nicht erstellt<br>Überprüfe die Eingaben", NotificationType.ERROR);
 
             return View();
         }

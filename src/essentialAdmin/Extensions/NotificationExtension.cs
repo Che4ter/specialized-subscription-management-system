@@ -22,18 +22,21 @@ namespace essentialAdmin.Extensions
 
         public static void AddNotification(this BaseController controller, String message, String notificationType)
         {
-            string NotificationKey = getNotificationKeyByType(notificationType);
-            HashSet<String> notify ;
-            if (controller.TempData[NotificationKey] == null)
+            if(controller.TempData != null)
             {
-                notify = new HashSet<String>();
-            }
-            else
-            {
-                notify = JsonConvert.DeserializeObject<HashSet<String>>(controller.TempData[NotificationKey].ToString());
-            }
-            notify.Add(message);
-            controller.TempData[NotificationKey] = JsonConvert.SerializeObject(notify);
+                string NotificationKey = getNotificationKeyByType(notificationType);
+                HashSet<String> notify;
+                if (controller.TempData[NotificationKey] == null)
+                {
+                    notify = new HashSet<String>();
+                }
+                else
+                {
+                    notify = JsonConvert.DeserializeObject<HashSet<String>>(controller.TempData[NotificationKey].ToString());
+                }
+                notify.Add(message);
+                controller.TempData[NotificationKey] = JsonConvert.SerializeObject(notify);
+            }       
         }
 
         public static IEnumerable<String> GetNotifications(this ViewContext context, String notificationType)

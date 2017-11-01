@@ -26,4 +26,5 @@ namespace Microsoft.AspNetCore.Mvc
                 protocol: scheme);
         }
     }
+
 }
