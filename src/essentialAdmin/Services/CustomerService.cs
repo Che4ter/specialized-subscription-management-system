@@ -173,11 +173,11 @@ namespace essentialAdmin.Services
 
         public bool isEmailUnique(string email, int id)
         {
-            if(String.IsNullOrEmpty(email))
+            if (String.IsNullOrEmpty(email))
             {
                 return true;
             }
-            else if(id>0)
+            else if (id > 0)
             {
                 return !_context.Customers.Any(x => x.Email == email && x.Id != id);
 

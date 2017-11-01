@@ -11,11 +11,8 @@ namespace essentialAdmin.Controllers
     [Authorize(Policy = "RequireEmployeeRole")]
     public class BaseController : Controller
     {
-        protected readonly essentialAdminContext _context;
-
-        public BaseController(essentialAdminContext context)
+        public BaseController()
         {
-            _context = context;
         }
     }
 }

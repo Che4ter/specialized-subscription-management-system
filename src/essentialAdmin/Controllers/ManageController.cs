@@ -34,8 +34,8 @@ namespace essentialAdmin.Controllers
           SignInManager<ApplicationUser> signInManager,
           IEmailSender emailSender,
           ILogger<ManageController> logger,
-          UrlEncoder urlEncoder,
-          essentialAdminContext context) : base(context)
+          UrlEncoder urlEncoder
+        )
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -56,7 +56,7 @@ namespace essentialAdmin.Controllers
                 this.AddNotification("Konnte Daten nicht laden", NotificationType.ERROR);
                 return View(indexModel);
             }
-           
+
             var employeeAccountViewModel = new EmployeeAccountViewModel
             {
                 Email = user.Email,
@@ -127,7 +127,7 @@ namespace essentialAdmin.Controllers
             var changePasswordResult = await _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
             if (!changePasswordResult.Succeeded)
             {
-                if(changePasswordResult.Errors.FirstOrDefault().Code == "PasswordMismatch")
+                if (changePasswordResult.Errors.FirstOrDefault().Code == "PasswordMismatch")
                 {
                     this.AddNotification("Das Passwort konnte nicht geändert werden. Überprüfe ob das aktuelle Korrekt ist", NotificationType.ERROR);
 

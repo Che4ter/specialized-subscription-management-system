@@ -22,8 +22,7 @@ namespace essentialAdmin.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
 
         public Employee(
-            UserManager<ApplicationUser> userManager,
-            essentialAdminContext context, IEmployeeService eService) : base(context)
+            UserManager<ApplicationUser> userManager, IEmployeeService eService)
         {
             _eService = eService;
             _userManager = userManager;
@@ -110,7 +109,7 @@ namespace essentialAdmin.Controllers
                 if (_eService.updateEmployee(updatedEmployee).Result)
                 {
                     this.AddNotification("Mitarbeiter wurde aktualisiert", NotificationType.SUCCESS);
-                    return this.RedirectToAction("Edit", new { username = updatedEmployee.Email } );
+                    return this.RedirectToAction("Edit", new { username = updatedEmployee.Email });
                 }
             }
             this.AddNotification("Mitarbeiter wurde nicht aktualisiert<br>Überprüfe die Eingaben", NotificationType.WARNING);

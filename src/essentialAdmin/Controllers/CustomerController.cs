@@ -12,26 +12,14 @@ namespace essentialAdmin.Controllers
     public class CustomerController : BaseController
     {
         private ICustomerService _cService;
-        public CustomerController(essentialAdminContext context, ICustomerService cService) : base(context)
+        public CustomerController(ICustomerService cService)
         {
             _cService = cService;
         }
 
         public IActionResult Index()
         {
-            var customers = this._context.Customers
-                .OrderBy(e => e.LastName)
-                .Select(e => new CustomerViewModel()
-                {
-                    Id = e.Id,
-                    Title = e.Title,
-                    LastName = e.LastName,
-                    FirstName = e.FirstName,
-                    Street = e.Street,
-                    Zip = e.Zip,
-                    City = e.City
-                });
-            return View(customers);
+            return View();
 
         }
 
@@ -47,7 +35,7 @@ namespace essentialAdmin.Controllers
 
             if (!isCustomerEmpty(newCustomer) && ModelState.IsValid)
             {
-                if(_cService.isEmailUnique(newCustomer.Email))
+                if (_cService.isEmailUnique(newCustomer.Email))
                 {
                     var _id = _cService.createNewCustomer(newCustomer);
                     if (_id > 0)

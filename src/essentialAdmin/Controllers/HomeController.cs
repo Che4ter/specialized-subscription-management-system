@@ -11,7 +11,7 @@ namespace essentialAdmin.Controllers
 {
     public class HomeController : BaseController
     {
-        public HomeController(essentialAdminContext context) : base(context)
+        public HomeController(essentialAdminContext context)
         {
         }
 
