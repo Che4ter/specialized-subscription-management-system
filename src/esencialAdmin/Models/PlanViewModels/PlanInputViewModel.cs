@@ -53,7 +53,7 @@ namespace esencialAdmin.Models.PlanViewModels
 
         public static PlanInputViewModel CreateFromPlan(Plans p)
         {
-            return new PlanInputViewModel()
+            var newModel = new PlanInputViewModel()
             {
                 ID = p.Id,
                 Name = p.Name,
@@ -61,11 +61,19 @@ namespace esencialAdmin.Models.PlanViewModels
                 Duration = p.Duration,
                 Deadline = p.Deadline,
                 TemplateID = p.FkTemplateLabel,              
-                DateCreated = p.DateCreated.Value.ToLocalTime().ToString() ,
                 UserCreated = p.UserCreated,
-                DateModified = p.DateModified.Value.ToLocalTime().ToString() ,
                 UserModified = p.UserModified               
             };
+
+            if (p.DateCreated != null)
+            {
+                newModel.DateCreated = p.DateCreated.Value.ToLocalTime().ToString();
+            }
+            if (p.DateModified != null)
+            {
+                newModel.DateModified = p.DateModified.Value.ToLocalTime().ToString();
+            }
+            return newModel;
         }
     }
 }

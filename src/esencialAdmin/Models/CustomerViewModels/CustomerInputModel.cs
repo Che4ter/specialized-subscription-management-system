@@ -62,7 +62,7 @@ namespace esencialAdmin.Models.CustomerViewModels
 
         public static CustomerInputModel CreateFromCustomer(Customers c)
         {
-            return new CustomerInputModel()
+            var newModel = new CustomerInputModel()
             {
                 ID = c.Id,
                 Title = c.Title,
@@ -76,11 +76,19 @@ namespace esencialAdmin.Models.CustomerViewModels
                 Email = c.Email,
                 PurchasesRemarks = c.PurchasesRemarks,
                 GeneralRemarks = c.GeneralRemarks,
-                DateCreated = c.DateCreated.Value.ToLocalTime().ToString() ,
                 UserCreated = c.UserCreated,
-                DateModified = c.DateModified.Value.ToLocalTime().ToString() ,
                 UserModified = c.UserModified               
             };
+
+            if(c.DateCreated != null)
+            {
+                newModel.DateCreated = c.DateCreated.Value.ToLocalTime().ToString();
+            }
+            if (c.DateModified != null)
+            {
+                newModel.DateModified = c.DateModified.Value.ToLocalTime().ToString();
+            }
+            return newModel;
         }
     }
 }
