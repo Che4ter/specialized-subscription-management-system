@@ -254,6 +254,9 @@ buttons {
     outline: none;
 }
 
+table.dataTable thead th, table.dataTable thead td{
+    padding-left:8px!important;
+}
 /**
 * Notify
 */

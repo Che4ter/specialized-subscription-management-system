@@ -6,14 +6,15 @@
         "orderMulti": false, // for disable multiple column at once
         "pageLength": 25,
         "lengthMenu": [[10, 25, 50, 100], [10, 25, 50, 100]],
-        "responsive": {
-            breakpoints: [
-                { name: 'desktop', width: Infinity },
-                { name: 'tablet', width: 992 },
-                { name: 'fablet', width: 768 },
-                { name: 'phone', width: 544 }
-            ]
-        },
+        "order": [[1, "asc"]],
+        //"responsive": {
+        //    breakpoints: [
+        //        { name: 'desktop', width: Infinity },
+        //        { name: 'tablet', width: 992 },
+        //        { name: 'fablet', width: 768 },
+        //        { name: 'phone', width: 544 }
+        //    ]
+        //},
         "language": {
             "url": "/lib/DataTables/dataTablesGerman.json"
         },
@@ -24,16 +25,21 @@
         },
         "columnDefs":
         [{
-            "targets": [0],
-            "visible": false,
-            "searchable": false
-        }], 
+            "targets": [0], "visible": false, "searchable": false
+        },
+        { "width": "200px", "targets": 1 },
+        { "width": "200px", "targets": 2 },
+        { "width": "300px", "targets": 3 },
+        { "width": "80px", "targets": 4 },
+        { "width": "200px", "targets": 5 }
+        ],
+
         "columns": [
-            { "data": "id", "name": "Id", "autoWidth": true },  
-            { "data": "firstName", "name": "Vorname", "autoWidth": true },
-            { "data": "lastName", "name": "Nachname", "autoWidth": true },
+            { "data": "id", "name": "Id", "autoWidth": true },
+            { "data": "firstName", "name": "Vorname", "autoWidth": false },
+            { "data": "lastName", "name": "Nachname", "autoWidth": false },
             { "data": "street", "name": "Strasse", "autoWidth": true },
-            { "data": "zip", "name": "PLz", "autoWidth": true },
+            { "data": "zip", "name": "PLz", "autoWidth": false },
             { "data": "city", "name": "Ort", "autoWidth": true },
             { "data": "email", "name": "Email", "autoWidth": true },
             //{
@@ -54,19 +60,19 @@
 
         $(".paginate_button").removeClass("paginate_button").addClass("mui-btn mui-btn--flat");
         $(".mui-btn mui-btn--flat.current").addClass("mui-btn--primary");
-        });
+    });
 
     $.contextMenu({
         selector: '#customerTable tbody td',
-        callback: function (key, options) {        
+        callback: function (key, options) {
             var cellIndex = parseInt(options.$trigger[0].cellIndex),
                 row = customertable.row(options.$trigger[0].parentNode),
                 rowIndex = row.index();
             switch (key) {
                 case 'edit':
-                    window.location.href = '/Customer/Edit/' + customertable.cell(rowIndex, 0).data() ;
+                    window.location.href = '/Customer/Edit/' + customertable.cell(rowIndex, 0).data();
                     //edit action here
-                    break;          
+                    break;
                 case 'delete':
                     CustomerDeleteConfirmation(customertable.cell(rowIndex, 0).data());
                     break;
@@ -75,7 +81,7 @@
             }
         },
         items: {
-            "edit": { name: "Edit", icon: "edit" },         
+            "edit": { name: "Edit", icon: "edit" },
             "delete": { name: "Delete", icon: "delete" },
         }
     });
