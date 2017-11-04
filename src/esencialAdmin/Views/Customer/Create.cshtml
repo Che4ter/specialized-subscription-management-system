@@ -6,3 +6,8 @@
 
 
 @Html.Partial("_CustomerEditorForm")
+
+@section scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}
+

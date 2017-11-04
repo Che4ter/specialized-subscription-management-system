@@ -8,12 +8,10 @@ namespace esencialAdmin.Models.ManageViewModels
 {
     public class ChangePasswordViewModel
     {
-        [Required]
         [DataType(DataType.Password)]
         [Display(Name = "Aktuelles Passwort")]
         public string OldPassword { get; set; }
 
-        [Required]
         [StringLength(100, ErrorMessage = "Das {0} muss mindestens {2} Zeichen lang sein", MinimumLength = 4)]
         [DataType(DataType.Password)]
         [Display(Name = "Neues")]

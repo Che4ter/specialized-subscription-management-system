@@ -16,16 +16,17 @@ namespace esencialAdmin.Models.EmployeeViewModels
         [Display(Name = "Nachname")]
         public string LastName { get; set; }
 
-        [Required]
-        [EmailAddress]
+
         [Display(Name = "E-Mail Adresse")]
         public string Email { get; set; }
 
         public string currentEmail { get; set; }
 
-        [Required]
         [Display(Name = "Rolle")]
         public string Role { get; set; }
+
+        [Display(Name = "Benutzer gesperrt!")]
+        public bool isLocked { get; set; }
 
         [Display(Name = "Rolle")]
         public virtual List<EmployeeRolesViewModel> EmployeeRoles { get; set; }

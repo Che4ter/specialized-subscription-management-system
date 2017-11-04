@@ -125,6 +125,23 @@ namespace esencialAdmin.Controllers
             return this.RedirectToAction("Index");
         }
 
+        [HttpPost, ValidateAntiForgeryToken]
+        public IActionResult Unlock(EmployeeEditViewModel updatedEmployee)
+        {
+            if (_eService.unlockEmployee(updatedEmployee.currentEmail).Result)
+            {
+                this.AddNotification("Mitarbeiter wurde entsperrt", NotificationType.SUCCESS);
+            }
+            else
+            {
+                this.AddNotification("Konnte Mitarbeiter nicht entsperren", NotificationType.ERROR);
+    
+            }
+            updatedEmployee.EmployeeRoles = _eService.getAvailableRoles();
+
+            return this.RedirectToAction("Edit", new { username = updatedEmployee.Email });
+        }
+
         public IActionResult LoadData()
         {
             return _eService.loadEmployeeDataTable(Request);

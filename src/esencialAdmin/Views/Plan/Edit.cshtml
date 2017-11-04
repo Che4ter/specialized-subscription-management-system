@@ -13,6 +13,8 @@
     @section scripts {
         <script src="~/lib/sweetalert2/sweetalert2.js" asp-append-version="true"></script>
         <script src="~/js/plan.js" asp-append-version="true"></script>
+        @await Html.PartialAsync("_ValidationScriptsPartial")
+   
     }
 
     @section styles {

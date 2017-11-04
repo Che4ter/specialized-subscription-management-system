@@ -9,6 +9,7 @@ namespace esencialAdmin.Services
     public interface IEmployeeService
     {
         System.Threading.Tasks.Task<bool> deleteEmployee(string username);
+        System.Threading.Tasks.Task<bool> unlockEmployee(string username);
         bool isUsernameUnique(string username);
         JsonResult loadEmployeeDataTable(HttpRequest Request);
         EmployeeEditViewModel loadEmployeeEditModel(string username);

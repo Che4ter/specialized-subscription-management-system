@@ -16,12 +16,8 @@ namespace esencialAdmin.Models.EmployeeViewModels
         [Display(Name = "Nachname")]
         public string LastName { get; set; }
 
-        [Required]
-        [Display(Name = "E-Mail Adresse")]
-        [EmailAddress]
         public string Email { get; set; }
 
-        [Required]
         [StringLength(100, ErrorMessage = "Das {0} muss mindestens {2} Zeichen lang sein", MinimumLength = 4)]
         [DataType(DataType.Password)]
         [Display(Name = "Passwort")]
@@ -32,7 +28,6 @@ namespace esencialAdmin.Models.EmployeeViewModels
         [Compare("Password", ErrorMessage = "Die Passwörter stimmen nicht überein")]
         public string ConfirmPassword { get; set; }
 
-        [Required]
         [Display(Name = "Rolle")]
         public string Role { get; set; }
 

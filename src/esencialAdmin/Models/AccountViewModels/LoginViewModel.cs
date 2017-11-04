@@ -5,12 +5,10 @@ namespace esencialAdmin.Models.AccountViewModels
 {
     public class LoginViewModel
     {
-        [Required]
-        [EmailAddress]
+
         [DisplayName("E-Mail Adresse")]
         public string Email { get; set; }
 
-        [Required]
         [DataType(DataType.Password)]
         [DisplayName("Passwort")]
         public string Password { get; set; }

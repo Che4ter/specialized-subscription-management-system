@@ -27,12 +27,27 @@ namespace esencialAdmin.Services
 
         }
 
-
         public async System.Threading.Tasks.Task<bool> deleteEmployee(string username)
         {
             try
             {
+                await _userManager.UpdateSecurityStampAsync(await _userManager.FindByNameAsync(username));
                 await _userManager.DeleteAsync(await _userManager.FindByNameAsync(username));
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+        public async System.Threading.Tasks.Task<bool> unlockEmployee(string username)
+        {
+            try
+            {
+                await _userManager.SetLockoutEndDateAsync(await _userManager.FindByNameAsync(username), DateTimeOffset.MinValue);
+                await _userManager.ResetAccessFailedCountAsync(await _userManager.FindByNameAsync(username));
+
                 return true;
             }
             catch (Exception ex)
@@ -118,9 +133,13 @@ namespace esencialAdmin.Services
                     FirstName = applicationUser.FirstName,
                     LastName = applicationUser.LastName,
                     Email = applicationUser.Email,
-                    currentEmail = applicationUser.UserName
+                    currentEmail = applicationUser.UserName,
                 };
 
+                if(applicationUser.LockoutEnd > DateTime.Now)
+                {
+                    employeeEditViewModel.isLocked = true;
+                }
                 employeeEditViewModel.EmployeeRoles = getAvailableRoles();
 
                 string role = _context.AspNetUserRoles.Where(x => x.UserId == applicationUser.Id).Select(y => y.Role.Name).FirstOrDefault();
@@ -164,8 +183,6 @@ namespace esencialAdmin.Services
                         throw new ApplicationException($"Unexpected error occurred setting email for user with ID '{user.Id}'.");
                     }
                 }
-
-
 
                 var employeeToEdit = this._context.AspNetUsers
                   .Where(c => c.UserName == employeeToUpdate.Email)

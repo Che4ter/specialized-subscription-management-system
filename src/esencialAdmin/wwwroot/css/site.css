@@ -15,10 +15,23 @@ buttons {
 }
 
 
+.mui-textfield  > .input-validation-error {
+    border-color: #F44336!important;
+    border-width: 2px;
+}
+
+.mui-textfield > input.input-validation-error ~ label, .mui-textfield > textarea.input-validation-error ~ label {
+    color: #F44336!important;
+}
+
+.text-danger.field-validation-error {
+    color: #F44336 !important;
+    padding-top: 5px;
+    display: inline-block;
+}
 /**
  * Layout CSS
  */
-
 #header {
     position: fixed;
     top: 0;

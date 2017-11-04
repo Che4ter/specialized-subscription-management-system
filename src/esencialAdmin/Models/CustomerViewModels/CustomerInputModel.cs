@@ -39,7 +39,6 @@ namespace esencialAdmin.Models.CustomerViewModels
         public string Phone { get; set; }
 
         [DisplayName("E-Mail Adresse")]
-        [EmailAddress]
         public string Email { get; set; }
 
         [DisplayName("Einkäufe")]

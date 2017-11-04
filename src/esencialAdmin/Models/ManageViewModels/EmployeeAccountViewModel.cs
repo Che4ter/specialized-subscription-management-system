@@ -9,8 +9,6 @@ namespace esencialAdmin.Models.ManageViewModels
 {
     public class EmployeeAccountViewModel
     {
-        [Required]
-        [EmailAddress]
         [DisplayName("Benutzername")]
         public string Email { get; set; }
     }

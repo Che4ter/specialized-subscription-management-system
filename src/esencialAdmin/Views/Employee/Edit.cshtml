@@ -53,7 +53,7 @@
                         </div>
                         <div class="col-6 col-medium-12 col-small-12">
                             <div class="mui-textfield">
-                                <input asp-for="Email" />
+                                <input asp-for="Email" required type="email"/>
                                 <label asp-for="Email"></label>
                                 <span asp-validation-for="Email" class="text-danger"></span>
                             </div>
@@ -71,7 +71,7 @@
                                     }
                                 }
 
-                                <select asp-for="Role" id="RoleSelect" asp-items="selectList">
+                                <select asp-for="Role" id="RoleSelect" asp-items="selectList" required>
                                     <option>Bitte auswählen</option>
                                 </select>
                                 <label asp-for="Role"></label>
@@ -91,13 +91,19 @@
                 <div class="mui--form-title">
                     Status
                 </div>
-                @*@if (@Model != null)
+                @if (@Model != null)
+                {
+                    if (Model.isLocked)
                     {
-                        <strong><label asp-for="DateCreated"></label>:</strong> @Model.DateCreated; <br />
+                        <strong><label asp-for="isLocked"></label></strong><br />
+                        <button formaction="/Employee/Unlock" class="mui-btn mui-btn--danger">Entsperren</button>
+
+                    }
+                        @*<strong><label asp-for="DateCreated"></label>:</strong> @Model.DateCreated; <br />
                         <strong><label asp-for="UserCreated"></label>:</strong> @Model.UserCreated; <br />
                         <strong><label asp-for="DateModified"></label>:</strong> @Model.DateModified; <br />
-                        <strong><label asp-for="UserModified"></label>:</strong> @Model.UserModified; <br />
-                    }*@
+                        <strong><label asp-for="UserModified"></label>:</strong> @Model.UserModified; <br />*@
+                    }
             </div>
 
         </div>
@@ -109,6 +115,7 @@
     @section scripts {
         <script src="~/lib/sweetalert2/sweetalert2.js" asp-append-version="true"></script>
         <script src="~/js/employee.js" asp-append-version="true"></script>
+        @await Html.PartialAsync("_ValidationScriptsPartial")
     }
 
     @section styles {

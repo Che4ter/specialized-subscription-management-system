@@ -88,14 +88,11 @@
                     <div class="mui--form-title">
                         Status
                     </div>
-
                     <strong><label asp-for="DateCreated"></label>:</strong> @Model.DateCreated; <br />
                     <strong><label asp-for="UserCreated"></label>:</strong> @Model.UserCreated; <br />
                     <strong><label asp-for="DateModified"></label>:</strong> @Model.DateModified; <br />
                     <strong><label asp-for="UserModified"></label>:</strong> @Model.UserModified; <br />
-
                 </div>
-
             </div>
         }
         <div class="col-8  col-medium-8 col-small-12">
@@ -105,7 +102,7 @@
                     <div class="row">
                         <div class="col-6 col-medium-12 col-small-12">
                             <div class="mui-textfield">
-                                <input asp-for="Email" />
+                                <input asp-for="Email" type="email"/>
                                 <label asp-for="Email"></label>
                                 <span asp-validation-for="Email" class="text-danger"></span>
                             </div>
@@ -128,7 +125,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
         <div class="col-12  col-medium-12 col-small-12">
             <div class="mui-panel">
@@ -153,10 +149,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
-
     </div>
-
-
 </form>

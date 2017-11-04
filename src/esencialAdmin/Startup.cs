@@ -7,6 +7,9 @@ using Microsoft.Extensions.DependencyInjection;
 using esencialAdmin.Services;
 using esencialAdmin.Data;
 using System;
+using System.Globalization;
+using Microsoft.AspNetCore.Localization;
+using System.Collections.Generic;
 
 namespace esencialAdmin
 {
@@ -65,7 +68,7 @@ namespace esencialAdmin
             {
 
                 options.AddPolicy("RequireAdminRole", policy => policy.RequireRole("Administrator"));
-                options.AddPolicy("RequireEmployeeRole", policy => policy.RequireRole("Administrator","Mitarbeiter"));
+                options.AddPolicy("RequireEmployeeRole", policy => policy.RequireRole("Administrator", "Mitarbeiter"));
 
             });
         }
@@ -73,6 +76,24 @@ namespace esencialAdmin
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            var cultureInfo = new CultureInfo("de-CH");
+
+            CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
+            CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
+            // Configure the localization options
+            app.UseRequestLocalization(new RequestLocalizationOptions
+            {
+                DefaultRequestCulture = new RequestCulture(new CultureInfo("de-CH")),
+                SupportedCultures = new List<CultureInfo>
+                {
+                    new CultureInfo("de-CH")
+                },
+                SupportedUICultures = new List<CultureInfo>
+                {
+                    new CultureInfo("de-CH")
+                }
+            });
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

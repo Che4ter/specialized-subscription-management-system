@@ -46,7 +46,7 @@
                         </div>
                         <div class="col-6 col-medium-12 col-small-12">
                             <div class="mui-textfield">
-                                <input asp-for="Email" required/>
+                                <input asp-for="Email" required type="email"/>
                                 <label asp-for="Email"></label>
                                 <span asp-validation-for="Email" class="text-danger"></span>
                             </div>
@@ -69,7 +69,7 @@
                                     }
                                 }
 
-                                <select asp-for="Role" id="RoleSelect" asp-items="selectList">
+                                <select asp-for="Role" id="RoleSelect" asp-items="selectList" required>
                                 </select>
                                 <label asp-for="Role"></label>
                                 <span asp-validation-for="Role" class="text-danger"></span>
