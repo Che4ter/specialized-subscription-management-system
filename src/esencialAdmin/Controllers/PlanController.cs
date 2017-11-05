@@ -26,7 +26,7 @@ namespace esencialAdmin.Controllers
         public IActionResult Create()
         {
             PlanInputViewModel newPlan = new PlanInputViewModel();
-            newPlan.Templates = _pService.getAvailableTemplates();
+            newPlan.Goodies = _pService.getAvailableGoodies();
             return View(newPlan);
         }
 
@@ -43,7 +43,7 @@ namespace esencialAdmin.Controllers
                 }
             }
             this.AddNotification("Plan wurde nicht erstellt<br>Überprüfe die Eingaben", NotificationType.ERROR);
-            newPlan.Templates = _pService.getAvailableTemplates();
+            newPlan.Goodies = _pService.getAvailableGoodies();
             return View(newPlan);
         }
 
@@ -58,8 +58,7 @@ namespace esencialAdmin.Controllers
 
                 return this.RedirectToAction("Index");
             }
-            model.Templates = _pService.getAvailableTemplates();
-
+            model.Goodies = _pService.getAvailableGoodies();
             return View(model);
         }
 
@@ -77,8 +76,7 @@ namespace esencialAdmin.Controllers
                 }
             }
             this.AddNotification("Plan wurde nicht aktualisiert<br>Überprüfe die Eingaben", NotificationType.WARNING);
-            updatedPlan.Templates = _pService.getAvailableTemplates();
-
+            updatedPlan.Goodies = _pService.getAvailableGoodies();
             return View(updatedPlan);
         }
 

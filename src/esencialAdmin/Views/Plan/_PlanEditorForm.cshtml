@@ -51,7 +51,7 @@
                             <div class="mui-select">
                                 @{
                                     var selectList = new List<SelectListItem>();
-                                    foreach (var tmp in Model.Templates)
+                                    foreach (var tmp in Model.Goodies)
                                     {
                                         SelectListItem item = new SelectListItem();
                                         item.Value = tmp.Id.ToString();
@@ -62,9 +62,9 @@
                                     selectList.FirstOrDefault().Selected = true;
                                 }
 
-                                <select asp-for="TemplateID" id="TemplateSelect" asp-items="selectList"></select>
-                                <label asp-for="TemplateID"></label>
-                                <span asp-validation-for="TemplateID" class="text-danger"></span>
+                                <select asp-for="GoodyID" id="TemplateSelect" asp-items="selectList"></select>
+                                <label asp-for="GoodyID"></label>
+                                <span asp-validation-for="GoodyID" class="text-danger"></span>
                             </div>
                         </div>
                         <div class="col-6 col-medium-12 col-small-12">

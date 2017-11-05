@@ -5,6 +5,11 @@ namespace esencialAdmin.Data.Models
 {
     public partial class Customers : ITrackableEntity
     {
+        public Customers()
+        {
+            Periodes = new HashSet<Periodes>();
+        }
+
         public int Id { get; set; }
         public string Title { get; set; }
         public string FirstName { get; set; }
@@ -21,5 +26,7 @@ namespace esencialAdmin.Data.Models
         public string UserCreated { get; set; }
         public DateTime? DateModified { get; set; }
         public string UserModified { get; set; }
+
+        public ICollection<Periodes> Periodes { get; set; }
     }
 }

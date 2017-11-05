@@ -17,7 +17,15 @@ namespace esencialAdmin.Data.Models
         public virtual DbSet<AspNetUsers> AspNetUsers { get; set; }
         public virtual DbSet<AspNetUserTokens> AspNetUserTokens { get; set; }
         public virtual DbSet<Customers> Customers { get; set; }
+        public virtual DbSet<Files> Files { get; set; }
+        public virtual DbSet<PaymentMethods> PaymentMethods { get; set; }
+        public virtual DbSet<Periodes> Periodes { get; set; }
+        public virtual DbSet<PeriodesGoodies> PeriodesGoodies { get; set; }
+        public virtual DbSet<PlanGoodies> PlanGoodies { get; set; }
         public virtual DbSet<Plans> Plans { get; set; }
+        public virtual DbSet<Subscription> Subscription { get; set; }
+        public virtual DbSet<SubscriptionPhotos> SubscriptionPhotos { get; set; }
+        public virtual DbSet<SubscriptionStatus> SubscriptionStatus { get; set; }
         public virtual DbSet<Templates> Templates { get; set; }
 
         private string _user;
@@ -43,7 +51,9 @@ namespace esencialAdmin.Data.Models
             modelBuilder.Entity<AspNetRoles>(entity =>
             {
                 entity.HasIndex(e => e.NormalizedName)
-                    .HasName("RoleNameIndex");
+                    .HasName("RoleNameIndex")
+                    .IsUnique()
+                    .HasFilter("([NormalizedName] IS NOT NULL)");
 
                 entity.Property(e => e.Id).ValueGeneratedNever();
 
@@ -82,8 +92,6 @@ namespace esencialAdmin.Data.Models
 
                 entity.HasIndex(e => e.RoleId);
 
-                entity.HasIndex(e => e.UserId);
-
                 entity.HasOne(d => d.Role)
                     .WithMany(p => p.AspNetUserRoles)
                     .HasForeignKey(d => d.RoleId);
@@ -100,7 +108,8 @@ namespace esencialAdmin.Data.Models
 
                 entity.HasIndex(e => e.NormalizedUserName)
                     .HasName("UserNameIndex")
-                    .IsUnique();
+                    .IsUnique()
+                    .HasFilter("([NormalizedUserName] IS NOT NULL)");
 
                 entity.Property(e => e.Id).ValueGeneratedNever();
 
@@ -120,6 +129,10 @@ namespace esencialAdmin.Data.Models
             modelBuilder.Entity<AspNetUserTokens>(entity =>
             {
                 entity.HasKey(e => new { e.UserId, e.LoginProvider, e.Name });
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.AspNetUserTokens)
+                    .HasForeignKey(d => d.UserId);
             });
 
             modelBuilder.Entity<Customers>(entity =>
@@ -154,11 +167,105 @@ namespace esencialAdmin.Data.Models
                 entity.Property(e => e.Zip).HasMaxLength(11);
             });
 
+            modelBuilder.Entity<Files>(entity =>
+            {
+                entity.Property(e => e.FileName)
+                    .IsRequired()
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.OriginalName)
+                    .IsRequired()
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.Path)
+                    .IsRequired()
+                    .HasMaxLength(1024);
+
+                entity.Property(e => e.UserCreated).HasMaxLength(450);
+
+                entity.Property(e => e.UserModified).HasMaxLength(450);
+            });
+
+            modelBuilder.Entity<PaymentMethods>(entity =>
+            {
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(128);
+            });
+
+            modelBuilder.Entity<Periodes>(entity =>
+            {
+                entity.Property(e => e.FkGiftedById).HasColumnName("fk_GiftedById");
+
+                entity.Property(e => e.FkPayedMethodId).HasColumnName("fk_PayedMethodId");
+
+                entity.Property(e => e.FkSubscriptionId).HasColumnName("fk_SubscriptionId");
+
+                entity.Property(e => e.Payed).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.Price).HasColumnType("decimal(19, 4)");
+
+                entity.Property(e => e.StartDate).HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.UserCreated).HasMaxLength(450);
+
+                entity.Property(e => e.UserModified).HasMaxLength(450);
+
+                entity.HasOne(d => d.FkGiftedBy)
+                    .WithMany(p => p.Periodes)
+                    .HasForeignKey(d => d.FkGiftedById)
+                    .HasConstraintName("FK_PeridoesGiftedBy_Customer_Id");
+
+                entity.HasOne(d => d.FkPayedMethod)
+                    .WithMany(p => p.Periodes)
+                    .HasForeignKey(d => d.FkPayedMethodId)
+                    .HasConstraintName("FK_Periodes_PaymentMethods_Id");
+            });
+
+            modelBuilder.Entity<PeriodesGoodies>(entity =>
+            {
+                entity.Property(e => e.FkPeriodesId).HasColumnName("fk_PeriodesId");
+
+                entity.Property(e => e.FkPlanGoodiesId).HasColumnName("fk_PlanGoodiesId");
+
+                entity.Property(e => e.Received).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.UserCreated).HasMaxLength(450);
+
+                entity.Property(e => e.UserModified).HasMaxLength(450);
+
+                entity.HasOne(d => d.FkPeriodes)
+                    .WithMany(p => p.PeriodesGoodies)
+                    .HasForeignKey(d => d.FkPeriodesId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_PeriodesGoodies_Periodes_Id");
+
+                entity.HasOne(d => d.FkPlanGoodies)
+                    .WithMany(p => p.PeriodesGoodies)
+                    .HasForeignKey(d => d.FkPlanGoodiesId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_PeriodesGoodies_PlanGoodies_Id");
+            });
+
+            modelBuilder.Entity<PlanGoodies>(entity =>
+            {
+                entity.Property(e => e.FkTemplateLabel).HasColumnName("fk_templateLabel");
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(128);
+
+                entity.HasOne(d => d.FkTemplateLabelNavigation)
+                    .WithMany(p => p.PlanGoodies)
+                    .HasForeignKey(d => d.FkTemplateLabel)
+                    .HasConstraintName("FK_PlanGoodies_Templates_Id");
+            });
+
             modelBuilder.Entity<Plans>(entity =>
             {
                 entity.Property(e => e.Deadline).HasColumnType("date");
 
-                entity.Property(e => e.FkTemplateLabel).HasColumnName("fk_templateLabel");
+                entity.Property(e => e.FkGoodyId).HasColumnName("fk_GoodyId");
 
                 entity.Property(e => e.Name)
                     .IsRequired()
@@ -170,10 +277,56 @@ namespace esencialAdmin.Data.Models
 
                 entity.Property(e => e.UserModified).HasMaxLength(450);
 
-                entity.HasOne(d => d.FkTemplateLabelNavigation)
+                entity.HasOne(d => d.FkGoody)
                     .WithMany(p => p.Plans)
-                    .HasForeignKey(d => d.FkTemplateLabel)
-                    .HasConstraintName("FK_Plans_Templates_Id");
+                    .HasForeignKey(d => d.FkGoodyId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Plans_PlanGoodies_Id");
+            });
+
+            modelBuilder.Entity<Subscription>(entity =>
+            {
+                entity.Property(e => e.FkSubscriptionStatus).HasColumnName("fk_SubscriptionStatus");
+
+                entity.Property(e => e.UserCreated).HasMaxLength(450);
+
+                entity.Property(e => e.UserModified).HasMaxLength(450);
+
+                entity.HasOne(d => d.FkSubscriptionStatusNavigation)
+                    .WithMany(p => p.Subscription)
+                    .HasForeignKey(d => d.FkSubscriptionStatus)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Subscription_SubscriptionStatus_Id");
+            });
+
+            modelBuilder.Entity<SubscriptionPhotos>(entity =>
+            {
+                entity.Property(e => e.FkFileId).HasColumnName("fk_FileId");
+
+                entity.Property(e => e.FkSubscriptionId).HasColumnName("fk_SubscriptionId");
+
+                entity.Property(e => e.UserCreated).HasMaxLength(450);
+
+                entity.Property(e => e.UserModified).HasMaxLength(450);
+
+                entity.HasOne(d => d.FkFile)
+                    .WithMany(p => p.SubscriptionPhotos)
+                    .HasForeignKey(d => d.FkFileId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_SubscriptionPhotos_File_Id");
+
+                entity.HasOne(d => d.FkSubscription)
+                    .WithMany(p => p.SubscriptionPhotos)
+                    .HasForeignKey(d => d.FkSubscriptionId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_SubscriptionPhotos_Subscription_Id");
+            });
+
+            modelBuilder.Entity<SubscriptionStatus>(entity =>
+            {
+                entity.Property(e => e.Label)
+                    .IsRequired()
+                    .HasMaxLength(50);
             });
 
             modelBuilder.Entity<Templates>(entity =>

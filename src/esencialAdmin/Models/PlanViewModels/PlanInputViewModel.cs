@@ -1,5 +1,5 @@
 ﻿using esencialAdmin.Data.Models;
-using esencialAdmin.Models.TemplateViewModels;
+using esencialAdmin.Models.GoodiesViewModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -21,20 +21,20 @@ namespace esencialAdmin.Models.PlanViewModels
 
         [Required]
         [DisplayName("Preis")]
-        public decimal? Price { get; set; }
+        public decimal Price { get; set; }
 
         [Required]
         [DisplayName("Dauer(in Jahren)")]
-        public int? Duration { get; set; }
+        public int Duration { get; set; }
 
         [Required]
         [DisplayName("Stichtag")]
         [DataType(DataType.Date)]
-        public DateTime? Deadline { get; set; }
+        public DateTime Deadline { get; set; }
 
         [Required]
-        [DisplayName("Etiketten Vorlage")]
-        public int? TemplateID { get; set; }
+        [DisplayName("Geschenk")]
+        public int GoodyID { get; set; }
 
         [DisplayName("Erstellt am")]
         public string DateCreated { get; set; }
@@ -49,7 +49,7 @@ namespace esencialAdmin.Models.PlanViewModels
         public string UserModified { get; set; }
 
         [Display(Name = "Etiketten Vorlagen")]
-        public virtual List<TemplateViewModel> Templates { get; set; }
+        public virtual List<GoodiesViewModel> Goodies { get; set; }
 
         public static PlanInputViewModel CreateFromPlan(Plans p)
         {
@@ -60,7 +60,7 @@ namespace esencialAdmin.Models.PlanViewModels
                 Price = p.Price,
                 Duration = p.Duration,
                 Deadline = p.Deadline,
-                TemplateID = p.FkTemplateLabel,              
+                GoodyID = p.FkGoodyId,              
                 UserCreated = p.UserCreated,
                 UserModified = p.UserModified               
             };

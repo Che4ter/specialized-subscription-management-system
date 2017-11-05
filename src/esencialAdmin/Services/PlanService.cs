@@ -4,8 +4,8 @@ using System.Linq;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using esencialAdmin.Models.PlanViewModels;
-using esencialAdmin.Models.TemplateViewModels;
 using System.Collections.Generic;
+using esencialAdmin.Models.GoodiesViewModels;
 
 namespace esencialAdmin.Services
 {
@@ -28,7 +28,7 @@ namespace esencialAdmin.Services
                     Price = newPlan.Price,
                     Duration = newPlan.Duration,
                     Deadline = newPlan.Deadline,
-                    FkTemplateLabel = newPlan.TemplateID
+                    FkGoodyId = newPlan.GoodyID
                 };
                 this._context.Plans.Add(p);
                 this._context.SaveChanges();
@@ -56,20 +56,20 @@ namespace esencialAdmin.Services
             }
         }
 
-        public List<TemplateViewModel> getAvailableTemplates()
+        public List<GoodiesViewModel> getAvailableGoodies()
         {
-            List<TemplateViewModel> templateList = new List<TemplateViewModel>();
+            List<GoodiesViewModel> goodiesList = new List<GoodiesViewModel>();
 
-            foreach (Templates template in _context.Templates)
+            foreach (PlanGoodies goody in _context.PlanGoodies)
             {
-                templateList.Add(new TemplateViewModel
+                goodiesList.Add(new GoodiesViewModel
                 {
-                    Id = template.Id,
-                    Name = template.Name
+                    Id = goody.Id,
+                    Name = goody.Name
                 });
             }
 
-            return templateList;
+            return goodiesList;
         }
 
         public JsonResult loadPlanDataTable(HttpRequest Request)
@@ -158,7 +158,7 @@ namespace esencialAdmin.Services
                 planToEdit.Price = planToUpdate.Price;
                 planToEdit.Duration = planToUpdate.Duration;
                 planToEdit.Deadline = planToUpdate.Deadline;
-                planToEdit.FkTemplateLabel = planToUpdate.TemplateID;
+                planToEdit.FkGoodyId = planToUpdate.GoodyID;
 
                 this._context.SaveChanges();
 

@@ -1,5 +1,5 @@
-﻿using esencialAdmin.Models.PlanViewModels;
-using esencialAdmin.Models.TemplateViewModels;
+﻿using esencialAdmin.Models.GoodiesViewModels;
+using esencialAdmin.Models.PlanViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -14,6 +14,6 @@ namespace esencialAdmin.Services
         PlanInputViewModel loadPlanInputModel(int id);
         bool updatePlan(PlanInputViewModel planToUpdate);
 
-        List<TemplateViewModel> getAvailableTemplates();
+        List<GoodiesViewModel> getAvailableGoodies();
     }
 }

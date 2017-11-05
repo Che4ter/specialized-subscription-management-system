@@ -9,5 +9,7 @@ namespace esencialAdmin.Data.Models
         public string LoginProvider { get; set; }
         public string Name { get; set; }
         public string Value { get; set; }
+
+        public AspNetUsers User { get; set; }
     }
 }
