@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace esencialAdmin.Models.CustomerViewModels
 {
-    public class PlanViewModel
+    public class CustomerViewModel
     {
         public int Id { get; set; }
         public string Title { get; set; }

@@ -12,9 +12,9 @@ namespace esencialAdmin.Controllers
     public class PlanController : BaseController
     {
         private IPlanService _pService;
-        public PlanController(IPlanService cService)
+        public PlanController(IPlanService pService)
         {
-            _pService = cService;
+            _pService = pService;
         }
 
         public IActionResult Index()

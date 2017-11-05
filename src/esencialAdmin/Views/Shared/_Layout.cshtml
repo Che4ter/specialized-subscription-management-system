@@ -59,6 +59,13 @@
                     <li><a href="/customer/create">Kunde erfassen</a></li>
                 </ul>
             </li>
+            <li>
+                <strong><a asp-area="" asp-controller="Subscription" asp-action="Index">Patenschaften verwaltung</a> <span class="mui-caret"></span></strong>
+
+                <ul>
+                    <li><a href="/Subscription/create">Patenschaft erfassen</a></li>
+                </ul>
+            </li>
 
         </ul>
         @if ((await AuthorizationService.AuthorizeAsync(User, "RequireAdminRole")).Succeeded)

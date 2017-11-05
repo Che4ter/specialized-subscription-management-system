@@ -11,6 +11,7 @@ namespace esencialAdmin.Data.Models
         }
 
         public int Id { get; set; }
+        public int? PlantNumber { get; set; }
         public int FkSubscriptionStatus { get; set; }
         public DateTime? DateCreated { get; set; }
         public string UserCreated { get; set; }
