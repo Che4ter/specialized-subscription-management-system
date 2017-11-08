@@ -8,6 +8,7 @@ namespace esencialAdmin.Data.Models
         public Customers()
         {
             Periodes = new HashSet<Periodes>();
+            Subscription = new HashSet<Subscription>();
         }
 
         public int Id { get; set; }
@@ -28,5 +29,6 @@ namespace esencialAdmin.Data.Models
         public string UserModified { get; set; }
 
         public ICollection<Periodes> Periodes { get; set; }
+        public ICollection<Subscription> Subscription { get; set; }
     }
 }
