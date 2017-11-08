@@ -7,6 +7,7 @@ using esencialAdmin.Models.PlanViewModels;
 using System.Collections.Generic;
 using esencialAdmin.Models.GoodiesViewModels;
 using esencialAdmin.Extensions;
+using esencialAdmin.Models.SubscriptionViewModels;
 
 namespace esencialAdmin.Services
 {
@@ -19,21 +20,27 @@ namespace esencialAdmin.Services
             _context = context;
         }
 
-        public int createNewPlan(PlanInputViewModel newPlan)
+
+        public int createNewSubscription(SubscriptionCreateViewModel newSubscription)
         {
             try
             {
-                var p = new Plans()
+                var s = new Subscription()
                 {
-                    Name = newPlan.Name,
-                    Price = newPlan.Price,
-                    Duration = newPlan.Duration,
-                    Deadline = newPlan.Deadline,
-                    FkGoodyId = newPlan.GoodyID
+                    FkCustomerId = newSubscription.CustomerID,
+                    FkPlanId = newSubscription.PlanID,
+                    PlantNumber = newSubscription.PlantNumber,              
                 };
-                this._context.Plans.Add(p);
+                var p = new Periodes()
+                {
+                    FkSubscriptionId = s.Id,
+                    StartDate = newSubscription.StartDate,
+                    Payed = newSubscription.Payed
+
+                };
+                this._context.Subscription.Add(s);
                 this._context.SaveChanges();
-                return p.Id;
+                return s.Id;
             }
             catch (Exception ex)
             {
@@ -73,6 +80,22 @@ namespace esencialAdmin.Services
             return goodiesList;
         }
 
+        public List<PaymentMethodsViewModel> getAvailablePaymentMethods()
+        {
+            List<PaymentMethodsViewModel> paymentList = new List<PaymentMethodsViewModel>();
+
+            foreach (PaymentMethods method in _context.PaymentMethods)
+            {
+                paymentList.Add(new PaymentMethodsViewModel
+                {
+                    Id = method.Name,
+                    Name = method.Name
+                });
+            }
+
+            return paymentList;
+        }
+
         public JsonResult getSelect2Customers(string searchTerm, int pageSize, int pageNum)
         {
             try
@@ -97,8 +120,6 @@ namespace esencialAdmin.Services
                 //Paging   
                 var data = customerData.Skip(skip).Take(pageSize).ToList();
 
-                Select2PagedResult result = new Select2PagedResult();
-                result.Total = recordsTotal;
                 var resultList = new List<Select2Result>();
                 foreach(var item in data)
                 {
@@ -118,6 +139,51 @@ namespace esencialAdmin.Services
                 return null;
             }
         }
+
+        public JsonResult getSelect2Plans(string searchTerm, int pageSize, int pageNum)
+        {
+            try
+            {
+
+                // Getting all Plan data  
+                var planData = (from tmpplan in _context.Plans
+                                    select new { Id = tmpplan.Id, DisplayString = ((tmpplan.Name ?? "") + " - Laufzeit: " + (tmpplan.Duration.ToString() ?? "") + " Monate - Preis " + (tmpplan.Price.ToString("N2") ?? "")).Replace("  ", " ").Trim() });
+
+                //Sorting  
+                planData = planData.OrderBy(x => x.DisplayString);
+
+                //Search  
+                if (!string.IsNullOrEmpty(searchTerm))
+                {
+                    planData = planData.Where(m => m.DisplayString.Contains(searchTerm));
+                }
+
+                //total number of rows count   
+                var recordsTotal = planData.Count();
+                var skip = pageNum * pageSize;
+                //Paging   
+                var data = planData.Skip(skip).Take(pageSize).ToList();
+
+                var resultList = new List<Select2Result>();
+                foreach (var item in data)
+                {
+                    resultList.Add(new Select2Result()
+                    {
+                        text = item.DisplayString.Replace("  ", " "),
+                        id = item.Id.ToString()
+                    });
+                }
+
+                //Returning Json Data  
+                return new JsonResult(new { items = resultList, total = recordsTotal });
+
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
 
         public JsonResult loadPlanDataTable(HttpRequest Request)
         {
@@ -217,5 +283,7 @@ namespace esencialAdmin.Services
             }
 
         }
+
+       
     }
 }

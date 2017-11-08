@@ -28,24 +28,27 @@ namespace esencialAdmin.Controllers
         public IActionResult Create()
         {
             SubscriptionCreateViewModel newSubscription = new SubscriptionCreateViewModel();
+            newSubscription.StartDate = DateTime.Now;
+            newSubscription.PaymentMethods = _sService.getAvailablePaymentMethods();
+
             return View(newSubscription);
         }
 
         [HttpPost, ValidateAntiForgeryToken]
-        public IActionResult Create(PlanInputViewModel newPlan)
+        public IActionResult Create(SubscriptionCreateViewModel newSubscription)
         {
 
-            if (!isPlanEmpty(newPlan) && ModelState.IsValid)
+            if (!iNewesSubscriptionEmpty(newSubscription) && ModelState.IsValid)
             {
-                var _id = _sService.createNewPlan(newPlan);
+                var _id = _sService.createNewSubscription(newSubscription);
                 if (_id > 0)
                 {
                     return this.RedirectToAction("Edit", new { id = _id });
                 }
             }
-            this.AddNotification("Plan wurde nicht erstellt<br>Überprüfe die Eingaben", NotificationType.ERROR);
-            newPlan.Goodies = _sService.getAvailableGoodies();
-            return View(newPlan);
+            this.AddNotification("Patenschaft wurde nicht erstellt<br>Überprüfe die Eingaben", NotificationType.ERROR);
+            newSubscription.PaymentMethods = _sService.getAvailablePaymentMethods();
+            return View(newSubscription);
         }
 
         [HttpGet]
@@ -67,15 +70,15 @@ namespace esencialAdmin.Controllers
         public IActionResult Edit(int id, PlanInputViewModel updatedPlan)
         {
 
-            if (!isPlanEmpty(updatedPlan) && ModelState.IsValid)
-            {
+            //if (!iNewesSubscriptionEmpty(updatedPlan) && ModelState.IsValid)
+            //{
 
-                if (_sService.updatePlan(updatedPlan))
-                {
-                    this.AddNotification("Plan wurde aktualisiert", NotificationType.SUCCESS);
-                    return this.RedirectToAction("Edit", updatedPlan.ID);
-                }
-            }
+            //    if (_sService.updatePlan(updatedPlan))
+            //    {
+            //        this.AddNotification("Plan wurde aktualisiert", NotificationType.SUCCESS);
+            //        return this.RedirectToAction("Edit", updatedPlan.ID);
+            //    }
+            //}
             this.AddNotification("Plan wurde nicht aktualisiert<br>Überprüfe die Eingaben", NotificationType.WARNING);
             updatedPlan.Goodies = _sService.getAvailableGoodies();
             return View(updatedPlan);
@@ -111,9 +114,17 @@ namespace esencialAdmin.Controllers
 
         }
 
+        [HttpGet]
+        public IActionResult GetPlans(string search, int page, int pageSize)
+        {
+            //Get the paged results and the total count of the results for this query. 
+            return _sService.getSelect2Plans(search, pageSize, page);
+
+        }
+
         #region Helper
 
-        private bool isPlanEmpty(PlanInputViewModel c)
+        private bool iNewesSubscriptionEmpty(SubscriptionCreateViewModel c)
         {
             foreach (PropertyInfo pi in c.GetType().GetProperties())
             {

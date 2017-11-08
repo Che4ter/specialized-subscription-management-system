@@ -286,11 +286,27 @@ namespace esencialAdmin.Data.Models
 
             modelBuilder.Entity<Subscription>(entity =>
             {
+                entity.Property(e => e.FkCustomerId).HasColumnName("fk_CustomerId");
+
+                entity.Property(e => e.FkPlanId).HasColumnName("fk_PlanId");
+
                 entity.Property(e => e.FkSubscriptionStatus).HasColumnName("fk_SubscriptionStatus");
 
                 entity.Property(e => e.UserCreated).HasMaxLength(450);
 
                 entity.Property(e => e.UserModified).HasMaxLength(450);
+
+                entity.HasOne(d => d.FkCustomer)
+                    .WithMany(p => p.Subscription)
+                    .HasForeignKey(d => d.FkCustomerId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Subscription_Customer_Id");
+
+                entity.HasOne(d => d.FkPlan)
+                    .WithMany(p => p.Subscription)
+                    .HasForeignKey(d => d.FkPlanId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Subscription_Plans_Id");
 
                 entity.HasOne(d => d.FkSubscriptionStatusNavigation)
                     .WithMany(p => p.Subscription)

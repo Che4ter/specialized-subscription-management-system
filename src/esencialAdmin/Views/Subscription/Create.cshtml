@@ -28,67 +28,84 @@
     <div class="row  row-equal">
         <div class="col-8  col-medium-8 col-small-12">
             <div class="mui-panel">
-                <div class="mui--form-title">Kunde Auswahl</div>
+                <div class="mui--form-title">Basis Daten</div>
                 <div class="grid">
                     <div class="row">
                         <div class="col-6 col-medium-12 col-small-12">
-
-                                <label for="customersSelect">Kunde auswählen</label>
-                                <select id="customersSelect" style="width:100%!important"></select>
-                            </div>
-                        <div class="col-6 hide-medium hide-small">
+                            <label>@Html.DisplayNameFor(model => model.CustomerID)</label>
+                            <select asp-for="CustomerID" id="customersSelect" style="width:100%!important" required></select>
                         </div>
+                        <div class="col-6 col-medium-12 col-small-12">
+                            <label>@Html.DisplayNameFor(model => model.PlanID)</label>
+                            <label asp-for="PlanID" />
+                            <select asp-for="PlanID" id="planSelect" style="width:100%!important" required></select>
+                        </div>
+
                         <div class="col-6 col-medium-12 col-small-12">
                             <div class="mui-textfield">
-                                <input asp-for="Customer.FirstName" />
-                                <label asp-for="Customer.FirstName"></label>
-                                <span asp-validation-for="Customer.FirstName" class="text-danger"></span>
-                            </div>
-                        </div>
-                        <div class="col-6 col-medium-12 col-small-12">
-                            <div class="mui-select">
-                                @*@{
-                                    var selectList = new List<SelectListItem>();
-                                    foreach (var tmp in Model.Goodies)
-                                    {
-                                        SelectListItem item = new SelectListItem();
-                                        item.Value = tmp.Id.ToString();
-                                        item.Text = tmp.Name;
-
-                                        selectList.Add(item);
-                                    }
-                                    selectList.FirstOrDefault().Selected = true;
-                                }
-
-                                <select asp-for="GoodyID" id="TemplateSelect" asp-items="selectList"></select>
-                                <label asp-for="GoodyID"></label>
-                                <span asp-validation-for="GoodyID" class="text-danger"></span>*@
+                                <input asp-for="PlantNumber" required />
+                                <label asp-for="PlantNumber"></label>
+                                <span asp-validation-for="PlantNumber" class="text-danger"></span>
                             </div>
                         </div>
                         <div class="col-6 col-medium-12 col-small-12">
                             <div class="mui-textfield">
-                              
-                            </div>
-                        </div>
-                        <div class="col-6 col-medium-12 col-small-12">
-                            <div class="mui-textfield">
-                                <input asp-for="Deadline" />
-                                <label asp-for="Deadline"></label>
-                                <span asp-validation-for="Deadline" class="text-danger"></span>
+                                <input asp-for="StartDate" type="date" required/>
+                                <label asp-for="StartDate"></label>
+                                <span asp-validation-for="StartDate" class="text-danger"></span>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
         </div>
         <div class="col-4  col-medium-4 col-small-12">
             <div class="mui-panel">
                 <div class="mui--form-title">
-                    Status
+                    Zusätzliche Daten
+                </div>
+                <div class="grid">
+                    <div class="row">
+
+                        <div class="col-12 col-medium-12 col-small-12">
+                            <div class="mui-checkbox">
+                                <label>
+                                    <input asp-for="Payed" id="payedCheckbox"/> bezahlt?
+                                </label>
+                                <span asp-validation-for="Payed" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-12 col-medium-12 col-small-12" id="paymentMethodContainer" style="display:none">
+                            <div class="mui-select">
+                                @{
+                                    var selectList = new List<SelectListItem>();
+                                    foreach (var tmp in Model.PaymentMethods)
+                                    {
+                                        SelectListItem item = new SelectListItem();
+                                        item.Value = tmp.Name;
+                                        item.Text = tmp.Name;
+                                        if (tmp.Name == "Barzahlung")
+                                        {
+                                            item.Selected = true;
+                                        }
+
+                                        selectList.Add(item);
+                                    }
+                                }
+
+                                <select asp-for="PaymentMethodID" id="PaymentMethodSelect" asp-items="selectList" required></select>
+                                <label asp-for="PaymentMethodID"></label>
+                                <span asp-validation-for="PaymentMethodID" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-12 col-medium-12 col-small-12">
+                            <label>@Html.DisplayNameFor(model => model.GiverCustomerId)</label>
+                            <label asp-for="GiverCustomerId" />
+                            <select asp-for="GiverCustomerId" id="giverSelect" style="width:100%!important"></select>
+                        </div>
+                    </div>
                 </div>
 
-              
             </div>
 
         </div>
@@ -99,8 +116,6 @@
         <script src="~/lib/select2/dist/js/select2.full.js" asp-append-version="true"></script>
         <script src="~/lib/select2/dist/js/i18n/de.js" asp-append-version="true"></script>
         <script src="~/js/subscriptioncreation.js" asp-append-version="true"></script>
-        @await Html.PartialAsync("_ValidationScriptsPartial")
-
 
     }
 
