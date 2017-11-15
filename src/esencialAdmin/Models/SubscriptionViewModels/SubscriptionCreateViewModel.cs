@@ -30,7 +30,7 @@ namespace esencialAdmin.Models.SubscriptionViewModels
         [DisplayName("Bezahlt")]
         public bool Payed { get; set; }
 
-        [Display(Name = "Zahlugngssart")]
+        [Display(Name = "Zahlungsmethode")]
         public int PaymentMethodID { get; set; }
 
         [Display(Name = "Zahlugngssart")]

@@ -1,0 +1,21 @@
+﻿@model esencialAdmin.Models.SubscriptionViewModels.SubscriptionCustomerViewModel
+<p>
+    @Model.Title <br />
+    @if (@Model.Company != null)
+    {
+        @Model.Company<br />
+    }
+    @Model.FirstName @Model.LastName<br />
+    @Model.Street <br />
+    @Model.Zip @Model.City<br /><br />
+    @if (@Model.Email != null)
+    {
+        <strong><label asp-for="Email"></label></strong> @Model.Email<br />
+    }
+    @if (@Model.Phone != null)
+    {
+        <strong><label asp-for="Phone"></label></strong> @Model.Phone<br />
+    }
+    <br />
+    <a href="/Customer/Edit/@Model.ID">Kunde bearbeiten</a>
+</p>

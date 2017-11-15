@@ -1,0 +1,39 @@
+﻿@model esencialAdmin.Models.SubscriptionViewModels.SubscriptionPeriodeViewModel
+
+<div class="periode-container">
+    <div class="grid">
+        <div class="row row-space-between">
+            <div class="col-3 col-medium-6 col-small-12">
+                <strong>Zeitraum:</strong> @Model.StartDate.ToString("dd.MM.yyyy") - @Model.EndDate.ToString("dd.MM.yyyy") <br />
+
+            </div>
+            <div class="col-3 col-medium-6 col-small-12">
+                <strong>Zahlungsstatus:</strong>
+                <br />
+
+                <strong><label asp-for="@Model.Price"></label>:</strong> @Model.Price<br /><br />
+                <strong><label asp-for="@Model.Payed"></label>:</strong>
+                @if (Model.Payed)
+                {
+                    @:Ja <br />
+                    <strong><label asp-for="@Model.PayedDate"></label>:</strong> Model.PayedDate.Value.ToString("dd.MM.yyyy");
+                }
+                else
+                {
+                    <label>
+                        <input type="checkbox" class="periodePayedCheckbox" id="payed_@Model.ID" value="@Model.ID" checked>
+                    </label>
+                }
+            </div>
+            @if (Model.GiftetBy != null)
+            {
+                <div class="col-3 col-medium-6 col-small-12">
+                    <strong><label asp-for="@Model.GiftetBy"></label>:</strong>
+                    @Html.DisplayFor(x => x.GiftetBy)
+                </div>
+            }
+        </div>
+
+    </div>
+</div>
+

@@ -14,7 +14,7 @@
                     <div class="row row-space-between">
                         <div class="col-6 col-medium-6 col-small-12">
                             <div class="mui--text-headline">
-                                @ViewData["Title"] 
+                                @ViewData["Title"]
                             </div>
                         </div>
                         <div class="col-6 col-medium-6 col-small-1 mui--text-right">
@@ -37,19 +37,24 @@
                 <div class="grid">
                     <div class="row">
                         <div class="col-6 col-medium-12 col-small-12">
-                            <div class="mui-select">
-                                <div class="mui-textfield">
-                                    <strong><label asp-for="Customer"></label>:</strong> @Model.Customer; <br />
-                                </div>
-                            </div>
+                            <strong><label asp-for="Customer"></label>:</strong> <br />
+
+                            @Html.DisplayFor(x => x.Customer)
+
+
                         </div>
                         <div class="col-6 col-medium-12 col-small-12">
                             <div class="mui-textfield">
-                                <strong><label asp-for="Plan"></label>:</strong> @Model.Plan; <br />
+                                <p>
+                                    <strong><label asp-for="Plan"></label>:</strong> <br />
+                                    @Model.Plan.Name <br /><br />
+                                    <strong><label asp-for="Plan.Duration"></label>:</strong> @Model.Plan.Duration<br />
+                                    <strong><label asp-for="Plan.Price"></label>:</strong> @Model.Plan.Duration<br />
+                                </p>
 
                             </div>
                         </div>
-                       
+
                     </div>
                 </div>
             </div>
@@ -73,13 +78,22 @@
             </div>
         }
     </div>
+    <div class="col-12  col-medium-12 col-small-12">
+        <div class="mui-panel">
+            <div class="mui--form-title">
+                Periode
+            </div>
+            @Html.DisplayFor(x => x.Periodes)
+        
+        </div>
+    </div>
 </form>
 <environment include="Development,Preview">
     @section scripts {
         <script src="~/lib/sweetalert2/sweetalert2.js" asp-append-version="true"></script>
-        <script src="~/js/plan.js" asp-append-version="true"></script>
+        <script src="~/js/subscriptionEdit.js" asp-append-version="true"></script>
         @await Html.PartialAsync("_ValidationScriptsPartial")
-   
+
     }
 
     @section styles {

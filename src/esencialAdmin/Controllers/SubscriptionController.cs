@@ -36,11 +36,9 @@ namespace esencialAdmin.Controllers
             return View(newSubscription);
         }
 
-        [HttpPost]
+        [HttpPost, ValidateAntiForgeryToken]
         public IActionResult Create(SubscriptionCreateViewModel newSubscription)
         {
-
-
             if (!iNewesSubscriptionEmpty(newSubscription) && ModelState.IsValid)
             {
                 var _id = _sService.createNewSubscription(newSubscription);
@@ -53,6 +51,20 @@ namespace esencialAdmin.Controllers
 
             this.AddNotification("Patenschaft wurde nicht erstellt<br>Überprüfe die Eingaben", NotificationType.ERROR);
             return View(newSubscription);
+        }
+
+        [HttpPost]
+        public bool updatePayedStatus(int periodID, bool paymentState)
+        {
+            if (paymentState)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
         }
 
         [HttpGet]

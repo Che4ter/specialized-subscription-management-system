@@ -4,6 +4,7 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <UserSecretsId>aspnet-essentialAdmin-3517C943-0B93-473E-A767-C9EA5FE2A35A</UserSecretsId>
     <Authors>essentialAdmin</Authors>
+	  <PublishWithAspNetCoreTargetManifest>false</PublishWithAspNetCoreTargetManifest>
   </PropertyGroup>
 
 

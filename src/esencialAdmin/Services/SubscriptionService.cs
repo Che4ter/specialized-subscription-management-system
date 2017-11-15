@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using esencialAdmin.Models.GoodiesViewModels;
 using esencialAdmin.Extensions;
 using esencialAdmin.Models.SubscriptionViewModels;
+using Microsoft.EntityFrameworkCore;
 
 namespace esencialAdmin.Services
 {
@@ -293,6 +294,8 @@ namespace esencialAdmin.Services
         public SubscriptionEditViewModel loadSubscriptionInputModel(int id)
         {
             var subscriptionToLoad = this._context.Subscription
+                  .Include(c => c.FkCustomer)
+                  .Include(c => c.FkPlan)
                   .Where(c => c.Id == id)
                   .FirstOrDefault();
 
@@ -300,11 +303,25 @@ namespace esencialAdmin.Services
             {
                 return null;
             }
+
+            
             var subscriptionToEdit = new SubscriptionEditViewModel();
             subscriptionToEdit.ID = subscriptionToLoad.Id;
             subscriptionToEdit.PlantNumber = subscriptionToLoad.PlantNumber ?? 0;
-            subscriptionToEdit.Customer = SubscriptionCustomerViewModel.CreateFromCustomer(_context.Customers.Where(x => x.Id == subscriptionToLoad.FkCustomerId).FirstOrDefault());
-            subscriptionToEdit.Plan = SubscriptionPlanViewModel.CreateFromPlan(_context.Plans.Where(x => x.Id == subscriptionToLoad.FkPlanId).FirstOrDefault());
+            subscriptionToEdit.Customer = SubscriptionCustomerViewModel.CreateFromCustomer(subscriptionToLoad.FkCustomer);
+            subscriptionToEdit.Plan = SubscriptionPlanViewModel.CreateFromPlan(subscriptionToLoad.FkPlan);
+
+            var periodesToLoad = this._context.Periodes
+                .Include(c => c.FkGiftedBy)
+                .Include(c => c.PeriodesGoodies)
+                .Where(c => c.FkSubscriptionId == subscriptionToLoad.Id);
+
+            subscriptionToEdit.Periodes = new List<SubscriptionPeriodeViewModel>();
+            foreach (Periodes p in periodesToLoad)
+            {
+                subscriptionToEdit.Periodes.Add(SubscriptionPeriodeViewModel.CreateFromPeriode(p));
+            }
+
 
             if (subscriptionToLoad.DateCreated != null)
             {

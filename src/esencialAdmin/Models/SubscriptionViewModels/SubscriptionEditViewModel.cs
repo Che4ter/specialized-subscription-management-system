@@ -24,6 +24,9 @@ namespace esencialAdmin.Models.SubscriptionViewModels
         [DisplayName("Patenschaft")]
         public SubscriptionPlanViewModel Plan { get; set; }
 
+        [DisplayName("Perioden")]
+        public List<SubscriptionPeriodeViewModel>  Periodes { get; set; }
+
         public DateTime? DateCreated { get; set; }
         public string UserCreated { get; set; }
         public DateTime? DateModified { get; set; }
