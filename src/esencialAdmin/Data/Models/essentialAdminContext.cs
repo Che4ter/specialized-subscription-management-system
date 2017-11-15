@@ -201,8 +201,6 @@ namespace esencialAdmin.Data.Models
 
                 entity.Property(e => e.FkSubscriptionId).HasColumnName("fk_SubscriptionId");
 
-                entity.Property(e => e.Payed).HasDefaultValueSql("((0))");
-
                 entity.Property(e => e.Price).HasColumnType("decimal(19, 4)");
 
                 entity.Property(e => e.StartDate).HasDefaultValueSql("(getdate())");
@@ -220,6 +218,12 @@ namespace esencialAdmin.Data.Models
                     .WithMany(p => p.Periodes)
                     .HasForeignKey(d => d.FkPayedMethodId)
                     .HasConstraintName("FK_Periodes_PaymentMethods_Id");
+
+                entity.HasOne(d => d.FkSubscription)
+                    .WithMany(p => p.Periodes)
+                    .HasForeignKey(d => d.FkSubscriptionId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Periodes_Subscription_Id");
             });
 
             modelBuilder.Entity<PeriodesGoodies>(entity =>

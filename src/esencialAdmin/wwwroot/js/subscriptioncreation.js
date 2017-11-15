@@ -23,7 +23,7 @@ $('#customersSelect').select2(
                     search: params.term,
                     page: params.page,
                     pageSize: pageSize,
-                }
+                };
                 // Query parameters will be ?search=[term]&page=[page]
                 return query;
             },
@@ -42,7 +42,7 @@ $('#customersSelect').select2(
                 };
             },
             cache: true,   
-            minimumInputLength: 2,
+            minimumInputLength: 2
         }
     }); 
 
@@ -64,8 +64,8 @@ $('#giverSelect').select2(
                 var query = {
                     search: params.term,
                     page: params.page,
-                    pageSize: pageSize,
-                }
+                    pageSize: pageSize
+                };
                 // Query parameters will be ?search=[term]&page=[page]
                 return query;
             },
@@ -84,7 +84,7 @@ $('#giverSelect').select2(
                 };
             },
             cache: true,
-            minimumInputLength: 2,
+            minimumInputLength: 2
         }
     }); 
 
@@ -106,8 +106,8 @@ $('#planSelect').select2(
                 var query = {
                     search: params.term,
                     page: params.page,
-                    pageSize: pageSize,
-                }
+                    pageSize: pageSize
+                };
                 // Query parameters will be ?search=[term]&page=[page]
                 return query;
             },
@@ -126,7 +126,7 @@ $('#planSelect').select2(
                 };
             },
             cache: true,
-            minimumInputLength: 2,
+            minimumInputLength: 2
         }
     }); 
 

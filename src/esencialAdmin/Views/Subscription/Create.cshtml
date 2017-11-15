@@ -6,7 +6,7 @@
 }
 
 
-<form method="post" asp-controller="Plan" class="grid mui-form">
+<form method="post" asp-controller="Subscription" asp-action="create" class="grid mui-form">
     <div class="row  row-equal">
         <div class="col-12 col-medium-12 col-small-12">
             <div class="mui-panel">
@@ -33,12 +33,17 @@
                     <div class="row">
                         <div class="col-6 col-medium-12 col-small-12">
                             <label>@Html.DisplayNameFor(model => model.CustomerID)</label>
+                          
                             <select asp-for="CustomerID" id="customersSelect" style="width:100%!important" required></select>
+                            <span asp-validation-for="CustomerID" class="text-danger"></span>
+
                         </div>
                         <div class="col-6 col-medium-12 col-small-12">
                             <label>@Html.DisplayNameFor(model => model.PlanID)</label>
                             <label asp-for="PlanID" />
                             <select asp-for="PlanID" id="planSelect" style="width:100%!important" required></select>
+                            <span asp-validation-for="PlanID" class="text-danger"></span>
+
                         </div>
 
                         <div class="col-6 col-medium-12 col-small-12">
@@ -72,17 +77,17 @@
                                 <label>
                                     <input asp-for="Payed" id="payedCheckbox"/> bezahlt?
                                 </label>
-                                <span asp-validation-for="Payed" class="text-danger"></span>
                             </div>
                         </div>
                         <div class="col-12 col-medium-12 col-small-12" id="paymentMethodContainer" style="display:none">
                             <div class="mui-select">
                                 @{
+                                    
                                     var selectList = new List<SelectListItem>();
                                     foreach (var tmp in Model.PaymentMethods)
                                     {
                                         SelectListItem item = new SelectListItem();
-                                        item.Value = tmp.Name;
+                                        item.Value = tmp.Id.ToString();
                                         item.Text = tmp.Name;
                                         if (tmp.Name == "Barzahlung")
                                         {
@@ -93,9 +98,8 @@
                                     }
                                 }
 
-                                <select asp-for="PaymentMethodID" id="PaymentMethodSelect" asp-items="selectList" required></select>
+                                <select asp-for="PaymentMethodID" id="PaymentMethodSelect" asp-items="selectList"></select>
                                 <label asp-for="PaymentMethodID"></label>
-                                <span asp-validation-for="PaymentMethodID" class="text-danger"></span>
                             </div>
                         </div>
                         <div class="col-12 col-medium-12 col-small-12">

@@ -3,10 +3,11 @@ using System.Collections.Generic;
 
 namespace esencialAdmin.Data.Models
 {
-    public partial class Subscription : ITrackableEntity
+    public partial class Subscription
     {
         public Subscription()
         {
+            Periodes = new HashSet<Periodes>();
             SubscriptionPhotos = new HashSet<SubscriptionPhotos>();
         }
 
@@ -23,6 +24,7 @@ namespace esencialAdmin.Data.Models
         public Customers FkCustomer { get; set; }
         public Plans FkPlan { get; set; }
         public SubscriptionStatus FkSubscriptionStatusNavigation { get; set; }
+        public ICollection<Periodes> Periodes { get; set; }
         public ICollection<SubscriptionPhotos> SubscriptionPhotos { get; set; }
     }
 }

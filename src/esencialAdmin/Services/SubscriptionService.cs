@@ -23,28 +23,69 @@ namespace esencialAdmin.Services
 
         public int createNewSubscription(SubscriptionCreateViewModel newSubscription)
         {
-            try
-            {
-                var s = new Subscription()
-                {
-                    FkCustomerId = newSubscription.CustomerID,
-                    FkPlanId = newSubscription.PlanID,
-                    PlantNumber = newSubscription.PlantNumber,              
-                };
-                var p = new Periodes()
-                {
-                    FkSubscriptionId = s.Id,
-                    StartDate = newSubscription.StartDate,
-                    Payed = newSubscription.Payed
-
-                };
-                this._context.Subscription.Add(s);
-                this._context.SaveChanges();
-                return s.Id;
-            }
-            catch (Exception ex)
+            using (var dbContextTransaction = this._context.Database.BeginTransaction())
             {
 
+                try
+                {
+                    var plan = this._context.Plans.Where(x => x.Id == newSubscription.PlanID).FirstOrDefault();
+                    if (plan == null)
+                    {
+                        return 0;
+
+                    }
+
+                    var s = new Subscription()
+                    {
+                        FkCustomerId = newSubscription.CustomerID,
+                        FkPlanId = newSubscription.PlanID,
+                        PlantNumber = newSubscription.PlantNumber,
+                        FkSubscriptionStatusNavigation = _context.SubscriptionStatus.Where(x => x.Label == "Aktiv").FirstOrDefault()
+                    };
+                    this._context.Subscription.Add(s);
+                    this._context.SaveChanges();
+
+                    var currentDeadline = new DateTime(DateTime.UtcNow.Year, plan.Deadline.Month, plan.Deadline.Day);
+                    var periodeEnd = new DateTime(currentDeadline.Year, 12, 31);
+                    if (newSubscription.StartDate > currentDeadline)
+                    {
+                        periodeEnd = periodeEnd.AddYears((plan.Duration + 1));
+                    }
+                    else
+                    {
+                        periodeEnd = periodeEnd.AddYears(plan.Duration);
+                    }
+                    var p = new Periodes()
+                    {
+                        FkSubscriptionId = s.Id,
+                        StartDate = newSubscription.StartDate,
+                        EndDate = periodeEnd,
+                        Price = plan.Price
+                    };
+
+                    if (newSubscription.Payed)
+                    {
+                        p.Payed = true;
+                        p.PayedDate = DateTime.UtcNow;
+                        p.FkPayedMethodId = newSubscription.PaymentMethodID;
+                    }
+
+                    if (newSubscription.GiverCustomerId != 0)
+                    {
+                        p.FkGiftedById = newSubscription.GiverCustomerId;
+                    }
+
+                    this._context.Periodes.Add(p);
+                    this._context.SaveChanges();
+                    dbContextTransaction.Commit();
+                    return s.Id;
+
+                }
+                catch (Exception ex)
+                {
+                    dbContextTransaction.Rollback();
+
+                }
             }
             return 0;
         }
@@ -88,7 +129,7 @@ namespace esencialAdmin.Services
             {
                 paymentList.Add(new PaymentMethodsViewModel
                 {
-                    Id = method.Name,
+                    Id = method.Id,
                     Name = method.Name
                 });
             }
@@ -100,10 +141,10 @@ namespace esencialAdmin.Services
         {
             try
             {
-          
+
                 // Getting all Customer data  
                 var customerData = (from tmpcustomer in _context.Customers
-                                select new {Id = tmpcustomer.Id, DisplayString = ((tmpcustomer.Company ?? "") + " " + (tmpcustomer.FirstName ?? "") + " " + (tmpcustomer.LastName ?? "") + " " + (tmpcustomer.Street ?? "") + " " + (tmpcustomer.Zip ?? "") + " " + (tmpcustomer.City ?? "")).Replace("  "," ").Trim() });
+                                    select new { Id = tmpcustomer.Id, DisplayString = ((tmpcustomer.Company ?? "") + " " + (tmpcustomer.FirstName ?? "") + " " + (tmpcustomer.LastName ?? "") + " " + (tmpcustomer.Street ?? "") + " " + (tmpcustomer.Zip ?? "") + " " + (tmpcustomer.City ?? "")).Replace("  ", " ").Trim() });
 
                 //Sorting  
                 customerData = customerData.OrderBy(x => x.DisplayString);
@@ -121,7 +162,7 @@ namespace esencialAdmin.Services
                 var data = customerData.Skip(skip).Take(pageSize).ToList();
 
                 var resultList = new List<Select2Result>();
-                foreach(var item in data)
+                foreach (var item in data)
                 {
                     resultList.Add(new Select2Result()
                     {
@@ -147,7 +188,7 @@ namespace esencialAdmin.Services
 
                 // Getting all Plan data  
                 var planData = (from tmpplan in _context.Plans
-                                    select new { Id = tmpplan.Id, DisplayString = ((tmpplan.Name ?? "") + " - Laufzeit: " + (tmpplan.Duration.ToString() ?? "") + " Monate - Preis " + (tmpplan.Price.ToString("N2") ?? "")).Replace("  ", " ").Trim() });
+                                select new { Id = tmpplan.Id, DisplayString = ((tmpplan.Name ?? "") + " - Laufzeit: " + (tmpplan.Duration.ToString() ?? "") + " Jahre - Preis " + (tmpplan.Price.ToString("N2") ?? "")).Replace("  ", " ").Trim() });
 
                 //Sorting  
                 planData = planData.OrderBy(x => x.DisplayString);
@@ -185,7 +226,7 @@ namespace esencialAdmin.Services
         }
 
 
-        public JsonResult loadPlanDataTable(HttpRequest Request)
+        public JsonResult loadDefaultSubscriptionDataTable(HttpRequest Request)
         {
             try
             {
@@ -212,8 +253,15 @@ namespace esencialAdmin.Services
                 int recordsTotal = 0;
 
                 // Getting all Customer data  
-                var planData = (from tempplan in _context.Plans
-                                    select new { Id = tempplan.Id, Name = tempplan.Name, Price = tempplan.Price, Duration = tempplan.Duration, inuse = "notimplemented" });
+                var planData = (from tempplan in _context.Subscription
+                                select new { Id = tempplan.Id,
+                                    PlantNr = tempplan.PlantNumber,
+                                    Customer = tempplan.FkCustomer.FirstName + " " + tempplan.FkCustomer.LastName,
+                                    Plan = tempplan.FkPlan.Name,
+                                    Periode = tempplan.Periodes.Where(x => x.EndDate > DateTime.UtcNow).First().StartDate.ToString("dd.MM.yyyy") + " -<br>" + tempplan.Periodes.Where(x => x.EndDate > DateTime.UtcNow).First().EndDate.ToString("dd.MM.yyyy"),
+                                    Payed = tempplan.Periodes.Where(x => x.EndDate > DateTime.UtcNow).First().Payed ? "Ja" : "Nein"
+                                });
+                //select new {Id = tmpcustomer.Id, DisplayString = ((tmpcustomer.Company ?? "") + " " + (tmpcustomer.FirstName ?? "") + " " + (tmpcustomer.LastName ?? "") + " " + (tmpcustomer.Street ?? "") + " " + (tmpcustomer.Zip ?? "") + " " + (tmpcustomer.City ?? "")).Replace("  "," ").Trim() });
 
                 //Sorting  
                 if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDirection)))
@@ -224,7 +272,7 @@ namespace esencialAdmin.Services
                 //Search  
                 if (!string.IsNullOrEmpty(searchValue))
                 {
-                    planData = planData.Where(m => m.Name.StartsWith(searchValue));
+                    planData = planData.Where(m => m.Customer.StartsWith(searchValue));
                 }
 
                 //total number of rows count   
@@ -284,6 +332,6 @@ namespace esencialAdmin.Services
 
         }
 
-       
+
     }
 }

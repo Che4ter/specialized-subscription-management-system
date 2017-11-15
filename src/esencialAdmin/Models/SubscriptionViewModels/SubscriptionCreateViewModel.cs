@@ -24,7 +24,7 @@ namespace esencialAdmin.Models.SubscriptionViewModels
         public int PlanID { get; set; }
 
         [Required]
-        [DisplayName("Stichtag")]
+        [DisplayName("Start Datum")]
         public DateTime StartDate { get; set; }
 
         [DisplayName("Bezahlt")]

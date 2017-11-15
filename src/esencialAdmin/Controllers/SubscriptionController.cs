@@ -27,16 +27,19 @@ namespace esencialAdmin.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            SubscriptionCreateViewModel newSubscription = new SubscriptionCreateViewModel();
-            newSubscription.StartDate = DateTime.Now;
-            newSubscription.PaymentMethods = _sService.getAvailablePaymentMethods();
+            SubscriptionCreateViewModel newSubscription = new SubscriptionCreateViewModel
+            {
+                StartDate = DateTime.Now,
+                PaymentMethods = _sService.getAvailablePaymentMethods()
+            };
 
             return View(newSubscription);
         }
 
-        [HttpPost, ValidateAntiForgeryToken]
+        [HttpPost]
         public IActionResult Create(SubscriptionCreateViewModel newSubscription)
         {
+
 
             if (!iNewesSubscriptionEmpty(newSubscription) && ModelState.IsValid)
             {
@@ -46,8 +49,9 @@ namespace esencialAdmin.Controllers
                     return this.RedirectToAction("Edit", new { id = _id });
                 }
             }
-            this.AddNotification("Patenschaft wurde nicht erstellt<br>Überprüfe die Eingaben", NotificationType.ERROR);
             newSubscription.PaymentMethods = _sService.getAvailablePaymentMethods();
+
+            this.AddNotification("Patenschaft wurde nicht erstellt<br>Überprüfe die Eingaben", NotificationType.ERROR);
             return View(newSubscription);
         }
 
@@ -94,9 +98,9 @@ namespace esencialAdmin.Controllers
             return this.RedirectToAction("Index");
         }
 
-        public IActionResult LoadData()
+        public IActionResult LoadDefaultData()
         {
-            return _sService.loadPlanDataTable(Request);
+            return _sService.loadDefaultSubscriptionDataTable(Request);
         }
 
         private static object GetPropertyValue(object obj, string property)

@@ -5,7 +5,7 @@ namespace esencialAdmin.Models.SubscriptionViewModels
     public class PaymentMethodsViewModel
     {
         [Display(Name = "Id")]
-        public string Id { get; set; }
+        public int Id { get; set; }
 
         [Display(Name = "Methode")]
         public string Name { get; set; }
