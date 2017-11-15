@@ -290,18 +290,37 @@ namespace esencialAdmin.Services
             }
         }
 
-        public PlanInputViewModel loadPlanInputModel(int id)
+        public SubscriptionEditViewModel loadSubscriptionInputModel(int id)
         {
-            var planToLoad = this._context.Plans
+            var subscriptionToLoad = this._context.Subscription
                   .Where(c => c.Id == id)
                   .FirstOrDefault();
 
-            if (planToLoad == null)
+            if (subscriptionToLoad == null)
             {
                 return null;
             }
+            var subscriptionToEdit = new SubscriptionEditViewModel();
+            subscriptionToEdit.ID = subscriptionToLoad.Id;
+            subscriptionToEdit.PlantNumber = subscriptionToLoad.PlantNumber ?? 0;
+            subscriptionToEdit.Customer = SubscriptionCustomerViewModel.CreateFromCustomer(_context.Customers.Where(x => x.Id == subscriptionToLoad.FkCustomerId).FirstOrDefault());
+            subscriptionToEdit.Plan = SubscriptionPlanViewModel.CreateFromPlan(_context.Plans.Where(x => x.Id == subscriptionToLoad.FkPlanId).FirstOrDefault());
 
-            return PlanInputViewModel.CreateFromPlan(planToLoad);
+            if (subscriptionToLoad.DateCreated != null)
+            {
+                subscriptionToEdit.DateCreated = subscriptionToLoad?.DateCreated.Value.ToLocalTime();
+            }
+            if (subscriptionToLoad.DateModified != null)
+            {
+                subscriptionToEdit.DateModified = subscriptionToLoad?.DateModified.Value.ToLocalTime();
+
+            }
+
+            subscriptionToEdit.UserCreated = subscriptionToLoad?.UserCreated;
+            subscriptionToEdit.UserModified = subscriptionToLoad?.UserModified;
+
+
+            return subscriptionToEdit;
         }
 
         public bool updatePlan(PlanInputViewModel planToUpdate)

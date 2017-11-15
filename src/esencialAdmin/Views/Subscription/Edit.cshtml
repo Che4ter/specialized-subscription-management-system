@@ -1,14 +1,79 @@
-﻿@model esencialAdmin.Models.PlanViewModels.PlanInputViewModel
+﻿@model esencialAdmin.Models.SubscriptionViewModels.SubscriptionEditViewModel
 
 @{
 
-    ViewData["Title"] = "Patenschafts Plan bearbeiten";
-    ViewData["PlanName"] = Model?.Name;
+    ViewData["Title"] = "Patenschaft für " + Model.Customer.FirstName + " " + Model.Customer.LastName + " bearbeiten";
 }
 
 
-@Html.Partial("_PlanEditorForm")
+<form method="post" asp-controller="Plan" class="grid mui-form">
+    <div class="row  row-equal">
+        <div class="col-12 col-medium-12 col-small-12">
+            <div class="mui-panel">
+                <div class="grid">
+                    <div class="row row-space-between">
+                        <div class="col-6 col-medium-6 col-small-12">
+                            <div class="mui--text-headline">
+                                @ViewData["Title"] 
+                            </div>
+                        </div>
+                        <div class="col-6 col-medium-6 col-small-1 mui--text-right">
+                            <button type="submit" class="mui-btn mui-btn--primary">Speichern</button>
 
+                            @if (@Model.ID != 0)
+                            {
+                                <button type="button" class="mui-btn mui-btn--danger" onclick="PlanDeleteConfirmation(@Model.ID)">Plan löschen</button>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row  row-equal">
+        <div class="col-8  col-medium-8 col-small-12">
+            <div class="mui-panel">
+                <div class="mui--form-title">Patenschafts Daten</div>
+                <div class="grid">
+                    <div class="row">
+                        <div class="col-6 col-medium-12 col-small-12">
+                            <div class="mui-select">
+                                <div class="mui-textfield">
+                                    <strong><label asp-for="Customer"></label>:</strong> @Model.Customer; <br />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6 col-medium-12 col-small-12">
+                            <div class="mui-textfield">
+                                <strong><label asp-for="Plan"></label>:</strong> @Model.Plan; <br />
+
+                            </div>
+                        </div>
+                       
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        @if (@Model.ID != 0)
+        {
+            <div class="col-4  col-medium-4 col-small-12">
+                <div class="mui-panel">
+                    <div class="mui--form-title">
+                        Status
+                    </div>
+
+                    <strong><label asp-for="DateCreated"></label>:</strong> @Model.DateCreated; <br />
+                    <strong><label asp-for="UserCreated"></label>:</strong> @Model.UserCreated; <br />
+                    <strong><label asp-for="DateModified"></label>:</strong> @Model.DateModified; <br />
+                    <strong><label asp-for="UserModified"></label>:</strong> @Model.UserModified; <br />
+
+                </div>
+
+            </div>
+        }
+    </div>
+</form>
 <environment include="Development,Preview">
     @section scripts {
         <script src="~/lib/sweetalert2/sweetalert2.js" asp-append-version="true"></script>

@@ -58,15 +58,14 @@ namespace esencialAdmin.Controllers
         [HttpGet]
         public IActionResult Edit(int id)
         {
-            var model = _sService.loadPlanInputModel(id);
+            var model = _sService.loadSubscriptionInputModel(id);
 
             if (model == null)
             {
-                this.AddNotification("Konnte Plan nicht laden", NotificationType.ERROR);
+                this.AddNotification("Konnte Patenschaft nicht laden", NotificationType.ERROR);
 
                 return this.RedirectToAction("Index");
             }
-            model.Goodies = _sService.getAvailableGoodies();
             return View(model);
         }
 

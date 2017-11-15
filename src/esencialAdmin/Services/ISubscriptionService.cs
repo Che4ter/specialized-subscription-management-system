@@ -12,7 +12,7 @@ namespace esencialAdmin.Services
         int createNewSubscription(SubscriptionCreateViewModel newPlan);
         bool deletePlan(int id);
         JsonResult loadDefaultSubscriptionDataTable(HttpRequest Request);
-        PlanInputViewModel loadPlanInputModel(int id);
+        SubscriptionEditViewModel loadSubscriptionInputModel(int id);
         bool updatePlan(PlanInputViewModel planToUpdate);
 
         List<GoodiesViewModel> getAvailableGoodies();

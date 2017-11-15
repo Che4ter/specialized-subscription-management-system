@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace esencialAdmin.Data.Models
 {
-    public partial class Subscription
+    public partial class Subscription :  ITrackableEntity
     {
         public Subscription()
         {
