@@ -96,12 +96,7 @@ namespace esencialAdmin.Controllers
             {
                 if (formFile.Length > 0)
                 {
-                    using (var memoryStream = new MemoryStream())
-                    {
-                        await formFile.CopyToAsync(memoryStream);
-                        _sService.addSubscriptionPhoto(memoryStream, formFile.FileName, subscriptionID);
-
-                    }
+                        await _sService.addSubscriptionPhoto(formFile, subscriptionID);
                    
                 }
             }

@@ -31,6 +31,6 @@ namespace esencialAdmin.Services
 
         bool updateReceivedGoody(int goodyID, bool hasReceived);
 
-        bool addSubscriptionPhoto(MemoryStream fileStream, String fileName, int subscriptionID);
+        System.Threading.Tasks.Task<bool> addSubscriptionPhoto(IFormFile formFile, int subscriptionID);
     }
 }

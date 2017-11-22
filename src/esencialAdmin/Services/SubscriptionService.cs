@@ -10,16 +10,21 @@ using esencialAdmin.Extensions;
 using esencialAdmin.Models.SubscriptionViewModels;
 using Microsoft.EntityFrameworkCore;
 using System.IO;
+using Microsoft.AspNetCore.Hosting;
 
 namespace esencialAdmin.Services
 {
     public class SubscriptionService : ISubscriptionService
     {
         protected readonly esencialAdminContext _context;
+        private readonly IHostingEnvironment _hostingEnvironment;
 
-        public SubscriptionService(esencialAdminContext context)
+
+        public SubscriptionService(esencialAdminContext context, IHostingEnvironment hostingEnvironment)
         {
             _context = context;
+            _hostingEnvironment = hostingEnvironment;
+
         }
 
 
@@ -408,9 +413,37 @@ namespace esencialAdmin.Services
 
         }
 
-        public bool addSubscriptionPhoto(MemoryStream fileStream, String fileName, int subscriptionID)
+        public async System.Threading.Tasks.Task<bool> addSubscriptionPhoto(IFormFile formFile, int subscriptionID)
         {
-            return false;
+            var subscription = this._context.Subscription
+                             .Where(c => c.Id == subscriptionID)
+                             .FirstOrDefault();
+            if (subscription == null)
+            {
+                return false;
+            }
+
+            string webRootPath = _hostingEnvironment.WebRootPath;
+            string contentRootPath = _hostingEnvironment.ContentRootPath;
+
+            string customerPath = _hostingEnvironment.WebRootPath + "\\userdata\\" + subscription.FkCustomerId;    
+            if (!Directory.Exists(customerPath))
+            {
+                Directory.CreateDirectory(customerPath);
+            }
+            string subscriptionPath = customerPath + "\\" + subscription.Id;
+            if (!Directory.Exists(subscriptionPath))
+            {
+                Directory.CreateDirectory(subscriptionPath);
+            }
+
+            using (var fileStream = new FileStream(subscriptionPath + "\\" + formFile.FileName, FileMode.Create))
+            {
+                await formFile.CopyToAsync(fileStream);
+            }
+            
+
+            return true;
         }
 
         public bool updatePaymentStatus(int periodeID, bool isPayed)
