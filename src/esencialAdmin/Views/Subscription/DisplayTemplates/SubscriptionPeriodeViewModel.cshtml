@@ -4,36 +4,62 @@
     <div class="grid">
         <div class="row row-space-between">
             <div class="col-3 col-medium-6 col-small-12">
-                <strong>Zeitraum:</strong> @Model.StartDate.ToString("dd.MM.yyyy") - @Model.EndDate.ToString("dd.MM.yyyy") <br />
+                <h4>Zeitraum:</h4> @Model.StartDate.ToString("dd.MM.yyyy") - @Model.EndDate.ToString("dd.MM.yyyy") <br /><br />
+                <h4>Zahlungsstatus:</h4>
+               
+                <strong><label asp-for="@Model.Price"></label>:</strong> @Model.Price<br />
+                <strong><label asp-for="@Model.Payed"></label>:</strong>
+
+                    <label>
+                        <input type="checkbox" class="periodePayedCheckbox" id="payed_@Model.ID" value="@Model.ID" @if (Model.Payed) { @("checked")}>
+                    </label>
+                @if (Model.Payed)
+                {
+                    <br /><strong><label asp-for="@Model.PayedDate"></label>:</strong> @Model.PayedDate.Value.ToString("dd.MM.yyyy");
+                }
+                    <br /><br />
+                    <div class="paymentMethodContainer" @if (Model.Payed) { @("style='display:none'")}>
+                        <div class="mui-select">
+                            @{
+
+                                var selectList = new List<SelectListItem>();
+                                foreach (var tmp in Model.PaymentMethods)
+                                {
+                                    SelectListItem item = new SelectListItem();
+                                    item.Value = tmp.Id.ToString();
+                                    item.Text = tmp.Name;
+                                    if (tmp.Id == Model.PaymentMethodID)
+                                    {
+                                        item.Selected = true;
+                                    }
+
+                                    selectList.Add(item);
+                                }
+                            }
+
+                            <select asp-for="PaymentMethodID" class="paymentMethodSelect" id="PaymentMethodSelect" asp-items="selectList"></select>
+                            <label asp-for="PaymentMethodID"></label>
+                        </div>
+                    </div><br /><br />
+            </div>
+            <div class="col-3 col-medium-6 col-small-12">
+                <h4>Zahlungsstatus:</h4>
+
+
+                <strong>Goodies erhalten:</strong>
 
             </div>
             <div class="col-3 col-medium-6 col-small-12">
-                <strong>Zahlungsstatus:</strong>
-                <br />
 
-                <strong><label asp-for="@Model.Price"></label>:</strong> @Model.Price<br /><br />
-                <strong><label asp-for="@Model.Payed"></label>:</strong>
-                @if (Model.Payed)
+                @if (Model.GiftetBy != null)
                 {
-                    @:Ja <br />
-                    <strong><label asp-for="@Model.PayedDate"></label>:</strong> Model.PayedDate.Value.ToString("dd.MM.yyyy");
-                }
-                else
-                {
-                    <label>
-                        <input type="checkbox" class="periodePayedCheckbox" id="payed_@Model.ID" value="@Model.ID" checked>
-                    </label>
+                    <h4><label asp-for="@Model.GiftetBy"></label>:</h4>
+                    @Html.DisplayFor(x => x.GiftetBy)
+
                 }
             </div>
-            @if (Model.GiftetBy != null)
-            {
-                <div class="col-3 col-medium-6 col-small-12">
-                    <strong><label asp-for="@Model.GiftetBy"></label>:</strong>
-                    @Html.DisplayFor(x => x.GiftetBy)
-                </div>
-            }
+
         </div>
 
     </div>
 </div>
-

@@ -23,5 +23,9 @@ namespace esencialAdmin.Services
 
         List<PaymentMethodsViewModel> getAvailablePaymentMethods();
 
+        bool updatePaymentStatus(int periodeID, bool isPayed);
+
+        bool updatePaymentMethod(int periodeID, int paymentID);
+
     }
 }

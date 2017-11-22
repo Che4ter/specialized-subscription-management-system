@@ -1,5 +1,4 @@
 /**
- * Version 0.9.27
  * MUI Colors module
  */
 /**
@@ -2071,6 +2070,12 @@ h4, h5, h6 {
 
 .mui-textfield > input:-ms-input-placeholder,
 .mui-textfield > textarea:-ms-input-placeholder {
+  color: rgba(0, 0, 0, 0.26);
+  opacity: 1;
+}
+
+.mui-textfield > input::-ms-input-placeholder,
+.mui-textfield > textarea::-ms-input-placeholder {
   color: rgba(0, 0, 0, 0.26);
   opacity: 1;
 }

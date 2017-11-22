@@ -82,14 +82,22 @@ buttons {
 }
 
 
+/*
+    Slick
+*/
 
+.slick-next{
+    float:right;
+}
 
+.slick-arrow .material-icons{
+    vertical-align:middle;
+}
 /**
  * Toggle Sidedrawer
  */
-
 .navbar-item {
-    outline:none;
+    outline: none;
 }
 
 
@@ -393,6 +401,12 @@ table.dataTable thead th, table.dataTable thead td{
 /**
  * Multiple Select2
  */
+
+.mui-select__menu {
+    position:static;
+}
+
+
 .select2-container--material {
     width: 100% !important;
     /**

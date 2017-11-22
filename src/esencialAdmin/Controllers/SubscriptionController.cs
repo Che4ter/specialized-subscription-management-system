@@ -8,6 +8,7 @@ using esencialAdmin.Services;
 using esencialAdmin.Models.PlanViewModels;
 using esencialAdmin.Models.SubscriptionViewModels;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Http;
 
 namespace esencialAdmin.Controllers
 {
@@ -54,17 +55,31 @@ namespace esencialAdmin.Controllers
         }
 
         [HttpPost]
-        public bool updatePayedStatus(int periodID, bool paymentState)
+        public IActionResult updatePayedStatus(int periodID, bool paymentState)
         {
-            if (paymentState)
+            if( _sService.updatePaymentStatus(periodID, paymentState))
             {
-                return true;
+                return StatusCode(StatusCodes.Status200OK);
             }
             else
             {
-                return false;
-            }
+                return StatusCode(StatusCodes.Status500InternalServerError);
 
+            }
+        }
+
+        [HttpPost]
+        public IActionResult updatePaymentMethod(int periodID, int paymentMethodID)
+        {
+            if (_sService.updatePaymentMethod(periodID, paymentMethodID))
+            {
+                return StatusCode(StatusCodes.Status200OK);
+            }
+            else
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+
+            }
         }
 
         [HttpGet]

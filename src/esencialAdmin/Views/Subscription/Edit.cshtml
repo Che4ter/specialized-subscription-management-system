@@ -44,59 +44,74 @@
 
                         </div>
                         <div class="col-6 col-medium-12 col-small-12">
-                            <div class="mui-textfield">
-                                <p>
-                                    <strong><label asp-for="Plan"></label>:</strong> <br />
-                                    @Model.Plan.Name <br /><br />
+                            <p>
+                                <strong><label asp-for="Plan"></label>:</strong> <br />
+                                @Model.Plan.Name <br /><br />
+                                <strong><label asp-for="PlantNumber"></label>:</strong> <br />
+                                @Model.PlantNumber <br /><br />
                                     <strong><label asp-for="Plan.Duration"></label>:</strong> @Model.Plan.Duration<br />
                                     <strong><label asp-for="Plan.Price"></label>:</strong> @Model.Plan.Duration<br />
                                 </p>
 
                             </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            @if (@Model.ID != 0)
+            {
+                <div class="col-4  col-medium-4 col-small-12">
+                    <div class="mui-panel">
+                        <div class="mui--form-title">
+                            Status
                         </div>
 
-                    </div>
-                </div>
-            </div>
+                        <strong><label asp-for="DateCreated"></label>:</strong> @Model.DateCreated; <br />
+                        <strong><label asp-for="UserCreated"></label>:</strong> @Model.UserCreated; <br />
+                        <strong><label asp-for="DateModified"></label>:</strong> @Model.DateModified; <br />
+                        <strong><label asp-for="UserModified"></label>:</strong> @Model.UserModified; <br />
 
+                    </div>
+
+                </div>
+            }
         </div>
-        @if (@Model.ID != 0)
-        {
-            <div class="col-4  col-medium-4 col-small-12">
-                <div class="mui-panel">
-                    <div class="mui--form-title">
-                        Status
-                    </div>
+        <div class="col-12  col-medium-12 col-small-12">
+            <div class="mui-panel">
+                <div class="mui--form-title">
+                    Perioden
+                </div>
+                <div class="periodeWrapper" data-slick='{"initialSlide": @Model.Periodes.FindIndex(x => x.CurrentPeriode)}'>
+                    @Html.DisplayFor(x => x.Periodes)
 
-                    <strong><label asp-for="DateCreated"></label>:</strong> @Model.DateCreated; <br />
-                    <strong><label asp-for="UserCreated"></label>:</strong> @Model.UserCreated; <br />
-                    <strong><label asp-for="DateModified"></label>:</strong> @Model.DateModified; <br />
-                    <strong><label asp-for="UserModified"></label>:</strong> @Model.UserModified; <br />
 
                 </div>
-
+                <button class="slick-prev mui-btn mui-btn--flat" aria-label="Previous" type="button">
+                    <i class="material-icons">arrow_back</i> Vorherige
+                </button>
+                <button class="slick-next mui-btn mui-btn--flat" aria-label="Next" type="button">
+                    Nächste <i class="material-icons">arrow_forward</i>
+                </button>
             </div>
+        </div>
+    </form>
+    <environment include="Development,Preview">
+        @section scripts {
+            <script src="~/lib/sweetalert2/sweetalert2.js" asp-append-version="true"></script>
+            <script src="~/lib/slick/slick.js" asp-append-version="true"></script>
+
+            <script src="~/js/subscriptionEdit.js" asp-append-version="true"></script>
+            @await Html.PartialAsync("_ValidationScriptsPartial")
+
         }
-    </div>
-    <div class="col-12  col-medium-12 col-small-12">
-        <div class="mui-panel">
-            <div class="mui--form-title">
-                Periode
-            </div>
-            @Html.DisplayFor(x => x.Periodes)
-        
-        </div>
-    </div>
-</form>
-<environment include="Development,Preview">
-    @section scripts {
-        <script src="~/lib/sweetalert2/sweetalert2.js" asp-append-version="true"></script>
-        <script src="~/js/subscriptionEdit.js" asp-append-version="true"></script>
-        @await Html.PartialAsync("_ValidationScriptsPartial")
 
-    }
+        @section styles {
+            <link rel="stylesheet" href="~/lib/sweetalert2/sweetalert2.css" />
+            <!-- Add the slick-theme.css if you want default styling -->
+            <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.1/slick/slick.css" />
+            <!-- Add the slick-theme.css if you want default styling -->
 
-    @section styles {
-        <link rel="stylesheet" href="~/lib/sweetalert2/sweetalert2.css" />
-    }
-</environment>
+        }
+    </environment>

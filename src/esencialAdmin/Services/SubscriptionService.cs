@@ -255,7 +255,9 @@ namespace esencialAdmin.Services
 
                 // Getting all Customer data  
                 var planData = (from tempplan in _context.Subscription
-                                select new { Id = tempplan.Id,
+                                select new
+                                {
+                                    Id = tempplan.Id,
                                     PlantNr = tempplan.PlantNumber,
                                     Customer = tempplan.FkCustomer.FirstName + " " + tempplan.FkCustomer.LastName,
                                     Plan = tempplan.FkPlan.Name,
@@ -304,7 +306,7 @@ namespace esencialAdmin.Services
                 return null;
             }
 
-            
+
             var subscriptionToEdit = new SubscriptionEditViewModel();
             subscriptionToEdit.ID = subscriptionToLoad.Id;
             subscriptionToEdit.PlantNumber = subscriptionToLoad.PlantNumber ?? 0;
@@ -317,9 +319,27 @@ namespace esencialAdmin.Services
                 .Where(c => c.FkSubscriptionId == subscriptionToLoad.Id);
 
             subscriptionToEdit.Periodes = new List<SubscriptionPeriodeViewModel>();
+            DateTime currentDeadLine = new DateTime(DateTime.UtcNow.Year, subscriptionToLoad.FkPlan.Deadline.Month, subscriptionToLoad.FkPlan.Deadline.Day);
+            bool isCurrentDayAfterDeadLine = false;
+            if (currentDeadLine > DateTime.UtcNow.Date)
+            {
+                isCurrentDayAfterDeadLine = true;
+            }
             foreach (Periodes p in periodesToLoad)
             {
-                subscriptionToEdit.Periodes.Add(SubscriptionPeriodeViewModel.CreateFromPeriode(p));
+                SubscriptionPeriodeViewModel pModel = SubscriptionPeriodeViewModel.CreateFromPeriode(p);
+                if (p.StartDate < DateTime.UtcNow && p.EndDate > DateTime.UtcNow)
+                {
+                    if (!(p.EndDate.Year == DateTime.UtcNow.Year && isCurrentDayAfterDeadLine))
+                    {
+                        pModel.CurrentPeriode = true;
+                    }
+
+                }
+                pModel.PaymentMethods = getAvailablePaymentMethods();
+
+                subscriptionToEdit.Periodes.Add(pModel);
+
             }
 
 
@@ -368,6 +388,68 @@ namespace esencialAdmin.Services
 
         }
 
+        public bool updatePaymentStatus(int periodeID, bool isPayed)
+        {
+            try
+            {
+                var periodeToEdit = this._context.Periodes
+                  .Where(c => c.Id == periodeID)
+                  .FirstOrDefault();
+                if (periodeToEdit == null)
+                {
+                    return false;
+                }
+                periodeToEdit.Payed = isPayed;
 
+                if (isPayed)
+                {
+                    periodeToEdit.PayedDate = DateTime.UtcNow;
+                }
+                else
+                {
+                    periodeToEdit.PayedDate = null;                   
+                }
+
+                this._context.SaveChanges();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+
+        }
+
+        public bool updatePaymentMethod(int periodeID, int paymentID)
+        {
+            try
+            {
+                var periodeToEdit = this._context.Periodes
+                  .Where(c => c.Id == periodeID)
+                  .FirstOrDefault();
+                if (periodeToEdit == null)
+                {
+                    return false;
+                }
+
+                if(this._context.PaymentMethods.Any(x => x.Id == paymentID))
+                {
+                    periodeToEdit.FkPayedMethodId = paymentID;
+                }
+                else
+                {
+                    return false;
+                }
+
+                this._context.SaveChanges();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
     }
 }

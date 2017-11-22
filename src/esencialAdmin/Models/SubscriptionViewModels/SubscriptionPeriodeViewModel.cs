@@ -14,8 +14,12 @@ namespace esencialAdmin.Models.SubscriptionViewModels
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
 
+        public bool CurrentPeriode {get; set;}
+
         [Display(Name = "Bezahlt")]
         public bool Payed { get; set; }
+
+        [Display(Name = "Bezahlt am")]
         public DateTime? PayedDate { get; set; }
 
         [Display(Name = "Zahlungsmethode")]
@@ -44,6 +48,7 @@ namespace esencialAdmin.Models.SubscriptionViewModels
                PayedDate = p.PayedDate,
                PaymentMethodID = p.FkPayedMethodId,
                Price = p.Price,
+               CurrentPeriode = false
 
             };
 
