@@ -274,6 +274,5 @@ __pycache__/
 # Dev Appsettings
 appsettings.Development.json
 
+/userdata
 # End of https://www.gitignore.io/api/aspnetcore
-src/essentialAdmin/appsettings.Development.json
-src/essentialAdmin/appsettings.json

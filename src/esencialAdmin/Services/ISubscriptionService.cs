@@ -3,7 +3,9 @@ using esencialAdmin.Models.PlanViewModels;
 using esencialAdmin.Models.SubscriptionViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace esencialAdmin.Services
 {
@@ -29,5 +31,6 @@ namespace esencialAdmin.Services
 
         bool updateReceivedGoody(int goodyID, bool hasReceived);
 
+        bool addSubscriptionPhoto(MemoryStream fileStream, String fileName, int subscriptionID);
     }
 }

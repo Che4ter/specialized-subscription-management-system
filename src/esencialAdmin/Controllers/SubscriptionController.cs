@@ -9,6 +9,8 @@ using esencialAdmin.Models.PlanViewModels;
 using esencialAdmin.Models.SubscriptionViewModels;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Http;
+using System.Threading.Tasks;
+using System.IO;
 
 namespace esencialAdmin.Controllers
 {
@@ -81,7 +83,34 @@ namespace esencialAdmin.Controllers
 
             }
         }
-        
+
+        [HttpPost]
+        public async Task<IActionResult> uploadImageForUser(List<IFormFile> files, int subscriptionID)
+        {
+            long size = files.Sum(f => f.Length);
+
+            // full path to file in temp location
+            var filePath = Path.GetTempFileName();
+
+            foreach (var formFile in files)
+            {
+                if (formFile.Length > 0)
+                {
+                    using (var memoryStream = new MemoryStream())
+                    {
+                        await formFile.CopyToAsync(memoryStream);
+                        _sService.addSubscriptionPhoto(memoryStream, formFile.FileName, subscriptionID);
+
+                    }
+                   
+                }
+            }
+
+            // process uploaded files
+            // Don't rely on or trust the FileName property without validation.
+
+            return Ok(new { count = files.Count, size, filePath, subscriptionID });
+        }
 
 
         [HttpPost]

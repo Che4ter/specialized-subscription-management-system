@@ -9,6 +9,7 @@ using esencialAdmin.Models.GoodiesViewModels;
 using esencialAdmin.Extensions;
 using esencialAdmin.Models.SubscriptionViewModels;
 using Microsoft.EntityFrameworkCore;
+using System.IO;
 
 namespace esencialAdmin.Services
 {
@@ -405,6 +406,11 @@ namespace esencialAdmin.Services
                 return false;
             }
 
+        }
+
+        public bool addSubscriptionPhoto(MemoryStream fileStream, String fileName, int subscriptionID)
+        {
+            return false;
         }
 
         public bool updatePaymentStatus(int periodeID, bool isPayed)
