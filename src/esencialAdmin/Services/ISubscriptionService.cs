@@ -6,13 +6,14 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace esencialAdmin.Services
 {
     public interface ISubscriptionService
     {
         int createNewSubscription(SubscriptionCreateViewModel newPlan);
-        bool deletePlan(int id);
+        bool deleteSubscription(int id);
         JsonResult loadDefaultSubscriptionDataTable(HttpRequest Request);
         SubscriptionEditViewModel loadSubscriptionInputModel(int id);
         bool updatePlan(PlanInputViewModel planToUpdate);
@@ -31,6 +32,12 @@ namespace esencialAdmin.Services
 
         bool updateReceivedGoody(int goodyID, bool hasReceived);
 
-        System.Threading.Tasks.Task<bool> addSubscriptionPhoto(IFormFile formFile, int subscriptionID);
+        bool updatePaymentReminderSent(int periodeID, bool isReminderSent);
+
+        bool renewSubscription(int subId);
+
+        Task<bool> addSubscriptionPhoto(IFormFile formFile, int subscriptionID);
+
+        Task updateSubscriptionStatus();
     }
 }

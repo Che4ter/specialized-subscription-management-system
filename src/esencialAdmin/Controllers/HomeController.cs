@@ -6,18 +6,22 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using esencialAdmin.Models;
 using esencialAdmin.Data.Models;
+using esencialAdmin.Services;
 
 namespace esencialAdmin.Controllers
 {
     public class HomeController : BaseController
     {
-        public HomeController()
+        private IStatisticService _sService;
+
+        public HomeController(IStatisticService sService)
         {
+            _sService = sService;
         }
 
         public IActionResult Index()
         {
-            return View();
+            return View(_sService.getOverViewModel());
         }
 
         public IActionResult Error()

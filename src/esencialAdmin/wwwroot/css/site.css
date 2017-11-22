@@ -255,6 +255,11 @@ buttons {
 * Datatable
 */
 
+table.dataTable tbody th, table.dataTable tbody td {
+    outline:none;
+}
+
+
 #customerTable tbody tr:hover {
     background-color: #c1d5e0;
 }
@@ -290,6 +295,16 @@ buttons {
 
 table.dataTable thead th, table.dataTable thead td {
     padding-left: 8px !important;
+}
+
+/* Info Panel**/
+.mui-panel.panel-warning {
+    background-color: #F4511E;
+    color:#fff;
+    font-size:17px;
+}
+.mui-panel.panel-warning p{
+    margin-bottom:0;
 }
 /**
 * Notify
@@ -444,6 +459,10 @@ table.dataTable thead th, table.dataTable thead td {
     float:left;
 }
 
+.mui-form fieldset, .periode-container {
+    outline: none !important;
+    margin-bottom:0;
+}
 
 /*******SELECT 2*******/
 /**
@@ -540,14 +559,14 @@ table.dataTable thead th, table.dataTable thead td {
         float: right;
     }
 
-    .select2-container--material .select2-selection--multiple {
+    /*.select2-container--material .select2-selection--multiple {
         /**
    * Multiple selected options
    */
         /**
    * Multiple selected option clear button
-   */
-    }
+   
+    }*/
 
         .select2-container--material .select2-selection--multiple .select2-selection__rendered {
             width: 100%;
@@ -574,7 +593,6 @@ table.dataTable thead th, table.dataTable thead td {
             font-size: 16px;
             vertical-align: middle;
             display: inline-block;
-            float: left;
             margin-right: 8px;
             margin-bottom: 4px;
         }

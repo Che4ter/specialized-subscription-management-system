@@ -1,11 +1,11 @@
 ﻿@model esencialAdmin.Models.SubscriptionViewModels.SubscriptionEditViewModel
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
 
 @{
 
     ViewData["Title"] = "Patenschaft für " + Model.Customer.FirstName + " " + Model.Customer.LastName + " bearbeiten";
 }
-
-
 <form method="post" asp-controller="Subscription" class="grid mui-form">
     <div class="row  row-equal">
         <div class="col-12 col-medium-12 col-small-12">
@@ -17,14 +17,15 @@
                                 @ViewData["Title"]
                             </div>
                         </div>
-                        <div class="col-6 col-medium-6 col-small-1 mui--text-right">
-                            <button type="submit" class="mui-btn mui-btn--primary">Speichern</button>
-
-                            @if (@Model.ID != 0)
-                            {
-                                <button type="button" class="mui-btn mui-btn--danger" onclick="PlanDeleteConfirmation(@Model.ID)">Plan löschen</button>
-                            }
-                        </div>
+                        @if ((await AuthorizationService.AuthorizeAsync(User, "RequireAdminRole")).Succeeded)
+                        {
+                            <div class="col-6 col-medium-6 col-small-1 mui--text-right">
+                                @if (@Model.ID != 0)
+                                {
+                                    <button type="button" class="mui-btn mui-btn--danger" onclick="SubscriptionDeleteConfirmation(@Model.ID)">Patenschaft löschen</button>
+                                }
+                            </div>
+                        }
                     </div>
                 </div>
             </div>
@@ -41,16 +42,14 @@
 
                             @Html.DisplayFor(x => x.Customer)
 
-
                         </div>
                         <div class="col-6 col-medium-12 col-small-12">
                             <p>
                                 <strong><label asp-for="Plan"></label>:</strong> <br />
                                 @Model.Plan.Name <br /><br />
-                                <strong><label asp-for="PlantNumber"></label>:</strong> <br />
-                                @Model.PlantNumber <br /><br />
+                                <strong><label asp-for="PlantNumber"></label>:</strong> @Model.PlantNumber <br />
                                 <strong><label asp-for="Plan.Duration"></label>:</strong> @Model.Plan.Duration<br />
-                                <strong><label asp-for="Plan.Price"></label>:</strong> @Model.Plan.Duration<br />
+                                <strong><label asp-for="Plan.Price"></label>:</strong> @Model.Plan.Price.ToString("C")<br />
                             </p>
 
                         </div>
@@ -67,7 +66,31 @@
                     <div class="mui--form-title">
                         Status
                     </div>
+                    <h4><label asp-for="StatusLabel" id="StatusLabel" data-status-id="@Model.StatusID"></label>: <strong>@Model.StatusLabel</strong></h4>
+                    @if (Model.StatusID == 2)
+                    {
+                        <div class="mui-panel panel-warning">
+                            <p>Warnung: Patenschaft läuft dieses Jahr aus</p>
+                            <input type="hidden" value="@Model.ID" name="subscriptionID" />
 
+                            <button asp-action="renewSubscription" class="mui-btn">Verlängern?</button>
+                            <p>(Hinweis: Bei einer Verlängerung Kunde anschreiben)</p>
+                        </div>
+
+                    }
+                    else if (Model.StatusID == 3)
+                    {
+                        <div class="mui-panel panel-warning">
+                            <p>Warnung: Kunde hat Rechnung noch nicht bezahlt!</p>
+                        </div>
+
+                    }
+                    else if (Model.StatusID == 4)
+                    {
+
+
+                    }
+                    <br /><br />
                     <strong><label asp-for="DateCreated"></label>:</strong> @Model.DateCreated; <br />
                     <strong><label asp-for="UserCreated"></label>:</strong> @Model.UserCreated; <br />
                     <strong><label asp-for="DateModified"></label>:</strong> @Model.DateModified; <br />
@@ -83,10 +106,8 @@
             <div class="mui--form-title">
                 Perioden
             </div>
-            <div class="periodeWrapper" data-slick='{"initialSlide": @Model.Periodes.FindIndex(x => x.CurrentPeriode)}'>
+            <div class="periodeWrapper" data-slick='{"initialSlide": @Model.Periodes.FindLastIndex(x => x.CurrentPeriode)}'>
                 @Html.DisplayFor(x => x.Periodes)
-
-
             </div>
             <button class="slick-prev mui-btn mui-btn--flat" aria-label="Previous" type="button">
                 <i class="material-icons">arrow_back</i> Vorherige
@@ -109,26 +130,26 @@
             </div>
         </form>
         <br /><br />
-        <div >
-                @foreach (var photoPath in Model.Photos)
-                {
-                    <div class="col-thumbImages">
+        <div>
+            @foreach (var photoPath in Model.Photos)
+            {
+                <div class="col-thumbImages">
 
-                        <form method="post" enctype="multipart/form-data" asp-controller="Subscription" asp-action="uploadImageForUser">
+                    <form method="post" enctype="multipart/form-data" asp-controller="Subscription" asp-action="uploadImageForUser">
 
-                            <div class="previewPhotoContainer">
-                                <img src="@photoPath.Value" />
-                                <input type="hidden" name="fileID" value="@photoPath.Key" />
-                                <input type="hidden" name="filePath" value="@photoPath.Value" />
+                        <div class="previewPhotoContainer">
+                            <img src="@photoPath.Value" />
+                            <input type="hidden" name="fileID" value="@photoPath.Key" />
+                            <input type="hidden" name="filePath" value="@photoPath.Value" />
 
-                                <button asp-action="deleteImage" asp-controller="File" class="mui-btn--small mui-btn--fab mui-btn--danger remove-photo-fab"><i class="material-icons">delete</i></button>
-                                <button asp-action="downloadImage" asp-controller="File" class="mui-btn--small mui-btn--fab mui-btn--primary download-photo-fab"><i class="material-icons">file_download</i></button>
+                            <button asp-action="deleteImage" asp-controller="File" class="mui-btn--small mui-btn--fab mui-btn--danger remove-photo-fab"><i class="material-icons">delete</i></button>
+                            <button asp-action="downloadImage" asp-controller="File" class="mui-btn--small mui-btn--fab mui-btn--primary download-photo-fab"><i class="material-icons">file_download</i></button>
 
-                            </div>
-                        </form>
-                    </div>
+                        </div>
+                    </form>
+                </div>
 
-                }
+            }
         </div>
 
     </div>

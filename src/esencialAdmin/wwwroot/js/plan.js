@@ -1,7 +1,4 @@
-﻿
-
-
-function PlanDeleteConfirmation(PlanID) {
+﻿function PlanDeleteConfirmation(PlanID) {
     swal({
         title: 'Bist du sicher?',
         text: "Das löschen kann nicht rückgängig gemacht werden!",
@@ -24,5 +21,3 @@ function PlanDeleteConfirmation(PlanID) {
 
     }).catch(swal.noop);
 }
-
-

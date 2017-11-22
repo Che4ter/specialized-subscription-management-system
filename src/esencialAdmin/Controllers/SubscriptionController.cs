@@ -59,7 +59,21 @@ namespace esencialAdmin.Controllers
         [HttpPost]
         public IActionResult updatePayedStatus(int periodID, bool paymentState)
         {
-            if( _sService.updatePaymentStatus(periodID, paymentState))
+            if (_sService.updatePaymentStatus(periodID, paymentState))
+            {
+                return StatusCode(StatusCodes.Status200OK);
+            }
+            else
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+
+            }
+        }
+
+        [HttpPost]
+        public IActionResult updatePaymentReminderStatus(int periodID, bool reminderState)
+        {
+            if (_sService.updatePaymentReminderSent(periodID, reminderState))
             {
                 return StatusCode(StatusCodes.Status200OK);
             }
@@ -96,8 +110,8 @@ namespace esencialAdmin.Controllers
             {
                 if (formFile.Length > 0 && (formFile.ContentType == "image/jpeg" || formFile.ContentType == "image/jpg" || formFile.ContentType == "image/gif" || formFile.ContentType == "image/png"))
                 {
-                        await _sService.addSubscriptionPhoto(formFile, subscriptionID);
-                   
+                    await _sService.addSubscriptionPhoto(formFile, subscriptionID);
+
                 }
             }
 
@@ -134,30 +148,26 @@ namespace esencialAdmin.Controllers
         }
 
         [HttpPost, ValidateAntiForgeryToken]
-        public IActionResult Edit(int id, PlanInputViewModel updatedPlan)
+        public IActionResult renewSubscription(int subscriptionID)
         {
-
-            //if (!iNewesSubscriptionEmpty(updatedPlan) && ModelState.IsValid)
-            //{
-
-            //    if (_sService.updatePlan(updatedPlan))
-            //    {
-            //        this.AddNotification("Plan wurde aktualisiert", NotificationType.SUCCESS);
-            //        return this.RedirectToAction("Edit", updatedPlan.ID);
-            //    }
-            //}
-            this.AddNotification("Plan wurde nicht aktualisiert<br>Überprüfe die Eingaben", NotificationType.WARNING);
-            updatedPlan.Goodies = _sService.getAvailableGoodies();
-            return View(updatedPlan);
+            if (_sService.renewSubscription(subscriptionID))
+            {
+                this.AddNotification("Patenschaft wurde verlängert", NotificationType.SUCCESS);
+            }
+            else
+            {
+                this.AddNotification("Patenschaft konnte nicht verlängert werden", NotificationType.ERROR);
+            }
+            return this.RedirectToAction("Edit", new { id = subscriptionID });
         }
 
         public IActionResult Delete(int id)
         {
-            if (_sService.deletePlan(id))
+            if (_sService.deleteSubscription(id))
             {
-                this.AddNotification("Plan wurde gelöscht", NotificationType.SUCCESS);
+                this.AddNotification("Patenschaft wurde gelöscht", NotificationType.SUCCESS);
             }
-            this.AddNotification("Konnte Plan nicht löschen", NotificationType.ERROR);
+            this.AddNotification("Konnte Patenschaft nicht löschen", NotificationType.ERROR);
             return this.RedirectToAction("Index");
         }
 

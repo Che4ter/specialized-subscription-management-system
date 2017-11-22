@@ -6,14 +6,7 @@
         "orderMulti": false, // for disable multiple column at once
         "pageLength": 25,
         "lengthMenu": [[10, 25, 50, 100], [10, 25, 50, 100]],
-        "responsive": {
-            breakpoints: [
-                { name: 'desktop', width: Infinity },
-                { name: 'tablet', width: 992 },
-                { name: 'fablet', width: 768 },
-                { name: 'phone', width: 544 }
-            ]
-        },
+
         "language": {
             "url": "/lib/DataTables/dataTablesGerman.json"
         },
@@ -27,9 +20,12 @@
             "targets": [0],
             "visible": false,
             "searchable": false
-        }], 
+        },
+            { "width": "300px", "targets": 1 },
+            { "width": "130px", "targets": 2 },
+            { "width": "130px", "targets": 3 }],
         "columns": [
-            { "data": "id", "name": "Id", "autoWidth": true },  
+            { "data": "id", "name": "Id", "autoWidth": true },
             { "data": "name", "name": "Name", "autoWidth": true },
             { "data": "price", "name": "Preis", "autoWidth": true },
             { "data": "duration", "name": "Laufzeit", "autoWidth": true },
@@ -53,19 +49,19 @@
 
         $(".paginate_button").removeClass("paginate_button").addClass("mui-btn mui-btn--flat");
         $(".mui-btn mui-btn--flat.current").addClass("mui-btn--primary");
-        });
+    });
 
     $.contextMenu({
         selector: '#planTable tbody td',
-        callback: function (key, options) {        
+        callback: function (key, options) {
             var cellIndex = parseInt(options.$trigger[0].cellIndex),
                 row = plantable.row(options.$trigger[0].parentNode),
                 rowIndex = row.index();
             switch (key) {
                 case 'edit':
-                    window.location.href = '/Plan/Edit/' + plantable.cell(rowIndex, 0).data() ;
+                    window.location.href = '/Plan/Edit/' + plantable.cell(rowIndex, 0).data();
                     //edit action here
-                    break;          
+                    break;
                 case 'delete':
                     PlanDeleteConfirmation(plantable.cell(rowIndex, 0).data());
                     break;
@@ -74,8 +70,8 @@
             }
         },
         items: {
-            "edit": { name: "Edit", icon: "edit" },         
-            "delete": { name: "Delete", icon: "delete" },
+            "edit": { name: "Bearbeiten", icon: "edit" },
+            "delete": { name: "Löschen", icon: "delete" },
         }
     });
 

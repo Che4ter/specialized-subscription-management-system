@@ -7,6 +7,13 @@
 	  <PublishWithAspNetCoreTargetManifest>false</PublishWithAspNetCoreTargetManifest>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Data\Userdata\23721\9\**" />
+    <Content Remove="Data\Userdata\23721\9\**" />
+    <EmbeddedResource Remove="Data\Userdata\23721\9\**" />
+    <None Remove="Data\Userdata\23721\9\**" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="BuildBundlerMinifier" Version="2.6.362" />
@@ -26,9 +33,8 @@
 
   <ItemGroup>
     <Folder Include="Data\TMPModels\" />
-    <Folder Include="Data\Userdata\23721\9\" />
+    <Folder Include="Data\Userdata\23721\" />
     <Folder Include="Properties\PublishProfiles\" />
-    <Folder Include="Data\Userdata\" />
   </ItemGroup>
 
 </Project>

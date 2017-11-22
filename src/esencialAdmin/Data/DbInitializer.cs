@@ -28,6 +28,36 @@ namespace esencialAdmin.Data
                 esencialAdminContext.Templates.Add(template2);
             }
 
+            if(esencialAdminContext.SubscriptionStatus.Count() != 4)
+            {
+                esencialAdminContext.SubscriptionStatus.RemoveRange(esencialAdminContext.SubscriptionStatus);
+                var status1 = new SubscriptionStatus()
+                {
+                    Id = 1,
+                    Label = "Aktiv"
+                };
+                var status2 = new SubscriptionStatus()
+                {
+                    Id = 2,
+                    Label = "Läuft aus"
+                };
+                var status3 = new SubscriptionStatus()
+                {
+                    Id = 3,
+                    Label = "Rechnung noch nicht bezahlt"
+                };
+                var status4 = new SubscriptionStatus()
+                {
+                    Id = 4,
+                    Label = "Ausgelaufen"
+                };
+
+                esencialAdminContext.SubscriptionStatus.Add(status1);
+                esencialAdminContext.SubscriptionStatus.Add(status2);
+                esencialAdminContext.SubscriptionStatus.Add(status3);
+                esencialAdminContext.SubscriptionStatus.Add(status4);
+            }
+
             //If there is already an User with Administrator role, abort
             string roleID = context.Roles.Where(r => r.Name == "Administrator").Select(r => r.Id).FirstOrDefault();
             if(roleID != null)

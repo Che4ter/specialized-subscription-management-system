@@ -6,14 +6,7 @@
         "orderMulti": false, // for disable multiple column at once
         "pageLength": 25,
         "lengthMenu": [[10, 25, 50, 100], [10, 25, 50, 100]],
-        "responsive": {
-            breakpoints: [
-                { name: 'desktop', width: Infinity },
-                { name: 'tablet', width: 992 },
-                { name: 'fablet', width: 768 },
-                { name: 'phone', width: 544 }
-            ]
-        },
+       
         "language": {
             "url": "/lib/DataTables/dataTablesGerman.json"
         },

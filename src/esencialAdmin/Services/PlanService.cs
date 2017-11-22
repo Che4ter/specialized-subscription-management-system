@@ -100,7 +100,7 @@ namespace esencialAdmin.Services
 
                 // Getting all Customer data  
                 var planData = (from tempplan in _context.Plans
-                                    select new { Id = tempplan.Id, Name = tempplan.Name, Price = tempplan.Price, Duration = tempplan.Duration, inuse = "notimplemented" });
+                                    select new { Id = tempplan.Id, Name = tempplan.Name, Price = tempplan.Price.ToString("C"), Duration = tempplan.Duration + " Jahre", inuse = tempplan.Subscription.Where(x => x.FkSubscriptionStatus == 1).Count() });
 
                 //Sorting  
                 if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDirection)))

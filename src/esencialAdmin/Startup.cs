@@ -63,6 +63,7 @@ namespace esencialAdmin
             services.AddScoped<IPlanService, PlanService>();
             services.AddScoped<ISubscriptionService, SubscriptionService>();
             services.AddScoped<IImageService, ImageService>();
+            services.AddScoped<IStatisticService, StatisticService>();
 
             services.Configure<EmailSettings>(Configuration.GetSection("EmailSettings"));
             // Create Policies

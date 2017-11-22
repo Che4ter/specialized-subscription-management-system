@@ -22,17 +22,20 @@ namespace esencialAdmin.Controllers
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
+        private ISubscriptionService _sService;
 
         public AccountController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             IEmailSender emailSender,
-            ILogger<AccountController> logger)
+            ILogger<AccountController> logger,
+            ISubscriptionService sService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
             _logger = logger;
+            _sService = sService;
         }
 
         [TempData]
@@ -63,6 +66,7 @@ namespace esencialAdmin.Controllers
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
+                    Task x = _sService.updateSubscriptionStatus();
                     return RedirectToLocal(returnUrl);
                 }
 

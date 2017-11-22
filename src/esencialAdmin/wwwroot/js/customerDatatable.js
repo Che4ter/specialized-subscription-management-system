@@ -81,8 +81,8 @@
             }
         },
         items: {
-            "edit": { name: "Edit", icon: "edit" },
-            "delete": { name: "Delete", icon: "delete" },
+            "edit": { name: "Bearbeiten", icon: "edit" },
+            "delete": { name: "Löschen", icon: "delete" },
         }
     });
 

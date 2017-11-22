@@ -14,8 +14,7 @@ namespace esencialAdmin.Models.SubscriptionViewModels
         [DisplayName("Id")]
         public int ID { get; set; }
 
-        [DisplayName("Nummer")]
-        [Required]
+        [DisplayName("Pflanzen Nummer")]
         public int PlantNumber { get; set; }
 
         [DisplayName("Kunde")]
@@ -28,6 +27,11 @@ namespace esencialAdmin.Models.SubscriptionViewModels
         public List<SubscriptionPeriodeViewModel>  Periodes { get; set; }
 
         public Dictionary<int,String> Photos { get; set; }
+
+        public int StatusID { get; set; }
+
+        [DisplayName("Patenschaft Status")]
+        public String StatusLabel { get; set; }
 
         public DateTime? DateCreated { get; set; }
         public string UserCreated { get; set; }

@@ -17,6 +17,8 @@ namespace esencialAdmin.Data.Models
         public bool Payed { get; set; }
         public DateTime? PayedDate { get; set; }
         public int? FkPayedMethodId { get; set; }
+        public bool PaymentReminderSent { get; set; }
+        public DateTime? PaymentReminderSentDate { get; set; }
         public decimal Price { get; set; }
         public int? FkGiftedById { get; set; }
         public DateTime? DateCreated { get; set; }

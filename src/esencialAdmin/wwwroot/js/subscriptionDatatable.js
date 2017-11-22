@@ -6,14 +6,6 @@
         "orderMulti": false, // for disable multiple column at once
         "pageLength": 25,
         "lengthMenu": [[10, 25, 50, 100], [10, 25, 50, 100]],
-        "responsive": {
-            breakpoints: [
-                { name: 'desktop', width: Infinity },
-                { name: 'tablet', width: 992 },
-                { name: 'fablet', width: 768 },
-                { name: 'phone', width: 544 }
-            ]
-        },
         "language": {
             "url": "/lib/DataTables/dataTablesGerman.json"
         },
@@ -27,14 +19,20 @@
             "targets": [0],
             "visible": false,
             "searchable": false
-        }], 
+        },
+            { "width": "100px", "targets": 1 },
+            { "width": "300px", "targets": 2 },
+            { "width": "300px", "targets": 3 },
+            { "width": "110px", "targets": 4 },
+            { "width": "110px", "targets": 5 }], 
         "columns": [
             { "data": "id", "name": "Id", "autoWidth": true },  
-            { "data": "plantNr", "name": "RebstockNr", "autoWidth": true },
-            { "data": "customer", "name": "Kunde", "autoWidth": true },
-            { "data": "plan", "name": "Patenschaft", "autoWidth": true },
-            { "data": "periode", "name": "Laufzeit", "autoWidth": true },
-            { "data": "payed", "name": "Bezahlt", "autoWidth": true },
+            { "data": "plantNr", "name": "RebstockNr", "autoWidth": false },
+            { "data": "customer", "name": "Kunde", "autoWidth": false },
+            { "data": "plan", "name": "Patenschaft", "autoWidth": false },
+            { "data": "periode", "name": "Laufzeit", "autoWidth": false },
+            { "data": "payed", "name": "Bezahlt", "autoWidth": false },
+            { "data": "status", "name": "Status", "autoWidth": true },
 
             //{
             //    "render": function (data, type, full, meta)
@@ -66,43 +64,15 @@
                 case 'edit':
                     window.location.href = '/Subscription/Edit/' + plantable.cell(rowIndex, 0).data() ;
                     //edit action here
-                    break;          
-                case 'delete':
-                    PlanDeleteConfirmation(plantable.cell(rowIndex, 0).data());
-                    break;
+                    break;                      
                 default:
                     break;
             }
         },
         items: {
-            "edit": { name: "Edit", icon: "edit" },         
-            "delete": { name: "Delete", icon: "delete" },
+            "edit": { name: "Bearbeiten", icon: "edit" },         
         }
     });
 
 
 });
-
-function SubscriptionDeleteConfirmation(PlanID) {
-    swal({
-        title: 'Bist du sicher?',
-        text: "Das löschen kann nicht rückgängig gemacht werden!",
-        type: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#d33',
-        cancelButtonColor: '#929292',
-        confirmButtonText: 'Ja, löschen.'
-    }).then(function () {
-        var url = "/Subscription/Delete";
-        $.post(url, { ID: PlanID }, function (data) {
-            if (data) {
-                oTable = $('#subscriptionTable').DataTable();
-                oTable.draw();
-            }
-            else {
-                alert("Something Went Wrong!");
-            }
-        });
-
-    }).catch(swal.noop);
-}

@@ -1,3 +1,26 @@
-﻿@{
+﻿@model esencialAdmin.Models.HomeViewModels.OverviewHomeViewModel
+@{
     ViewData["Title"] = "Übersicht";
 }
+
+<div class="grid">
+    <div class="row row-space-between">
+        <div class="col-6 col-medium-6 col-small-12">
+            <div class="mui-panel">
+                <div class="mui--form-title">Statistik</div>
+                <strong><label asp-for="NumberOfCustomers"></label>:</strong> @Model.NumberOfCustomers <br />
+                <strong><label asp-for="NumberOfSubscriptions"></label>:</strong> @Model.NumberOfSubscriptions <br />
+                <strong><label asp-for="NumberOfActiveSubscriptions"></label>:</strong> @Model.NumberOfActiveSubscriptions <br />
+                <strong><label asp-for="NumberOfEndingSubscriptions"></label>:</strong> @Model.NumberOfEndingSubscriptions <br />
+                <strong><label asp-for="NumberOfNotPayedSubscriptions"></label>:</strong> @Model.NumberOfNotPayedSubscriptions <br />
+            </div>
+        </div>
+
+        <div class="col-6 col-medium-6 col-small-12">
+            <div class="mui-panel">
+                <div class="mui--form-title">Hinweise</div>
+
+            </div>
+        </div>
+    </div>
+</div>

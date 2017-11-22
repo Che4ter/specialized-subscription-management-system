@@ -1,24 +1,36 @@
 ﻿@model esencialAdmin.Models.SubscriptionViewModels.SubscriptionPeriodeViewModel
 
 <div class="periode-container">
-    <div class="grid">
-        <div class="row row-space-between">
-            <div class="col-3 col-medium-6 col-small-12">
-                <h4>Zeitraum:</h4> @Model.StartDate.ToString("dd.MM.yyyy") - @Model.EndDate.ToString("dd.MM.yyyy") <br /><br />
-                <h4>Zahlungsstatus:</h4>
-               
-                <strong><label asp-for="@Model.Price"></label>:</strong> @Model.Price.ToString("C")<br />
-                <strong><label asp-for="@Model.Payed"></label>:</strong>
+    <fieldset class="periodesFields">
+
+        <div class="grid">
+            <div class="row row-space-between">
+                <div class="col-3 col-medium-6 col-small-12">
+                    <h4>Zeitraum:</h4> @Model.StartDate.ToString("dd.MM.yyyy") - @Model.EndDate.ToString("dd.MM.yyyy") <br /><br />
+                    <h4>Zahlungsstatus:</h4>
+
+                    <strong><label asp-for="@Model.Price"></label>:</strong> @Model.Price.ToString("C")<br />
+                    <strong><label asp-for="@Model.Payed"></label>:</strong>
 
                     <label>
-                        <input type="checkbox" class="periodePayedCheckbox" id="payed_@Model.ID" value="@Model.ID" @if (Model.Payed) { @("checked")}>
+                        <input type="checkbox" class="periodePayedCheckbox" id="payed_@Model.ID" value="@Model.ID" @if (Model.Payed) { @("checked")   }>
                     </label>
-                @if (Model.Payed)
-                {
-                    <br /><strong><label asp-for="@Model.PayedDate"></label>:</strong> @Model.PayedDate.Value.ToString("dd.MM.yyyy");
-                }
+                    @if (Model.Payed)
+                    {
+                        <br /><strong><label asp-for="@Model.PayedDate"></label>:</strong> @Model.PayedDate.Value.ToString("dd.MM.yyyy");
+                    }
                     <br /><br />
-                    <div class="paymentMethodContainer" @if (Model.Payed) { @("style='display:none'")}>
+                    <label asp-for="@Model.PaymentReminderSent"></label>:
+
+                    <label>
+                        <input type="checkbox" class="periodePaymentReminderCheckbox" id="reminder_@Model.ID" value="@Model.ID" @if (Model.PaymentReminderSent) { @("checked")    }>
+                    </label>
+                    @if (Model.PaymentReminderSent)
+                    {
+                        <br /><strong><label asp-for="@Model.PaymentReminderSentDate"></label>:</strong> @Model.PaymentReminderSentDate.Value.ToString("dd.MM.yyyy");
+                    }
+                    <br /><br />
+                    <div class="paymentMethodContainer" @if (Model.Payed) { @("style='display:none'")   }>
                         <div class="mui-select">
                             @{
 
@@ -40,37 +52,32 @@
                             <select asp-for="PaymentMethodID" class="paymentMethodSelect" id="PaymentMethodSelect" asp-items="selectList"></select>
                             <label asp-for="PaymentMethodID"></label>
                         </div>
-                    </div><br /><br />
+                    </div>
+                </div>
+                <div class="col-3 col-medium-6 col-small-12">
+                    <h4>Geschenkestatus:</h4>
+                    @{ int goodyNR = 1;
+                        @foreach (var g in Model.Goodies)
+                        {
+                            <strong>@Model.GoodiesLabel @goodyNR</strong> @("(für " + @g.SubPeriodeYear + ")")<br />
+
+                            <label>Erhalten?:</label>
+                            <label>
+                                <input type="checkbox" class="goodyCheckbox" id="goody_@g.ID" value="@g.ID" @if (g.Received) { @("checked")    } @if (g.SubPeriodeYear > DateTime.UtcNow.Year) { @("")    }>
+                            </label>
+                            goodyNR++;
+                            <br /><br />
+                        }
+                    }
+                </div>
+                <div class="col-3 col-medium-6 col-small-12">
+                    @if (Model.GiftetBy != null)
+                    {
+                        <h4><label asp-for="@Model.GiftetBy"></label>:</h4>
+                        @Html.DisplayFor(x => x.GiftetBy)
+                    }
+                </div>
             </div>
-            <div class="col-3 col-medium-6 col-small-12">
-                <h4>Geschenkestatus:</h4>
-                @{ int goodyNR = 1;
-                @foreach (var g in Model.Goodies)
-                {
-                    <strong>@Model.GoodiesLabel @goodyNR</strong><br />
-                   
-                    <label>Erhalten?:</label>
-                    <label>
-                        <input type="checkbox" class="goodyCheckbox" id="goody_@g.ID" value="@g.ID" @if (g.Received) { @("checked") } @if (g.SubPeriodeYear > DateTime.UtcNow.Year) { @("") }>
-                    </label>
-                    goodyNR++;
-                    <br /><br />
-                }
-
-
-                }
-</div>
-            <div class="col-3 col-medium-6 col-small-12">
-
-                @if (Model.GiftetBy != null)
-                {
-                    <h4><label asp-for="@Model.GiftetBy"></label>:</h4>
-                    @Html.DisplayFor(x => x.GiftetBy)
-
-                }
-            </div>
-
         </div>
-
-    </div>
+    </fieldset>
 </div>

@@ -14,10 +14,16 @@ namespace esencialAdmin.Models.SubscriptionViewModels
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
 
-        public bool CurrentPeriode {get; set;}
+        public bool CurrentPeriode { get; set; }
 
         [Display(Name = "Bezahlt")]
         public bool Payed { get; set; }
+
+        [Display(Name = "Zahlungserinnerung gesendet")]
+        public bool PaymentReminderSent { get; set; }
+
+        [Display(Name = "Zahlungserinnerung gesendet am")]
+        public DateTime? PaymentReminderSentDate { get; set; }
 
         [Display(Name = "Bezahlt am")]
         public DateTime? PayedDate { get; set; }
@@ -43,18 +49,19 @@ namespace esencialAdmin.Models.SubscriptionViewModels
         {
             var newModel = new SubscriptionPeriodeViewModel()
             {
-               ID = p.Id,
-               StartDate = p.StartDate,
-               EndDate = p.EndDate,
-               Payed = p.Payed,
-               PayedDate = p.PayedDate,
-               PaymentMethodID = p.FkPayedMethodId,
-               Price = p.Price,
-               CurrentPeriode = false
-
+                ID = p.Id,
+                StartDate = p.StartDate,
+                EndDate = p.EndDate,
+                Payed = p.Payed,
+                PayedDate = p.PayedDate,
+                PaymentMethodID = p.FkPayedMethodId,
+                Price = p.Price,
+                CurrentPeriode = false,
+                PaymentReminderSent = p.PaymentReminderSent,
+                PaymentReminderSentDate = p.PaymentReminderSentDate
             };
 
-            if(p.FkGiftedBy != null)
+            if (p.FkGiftedBy != null)
             {
                 newModel.GiftetBy = SubscriptionCustomerViewModel.CreateFromCustomer(p.FkGiftedBy);
             }
