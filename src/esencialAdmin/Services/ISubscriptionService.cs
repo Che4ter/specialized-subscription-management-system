@@ -38,6 +38,6 @@ namespace esencialAdmin.Services
 
         Task<bool> addSubscriptionPhoto(IFormFile formFile, int subscriptionID);
 
-        Task updateSubscriptionStatus();
+        void updateSubscriptionStatus();
     }
 }

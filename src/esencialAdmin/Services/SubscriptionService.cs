@@ -568,7 +568,7 @@ namespace esencialAdmin.Services
 
         }
 
-        public async System.Threading.Tasks.Task<bool> addSubscriptionPhoto(IFormFile formFile, int subscriptionID)
+        public async Task<bool> addSubscriptionPhoto(IFormFile formFile, int subscriptionID)
         {
             try
             {
@@ -774,12 +774,9 @@ namespace esencialAdmin.Services
             }
         }
 
-        public async Task updateSubscriptionStatus()
+        public void updateSubscriptionStatus()
         {
-            foreach(var sub in this._context.Subscription.Select(x=> x.Id))
-            {
-                checkSubscriptionStatus(sub);
-            }
+            this._context.Subscription.AsParallel().Select(x => x.Id).ForAll(x => checkSubscriptionStatus(x));
         }
     }
 }

@@ -66,7 +66,7 @@ namespace esencialAdmin.Controllers
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
-                    Task x = _sService.updateSubscriptionStatus();
+                    _sService.updateSubscriptionStatus();
                     return RedirectToLocal(returnUrl);
                 }
 
