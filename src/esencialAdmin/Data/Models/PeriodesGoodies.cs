@@ -8,7 +8,7 @@ namespace esencialAdmin.Data.Models
         public int Id { get; set; }
         public int FkPeriodesId { get; set; }
         public int FkPlanGoodiesId { get; set; }
-        public bool? Received { get; set; }
+        public bool Received { get; set; }
         public DateTime? ReceivedAt { get; set; }
         public int SubPeriodeYear { get; set; }
         public DateTime? DateCreated { get; set; }

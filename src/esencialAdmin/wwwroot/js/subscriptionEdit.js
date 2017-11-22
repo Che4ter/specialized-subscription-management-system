@@ -13,6 +13,20 @@
                 $(this).parent().parent().children(".paymentMethodContainer").hide();
             }
         });
+        $(".goodyCheckbox").change(function () {
+            var isChecked = $(this).is(":checked") ? true : false;
+            $.ajax({
+                url: '/Subscription/updateReceivedGoodie',
+                type: 'POST',
+                data: { goodyID: $(this).val(), received: isChecked }
+            });
+
+            if (this.checked) {
+                $(this).parent().parent().children(".paymentMethodContainer").show();
+            } else {
+                $(this).parent().parent().children(".paymentMethodContainer").hide();
+            }
+        });
         $('.paymentMethodSelect').on('change', function () {
 
             $.ajax({

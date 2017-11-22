@@ -37,6 +37,8 @@ namespace esencialAdmin.Models.SubscriptionViewModels
         [Display(Name = "Geschenk")]
         public virtual List<SubscriptionPeriodesGoodiesViewModel> Goodies { get; set; }
 
+        public string GoodiesLabel { get; set; }
+
         public static SubscriptionPeriodeViewModel CreateFromPeriode(Periodes p)
         {
             var newModel = new SubscriptionPeriodeViewModel()
@@ -57,6 +59,7 @@ namespace esencialAdmin.Models.SubscriptionViewModels
                 newModel.GiftetBy = SubscriptionCustomerViewModel.CreateFromCustomer(p.FkGiftedBy);
             }
 
+            newModel.Goodies = new List<SubscriptionPeriodesGoodiesViewModel>();
 
             return newModel;
         }

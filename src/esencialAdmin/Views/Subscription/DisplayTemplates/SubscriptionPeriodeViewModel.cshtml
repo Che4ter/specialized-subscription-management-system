@@ -7,7 +7,7 @@
                 <h4>Zeitraum:</h4> @Model.StartDate.ToString("dd.MM.yyyy") - @Model.EndDate.ToString("dd.MM.yyyy") <br /><br />
                 <h4>Zahlungsstatus:</h4>
                
-                <strong><label asp-for="@Model.Price"></label>:</strong> @Model.Price<br />
+                <strong><label asp-for="@Model.Price"></label>:</strong> @Model.Price.ToString("C")<br />
                 <strong><label asp-for="@Model.Payed"></label>:</strong>
 
                     <label>
@@ -43,12 +43,23 @@
                     </div><br /><br />
             </div>
             <div class="col-3 col-medium-6 col-small-12">
-                <h4>Zahlungsstatus:</h4>
+                <h4>Geschenkestatus:</h4>
+                @{ int goodyNR = 1;
+                @foreach (var g in Model.Goodies)
+                {
+                    <strong>@Model.GoodiesLabel @goodyNR</strong><br />
+                   
+                    <label>Erhalten?:</label>
+                    <label>
+                        <input type="checkbox" class="goodyCheckbox" id="goody_@g.ID" value="@g.ID" @if (g.Received) { @("checked") } @if (g.SubPeriodeYear > DateTime.UtcNow.Year) { @("") }>
+                    </label>
+                    goodyNR++;
+                    <br /><br />
+                }
 
 
-                <strong>Goodies erhalten:</strong>
-
-            </div>
+                }
+</div>
             <div class="col-3 col-medium-6 col-small-12">
 
                 @if (Model.GiftetBy != null)

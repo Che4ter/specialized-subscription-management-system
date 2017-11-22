@@ -69,6 +69,22 @@ namespace esencialAdmin.Controllers
         }
 
         [HttpPost]
+        public IActionResult updateReceivedGoodie(int goodyID, bool received)
+        {
+            if (_sService.updateReceivedGoody(goodyID, received))
+            {
+                return StatusCode(StatusCodes.Status200OK);
+            }
+            else
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+
+            }
+        }
+        
+
+
+        [HttpPost]
         public IActionResult updatePaymentMethod(int periodID, int paymentMethodID)
         {
             if (_sService.updatePaymentMethod(periodID, paymentMethodID))

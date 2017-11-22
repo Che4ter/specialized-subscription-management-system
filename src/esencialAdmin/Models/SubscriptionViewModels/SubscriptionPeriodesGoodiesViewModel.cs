@@ -17,11 +17,11 @@ namespace esencialAdmin.Models.SubscriptionViewModels
         public int SubPeriodeYear { get; set; }
        
 
-        public static SubscriptionPeriodesGoodiesViewModel CreateFromGoodie(SubscriptionPeriodesGoodiesViewModel g)
+        public static SubscriptionPeriodesGoodiesViewModel CreateFromGoodie(PeriodesGoodies g)
         {
             var newModel = new SubscriptionPeriodesGoodiesViewModel()
             {
-               ID = g.ID,
+               ID = g.Id,
                Received = g.Received,
                ReceivedAt = g.ReceivedAt,
                SubPeriodeYear = g.SubPeriodeYear,           

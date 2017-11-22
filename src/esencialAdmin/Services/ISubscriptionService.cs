@@ -27,5 +27,7 @@ namespace esencialAdmin.Services
 
         bool updatePaymentMethod(int periodeID, int paymentID);
 
+        bool updateReceivedGoody(int goodyID, bool hasReceived);
+
     }
 }

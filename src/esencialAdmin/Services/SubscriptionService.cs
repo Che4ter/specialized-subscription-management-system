@@ -76,6 +76,19 @@ namespace esencialAdmin.Services
                         p.FkGiftedById = newSubscription.GiverCustomerId;
                     }
 
+                    int startYear = periodeEnd.Year - plan.Duration;
+                    
+                    for(int i = 0; i < plan.Duration; i++)
+                    {
+                        PeriodesGoodies newGoodie = new PeriodesGoodies();
+                        
+                        newGoodie.FkPlanGoodiesId = plan.Id;
+                        newGoodie.SubPeriodeYear = startYear;
+                        startYear++;
+                        p.PeriodesGoodies.Add(newGoodie);
+                    }
+                    
+
                     this._context.Periodes.Add(p);
                     this._context.SaveChanges();
                     dbContextTransaction.Commit();
@@ -297,7 +310,7 @@ namespace esencialAdmin.Services
         {
             var subscriptionToLoad = this._context.Subscription
                   .Include(c => c.FkCustomer)
-                  .Include(c => c.FkPlan)
+                  .Include(c => c.FkPlan).ThenInclude(x => x.FkGoody)               
                   .Where(c => c.Id == id)
                   .FirstOrDefault();
 
@@ -334,13 +347,18 @@ namespace esencialAdmin.Services
                     {
                         pModel.CurrentPeriode = true;
                     }
-
                 }
-                pModel.PaymentMethods = getAvailablePaymentMethods();
+                foreach (PeriodesGoodies pg in p.PeriodesGoodies)
+                {
+                    pModel.Goodies.Add(SubscriptionPeriodesGoodiesViewModel.CreateFromGoodie(pg));
+                }
 
+                pModel.PaymentMethods = getAvailablePaymentMethods();
+                pModel.GoodiesLabel = subscriptionToLoad.FkPlan.FkGoody.Name;
                 subscriptionToEdit.Periodes.Add(pModel);
 
             }
+
 
 
             if (subscriptionToLoad.DateCreated != null)
@@ -353,6 +371,7 @@ namespace esencialAdmin.Services
 
             }
 
+           
             subscriptionToEdit.UserCreated = subscriptionToLoad?.UserCreated;
             subscriptionToEdit.UserModified = subscriptionToLoad?.UserModified;
 
@@ -408,6 +427,39 @@ namespace esencialAdmin.Services
                 else
                 {
                     periodeToEdit.PayedDate = null;                   
+                }
+
+                this._context.SaveChanges();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+
+        }
+
+        public bool updateReceivedGoody(int goodyID, bool hasReceived)
+        {
+            try
+            {
+                var goodyToEdit = this._context.PeriodesGoodies
+                  .Where(c => c.Id == goodyID)
+                  .FirstOrDefault();
+                if (goodyToEdit == null)
+                {
+                    return false;
+                }
+                goodyToEdit.Received = hasReceived;
+
+                if (hasReceived)
+                {
+                    goodyToEdit.ReceivedAt = DateTime.UtcNow;
+                }
+                else
+                {
+                    goodyToEdit.ReceivedAt = null;
                 }
 
                 this._context.SaveChanges();
