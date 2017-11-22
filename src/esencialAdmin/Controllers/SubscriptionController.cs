@@ -94,17 +94,14 @@ namespace esencialAdmin.Controllers
 
             foreach (var formFile in files)
             {
-                if (formFile.Length > 0)
+                if (formFile.Length > 0 && (formFile.ContentType == "image/jpeg" || formFile.ContentType == "image/jpg" || formFile.ContentType == "image/gif" || formFile.ContentType == "image/png"))
                 {
                         await _sService.addSubscriptionPhoto(formFile, subscriptionID);
                    
                 }
             }
 
-            // process uploaded files
-            // Don't rely on or trust the FileName property without validation.
-
-            return Ok(new { count = files.Count, size, filePath, subscriptionID });
+            return this.RedirectToAction("Edit", new { id = subscriptionID });
         }
 
 

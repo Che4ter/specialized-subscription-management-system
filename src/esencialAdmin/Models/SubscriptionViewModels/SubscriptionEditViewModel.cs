@@ -27,6 +27,8 @@ namespace esencialAdmin.Models.SubscriptionViewModels
         [DisplayName("Perioden")]
         public List<SubscriptionPeriodeViewModel>  Periodes { get; set; }
 
+        public Dictionary<int,String> Photos { get; set; }
+
         public DateTime? DateCreated { get; set; }
         public string UserCreated { get; set; }
         public DateTime? DateModified { get; set; }

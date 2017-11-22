@@ -14,6 +14,7 @@ namespace esencialAdmin.Data.Models
         public string FileName { get; set; }
         public string Path { get; set; }
         public string OriginalName { get; set; }
+        public string ContentType { get; set; }
         public DateTime? DateCreated { get; set; }
         public string UserCreated { get; set; }
         public DateTime? DateModified { get; set; }

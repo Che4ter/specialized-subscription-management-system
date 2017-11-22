@@ -316,7 +316,7 @@ namespace esencialAdmin.Services
         {
             var subscriptionToLoad = this._context.Subscription
                   .Include(c => c.FkCustomer)
-                  .Include(c => c.FkPlan).ThenInclude(x => x.FkGoody)               
+                  .Include(c => c.FkPlan).ThenInclude(x => x.FkGoody)
                   .Where(c => c.Id == id)
                   .FirstOrDefault();
 
@@ -364,7 +364,11 @@ namespace esencialAdmin.Services
                 subscriptionToEdit.Periodes.Add(pModel);
 
             }
-
+            subscriptionToEdit.Photos = new Dictionary<int, String>();
+            foreach (var photo in _context.SubscriptionPhotos.Where(x => x.FkSubscriptionId == id).Select(x =>  new {x.FkFileId, x.FkFile.OriginalName }))
+            {
+                subscriptionToEdit.Photos.Add(photo.FkFileId,"/file/img/" + id + '/' + photo.OriginalName.Insert(photo.OriginalName.LastIndexOf("."),"_thumb"));
+            }
 
 
             if (subscriptionToLoad.DateCreated != null)
@@ -415,35 +419,75 @@ namespace esencialAdmin.Services
 
         public async System.Threading.Tasks.Task<bool> addSubscriptionPhoto(IFormFile formFile, int subscriptionID)
         {
-            var subscription = this._context.Subscription
+            try
+            {
+                var subscription = this._context.Subscription
                              .Where(c => c.Id == subscriptionID)
                              .FirstOrDefault();
-            if (subscription == null)
+                if (subscription == null)
+                {
+                    return false;
+                }
+
+                string webRootPath = _hostingEnvironment.WebRootPath;
+                string contentRootPath = _hostingEnvironment.ContentRootPath;
+
+                string customerPath = _hostingEnvironment.ContentRootPath + "\\Data\\Userdata\\" + subscription.FkCustomerId;
+                if (!Directory.Exists(customerPath))
+                {
+                    Directory.CreateDirectory(customerPath);
+                }
+                string subscriptionPath = customerPath + "\\" + subscription.Id;
+                if (!Directory.Exists(subscriptionPath))
+                {
+                    Directory.CreateDirectory(subscriptionPath);
+                }
+
+                String newFileName = Guid.NewGuid().ToString();
+
+                while (File.Exists(subscriptionPath + "\\" + newFileName))
+                {
+                    newFileName = Guid.NewGuid().ToString();
+                }
+
+                using (var fileStream = new FileStream(subscriptionPath + "\\" + newFileName, FileMode.Create))
+                {
+                    await formFile.CopyToAsync(fileStream);
+                }
+
+                String originalFileName = formFile.FileName;
+                int count = 1;
+                while (_context.SubscriptionPhotos.Where(x => x.FkSubscriptionId == subscriptionID && x.FkFile.OriginalName == originalFileName).Any())
+                {
+                    originalFileName = formFile.FileName;
+                    originalFileName = originalFileName.Insert(originalFileName.LastIndexOf("."), "_" + count);
+                    count++;
+                }
+
+                var newFile = new Files();
+                newFile.OriginalName = originalFileName;
+                newFile.Path = "\\Data\\Userdata\\" + subscription.FkCustomerId + "\\" + subscription.Id + "\\" ;
+                newFile.FileName = newFileName;
+                newFile.ContentType = formFile.ContentType;
+                this._context.Files.Add(newFile);
+
+                var newSubscriptionPhotos = new SubscriptionPhotos();
+                newSubscriptionPhotos.FkFile = newFile;
+                newSubscriptionPhotos.FkSubscription = subscription;
+
+                this._context.SubscriptionPhotos.Add(newSubscriptionPhotos);
+
+                this._context.SaveChanges();
+
+                return true;
+            }
+            catch(Exception ex)
             {
-                return false;
+
             }
 
-            string webRootPath = _hostingEnvironment.WebRootPath;
-            string contentRootPath = _hostingEnvironment.ContentRootPath;
-
-            string customerPath = _hostingEnvironment.WebRootPath + "\\userdata\\" + subscription.FkCustomerId;    
-            if (!Directory.Exists(customerPath))
-            {
-                Directory.CreateDirectory(customerPath);
-            }
-            string subscriptionPath = customerPath + "\\" + subscription.Id;
-            if (!Directory.Exists(subscriptionPath))
-            {
-                Directory.CreateDirectory(subscriptionPath);
-            }
-
-            using (var fileStream = new FileStream(subscriptionPath + "\\" + formFile.FileName, FileMode.Create))
-            {
-                await formFile.CopyToAsync(fileStream);
-            }
+            return false;
             
-
-            return true;
         }
 
         public bool updatePaymentStatus(int periodeID, bool isPayed)

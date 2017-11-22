@@ -62,6 +62,7 @@ namespace esencialAdmin
             services.AddScoped<IEmployeeService, EmployeeService>();
             services.AddScoped<IPlanService, PlanService>();
             services.AddScoped<ISubscriptionService, SubscriptionService>();
+            services.AddScoped<IImageService, ImageService>();
 
             services.Configure<EmailSettings>(Configuration.GetSection("EmailSettings"));
             // Create Policies
@@ -112,9 +113,12 @@ namespace esencialAdmin
 
             app.UseMvc(routes =>
             {
+                routes.MapRoute("images", "file/img/{*name}",
+                   defaults: new { controller = "File", action = "DisplayImage" });
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
+              
             });
         }
     }
