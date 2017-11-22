@@ -38,19 +38,22 @@ namespace esencialAdmin.Services
                     From = new MailAddress(_emailSettings.FromEmail, _emailSettings.DisplayName)
                 };
                 mail.To.Add(new MailAddress(toEmail));
-
                 mail.Subject = "esencialAdmin - " + subject;
                 mail.Body = message;
+                mail.IsBodyHtml = true;
 
                 using (SmtpClient smtp = new SmtpClient(_emailSettings.Domain, _emailSettings.Port))
                 {
+                    smtp.UseDefaultCredentials = false;
                     smtp.Credentials = new NetworkCredential(_emailSettings.UsernameEmail, _emailSettings.UsernamePassword);
                     smtp.EnableSsl = true;
+                    smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
                     await smtp.SendMailAsync(mail);
                 }
             }
             catch (Exception ex)
             {
+                var es = ex.Message;
                 //do something here
             }
         }
