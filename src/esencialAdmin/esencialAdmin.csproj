@@ -3,8 +3,13 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <UserSecretsId>aspnet-essentialAdmin-3517C943-0B93-473E-A767-C9EA5FE2A35A</UserSecretsId>
-    <Authors>essentialAdmin</Authors>
+    <Authors>Che4ter</Authors>
 	  <PublishWithAspNetCoreTargetManifest>false</PublishWithAspNetCoreTargetManifest>
+	  <Company>42.wtf</Company>
+	  <Copyright>Apache License 2.0</Copyright>
+	  <PackageLicenseUrl>https://github.com/Che4ter/PAWI/blob/master/LICENSE</PackageLicenseUrl>
+	  <PackageProjectUrl>https://github.com/Che4ter/PAWI</PackageProjectUrl>
+	  <RepositoryUrl>https://github.com/Che4ter/PAWI</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
