@@ -11,34 +11,33 @@
 @{
     ViewData["Title"] = "Anmelden";
     Layout = "~/Views/Shared/_LoginLayout.cshtml";
-
 }
 
-    <form asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
-        <h2>@ViewData["Title"]</h2>
-        <hr />
-        <div class="mui-textfield">
-            <label asp-for="Email"></label>
-            <input asp-for="Email" required type="email"/>
-            <span asp-validation-for="Email" class="text-danger"></span>
-        </div>
-        <div class="mui-textfield">
-            <label asp-for="Password"></label>
-            <input asp-for="Password" required/>
-            <span asp-validation-for="Password" class="text-danger"></span>
-        </div>
-        <div class="mui-checkbox">
-                <label asp-for="RememberMe">
-                    <input asp-for="RememberMe" />
-                    @Html.DisplayNameFor(m => m.RememberMe)
-                </label>
-        </div>
-            <button type="submit" class="mui-btn mui-btn--primary">Anmelden</button>
-        <br /><br />
-            <p>
-                <a asp-action="ForgotPassword">Passwort vergessen?</a>
-            </p>         
-    </form>
+<form asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
+    <h2>@ViewData["Title"]</h2>
+    <hr />
+    <div class="mui-textfield">
+        <label asp-for="Email"></label>
+        <input asp-for="Email" required type="email" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+    <div class="mui-textfield">
+        <label asp-for="Password"></label>
+        <input asp-for="Password" required />
+        <span asp-validation-for="Password" class="text-danger"></span>
+    </div>
+    <div class="mui-checkbox">
+        <label asp-for="RememberMe">
+            <input asp-for="RememberMe" />
+            @Html.DisplayNameFor(m => m.RememberMe)
+        </label>
+    </div>
+    <button type="submit" class="mui-btn mui-btn--primary">Anmelden</button>
+    <br /><br />
+    <p>
+        <a asp-action="ForgotPassword">Passwort vergessen?</a>
+    </p>
+</form>
 
 
 @section Scripts {

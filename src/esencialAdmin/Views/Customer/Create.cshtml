@@ -1,13 +1,10 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Neuer Kunde erfassen";
     ViewData["CustomerName"] = "Neuer Kunde";
 }
-
 
 @Html.Partial("_CustomerEditorForm")
 
 @section scripts {
     @await Html.PartialAsync("_ValidationScriptsPartial")
 }
-

@@ -33,14 +33,12 @@ namespace esencialAdmin.Services
         {
             using (var dbContextTransaction = this._context.Database.BeginTransaction())
             {
-
                 try
                 {
                     var plan = this._context.Plans.Where(x => x.Id == newSubscription.PlanID).FirstOrDefault();
                     if (plan == null)
                     {
                         return 0;
-
                     }
 
                     var s = new Subscription()
@@ -77,7 +75,6 @@ namespace esencialAdmin.Services
                         p.PayedDate = DateTime.UtcNow;
                         p.FkPayedMethodId = newSubscription.PaymentMethodID;
                         s.FkSubscriptionStatus = 1; //Da Rechnung bereits bezahlt, Status Aktiv
-
                     }
 
                     if (newSubscription.GiverCustomerId != 0)
@@ -97,12 +94,10 @@ namespace esencialAdmin.Services
                         p.PeriodesGoodies.Add(newGoodie);
                     }
 
-
                     this._context.Periodes.Add(p);
                     this._context.SaveChanges();
                     dbContextTransaction.Commit();
                     return s.Id;
-
                 }
                 catch (Exception ex)
                 {
@@ -121,12 +116,12 @@ namespace esencialAdmin.Services
                     .Where(x => x.Id == id)
                     .Include(x => x.SubscriptionPhotos)
                     .FirstOrDefault();
-                if(subscriptionToDelete == null)
+                if (subscriptionToDelete == null)
                 {
                     return false;
                 }
 
-                string subPath = _hostingEnvironment.ContentRootPath + "\\Data\\Userdata\\" + subscriptionToDelete.FkCustomerId + "\\" + id + "\\";
+                string subPath = _hostingEnvironment.WebRootPath + "\\Data\\Userdata\\" + subscriptionToDelete.FkCustomerId + "\\" + id + "\\";
                 try
                 {
                     Directory.Delete(subPath, true);
@@ -138,7 +133,8 @@ namespace esencialAdmin.Services
                 }
                 List<int> fileList = subscriptionToDelete.SubscriptionPhotos.Select(x => x.FkFileId).ToList();
                 this._context.SubscriptionPhotos.RemoveRange(subscriptionToDelete.SubscriptionPhotos);
-                foreach(int i in fileList){
+                foreach (int i in fileList)
+                {
                     this._context.Files.Remove(this._context.Files.Where(x => x.Id == i).FirstOrDefault());
                 }
 
@@ -409,7 +405,7 @@ namespace esencialAdmin.Services
                 try
                 {
                     var subscription = this._context.Subscription.Where(x => x.Id == subId).FirstOrDefault();
-                    if(subscription == null)
+                    if (subscription == null)
                     {
                         return false;
                     }
@@ -424,8 +420,8 @@ namespace esencialAdmin.Services
                     var p = new Periodes()
                     {
                         FkSubscriptionId = subId,
-                        StartDate = new DateTime(DateTime.UtcNow.Year + 1,1,1),
-                        EndDate = new DateTime((DateTime.UtcNow.Year + 1 + plan.Duration),12,31),
+                        StartDate = new DateTime(DateTime.UtcNow.Year + 1, 1, 1),
+                        EndDate = new DateTime((DateTime.UtcNow.Year + 1 + plan.Duration), 12, 31),
                         Price = plan.Price
                     };
 
@@ -457,7 +453,7 @@ namespace esencialAdmin.Services
             return false;
         }
 
-            public SubscriptionEditViewModel loadSubscriptionInputModel(int id)
+        public SubscriptionEditViewModel loadSubscriptionInputModel(int id)
         {
             checkSubscriptionStatus(id);
 
@@ -496,7 +492,7 @@ namespace esencialAdmin.Services
                     pModel.CurrentPeriode = true;
                     hasCurrent = true;
                 }
-                else if(p.StartDate == new DateTime(DateTime.UtcNow.Year + 1, 1, 1) && p.EndDate.Year > (DateTime.UtcNow.Year + 1))
+                else if (p.StartDate == new DateTime(DateTime.UtcNow.Year + 1, 1, 1) && p.EndDate.Year > (DateTime.UtcNow.Year + 1))
                 {
                     pModel.CurrentPeriode = true;
                     hasCurrent = true;
@@ -581,9 +577,8 @@ namespace esencialAdmin.Services
                 }
 
                 string webRootPath = _hostingEnvironment.WebRootPath;
-                string contentRootPath = _hostingEnvironment.ContentRootPath;
 
-                string customerPath = _hostingEnvironment.ContentRootPath + "\\Data\\Userdata\\" + subscription.FkCustomerId;
+                string customerPath = webRootPath + "\\Data\\Userdata\\" + subscription.FkCustomerId;
                 if (!Directory.Exists(customerPath))
                 {
                     Directory.CreateDirectory(customerPath);

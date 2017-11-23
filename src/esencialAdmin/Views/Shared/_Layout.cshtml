@@ -9,11 +9,15 @@
     <title>@ViewData["Title"] - esencialAdmin</title>
     <link rel="shortcut icon" href="~/images/logo.png" type="image/png">
 
-    <environment include="Development,Preview">
+    <environment include="Development">
         <link rel="stylesheet" href="~/lib/mui/css/mui.css" />
         <link rel="stylesheet" href="~/css/site.css" />
         <link rel="stylesheet" href="~/css/responsive.css" />
         <link rel="stylesheet" href="~/css/the-flex-grid.css" />
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    </environment>
+    <environment include="Production,Preview">
+        <link rel="stylesheet" href="~/css/site.min.css" />
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     </environment>
     @RenderSection("Styles", required: false)
@@ -102,18 +106,21 @@
     <footer id="footer">
         <div class="mui-container-fluid">
             <br>
-            Made with ♥ by <a href="https://www.muicss.com">Philipp Leu</a>
+            Made with ♥ by <a href="https://github.com/Che4ter">Philipp Leu</a>
         </div>
     </footer>
 
-    <environment include="Development,Preview">
+    <environment include="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/mui/js/mui.js"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>
 
     </environment>
 
-    @RenderSection("Scripts", required: false)
+    <environment include="Producion,Preview">
+        <script src="~/js/site.min.js" asp-append-version="true"></script>
+    </environment>
 
+    @RenderSection("Scripts", required: false)
 </body>
 </html>

@@ -1,26 +1,29 @@
 ﻿@model esencialAdmin.Models.CustomerViewModels.CustomerInputModel
-
-
 @{
     ViewData["Title"] = "Kunde bearbeiten";
     ViewData["CustomerName"] = Model?.FirstName + " " + Model?.LastName;
 }
 
-
-
-
 @Html.Partial("_CustomerEditorForm")
 
-<environment include="Development,Preview">
+<environment include="Development">
     @section scripts {
         <script src="~/lib/sweetalert2/sweetalert2.js" asp-append-version="true"></script>
         <script src="~/js/customer.js" asp-append-version="true"></script>
-    @await Html.PartialAsync("_ValidationScriptsPartial")
-
-
+        @await Html.PartialAsync("_ValidationScriptsPartial")
     }
 
     @section styles {
         <link rel="stylesheet" href="~/lib/sweetalert2/sweetalert2.css" />
+    }
+</environment>
+
+<environment include="Producion,Preview">
+    @section scripts {
+    <script src="~/js/customer.min.js"></script>
+    }
+
+    @section styles {
+        <link rel="stylesheet" href="~/lib/sweetalert2/sweetalert2.min.css" />
     }
 </environment>
