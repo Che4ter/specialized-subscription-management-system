@@ -2,7 +2,7 @@
 
 
 //The url we will send our get request to
-var pageSize =25;
+var pageSize = 50;
 
 $('#customersSelect').select2(
     {
@@ -16,7 +16,7 @@ $('#customersSelect').select2(
         ajax: {
             url: '/Subscription/GetCustomers',
             dataType: 'json',
-            delay: 150 ,
+            delay: 120 ,
             width: 'resolve',
             data: function (params) {
                 var query = {
@@ -58,7 +58,7 @@ $('#giverSelect').select2(
         ajax: {
             url: '/Subscription/GetCustomers',
             dataType: 'json',
-            delay: 150,
+            delay: 120,
             width: 'resolve',
             data: function (params) {
                 var query = {
@@ -100,7 +100,7 @@ $('#planSelect').select2(
         ajax: {
             url: '/Subscription/GetPlans',
             dataType: 'json',
-            delay: 150,
+            delay: 100,
             width: 'resolve',
             data: function (params) {
                 var query = {
