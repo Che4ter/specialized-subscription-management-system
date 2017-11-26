@@ -26,9 +26,67 @@ namespace esencialAdmin.Data
                 };
                 esencialAdminContext.Templates.Add(template1);
                 esencialAdminContext.Templates.Add(template2);
+                esencialAdminContext.SaveChanges();
+
             }
 
-            if(esencialAdminContext.SubscriptionStatus.Count() != 4)
+            if (!esencialAdminContext.PaymentMethods.Any())
+            {
+                var paymentMethod1 = new PaymentMethods()
+                {
+                    Name = "Barzahlung"
+                };
+
+                var paymentMethod2 = new PaymentMethods()
+                {
+                    Name = "Rechnung"
+                };
+
+                var paymentMethod3 = new PaymentMethods()
+                {
+                    Name = "Kreditkarte"
+                };
+
+                var paymentMethod4 = new PaymentMethods()
+                {
+                    Name = "Maestro"
+                };
+
+                var paymentMethod5 = new PaymentMethods()
+                {
+                    Name = "Postcard"
+                };
+
+                esencialAdminContext.PaymentMethods.Add(paymentMethod1);
+                esencialAdminContext.PaymentMethods.Add(paymentMethod2);
+                esencialAdminContext.PaymentMethods.Add(paymentMethod3);
+                esencialAdminContext.PaymentMethods.Add(paymentMethod4);
+                esencialAdminContext.PaymentMethods.Add(paymentMethod5);
+                esencialAdminContext.SaveChanges();
+
+            }
+
+            if (!esencialAdminContext.PlanGoodies.Any())
+            {
+                var planGoody = new PlanGoodies()
+                {
+                    Name = "Weinflasche",
+                    FkTemplateLabel = 1
+                };
+
+                var planGoody2 = new PlanGoodies()
+                {
+                    Name = "Olivenöl Flasche",
+                    FkTemplateLabel = 2
+                };
+
+                esencialAdminContext.PlanGoodies.Add(planGoody);
+                esencialAdminContext.PlanGoodies.Add(planGoody2);
+                esencialAdminContext.SaveChanges();
+
+            }
+
+            if (esencialAdminContext.SubscriptionStatus.Count() != 4)
             {
                 esencialAdminContext.SubscriptionStatus.RemoveRange(esencialAdminContext.SubscriptionStatus);
                 var status1 = new SubscriptionStatus()
@@ -56,6 +114,7 @@ namespace esencialAdmin.Data
                 esencialAdminContext.SubscriptionStatus.Add(status2);
                 esencialAdminContext.SubscriptionStatus.Add(status3);
                 esencialAdminContext.SubscriptionStatus.Add(status4);
+                esencialAdminContext.SaveChanges();
             }
 
             //If there is already an User with Administrator role, abort
