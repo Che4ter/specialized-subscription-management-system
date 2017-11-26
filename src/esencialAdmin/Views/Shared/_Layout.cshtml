@@ -68,9 +68,9 @@
 
                 <ul>
                     <li><a href="/Subscription/create">Patenschaft erfassen</a></li>
+                    <li><a href="/Subscription/managegoodies">Geschenke verwalten</a></li>
                 </ul>
             </li>
-
         </ul>
         @if ((await AuthorizationService.AuthorizeAsync(User, "RequireAdminRole")).Succeeded)
         {

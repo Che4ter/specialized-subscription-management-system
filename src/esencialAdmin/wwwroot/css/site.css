@@ -260,7 +260,7 @@ table.dataTable tbody th, table.dataTable tbody td {
 }
 
 
-#customerTable tbody tr:hover {
+.dataTable tbody tr:hover {
     background-color: #c1d5e0;
 }
 

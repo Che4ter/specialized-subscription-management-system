@@ -35,8 +35,10 @@ namespace esencialAdmin.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            EmployeeCreateViewModel newEmployee = new EmployeeCreateViewModel();
-            newEmployee.EmployeeRoles = _eService.getAvailableRoles();
+            EmployeeCreateViewModel newEmployee = new EmployeeCreateViewModel
+            {
+                EmployeeRoles = _eService.getAvailableRoles()
+            };
             return View(newEmployee);
         }
 

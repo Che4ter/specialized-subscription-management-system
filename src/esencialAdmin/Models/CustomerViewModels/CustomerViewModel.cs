@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -19,9 +20,17 @@ namespace esencialAdmin.Models.CustomerViewModels
         public string Email { get; set; }
         public string PurchasesRemarks { get; set; }
         public string GeneralRemarks { get; set; }
-        public DateTime? DateCreated { get;  }
-        public string UserCreated { get;  }
-        public DateTime? DateModified { get;  }
-        public string UserModified { get;  }
+
+        [DisplayName("Erstellt am")]
+        public string DateCreated { get; set; }
+
+        [DisplayName("Erstellt durch")]
+        public string UserCreated { get; set; }
+
+        [DisplayName("Zuletzt bearbeitet am")]
+        public string DateModified { get; set; }
+
+        [DisplayName("Zuletzt bearbeitet durch")]
+        public string UserModified { get; set; }
     }
 }

@@ -189,6 +189,20 @@ namespace esencialAdmin.Services
             return paymentList;
         }
 
+        public SubscriptionPlanFilterViewModel getAvailablePlans()
+        {
+            SubscriptionPlanFilterViewModel plans = new SubscriptionPlanFilterViewModel
+            {
+                Plans = new Dictionary<int, string>()
+            };
+            foreach (Plans p in _context.Plans.Where(x => x.Subscription.Any()))
+            {
+                plans.Plans.Add(p.Id, p.Name);
+            }
+
+            return plans;
+        }
+
         public JsonResult getSelect2Customers(string searchTerm, int pageSize, int pageNum)
         {
             try
@@ -277,7 +291,6 @@ namespace esencialAdmin.Services
             }
         }
 
-
         public JsonResult loadDefaultSubscriptionDataTable(HttpRequest Request)
         {
             try
@@ -315,6 +328,7 @@ namespace esencialAdmin.Services
                                     Periode = tempplan.Periodes.Where(x => x.EndDate > DateTime.UtcNow).First().StartDate.ToString("dd.MM.yyyy") + " -<br>" + tempplan.Periodes.Where(x => x.EndDate > DateTime.UtcNow).First().EndDate.ToString("dd.MM.yyyy"),
                                     Payed = tempplan.Periodes.Where(x => x.EndDate > DateTime.UtcNow).First().Payed ? "Ja" : "Nein",
                                     Status = tempplan.FkSubscriptionStatusNavigation.Label
+
                                 });
                 //select new {Id = tmpcustomer.Id, DisplayString = ((tmpcustomer.Company ?? "") + " " + (tmpcustomer.FirstName ?? "") + " " + (tmpcustomer.LastName ?? "") + " " + (tmpcustomer.Street ?? "") + " " + (tmpcustomer.Zip ?? "") + " " + (tmpcustomer.City ?? "")).Replace("  "," ").Trim() });
 
@@ -337,6 +351,100 @@ namespace esencialAdmin.Services
 
                 //Returning Json Data  
                 return new JsonResult(new { draw = draw, recordsFiltered = recordsTotal, recordsTotal = recordsTotal, data = data });
+
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        public JsonResult loadGoodiesSubscriptionDataTable(HttpRequest Request)
+        {
+            try
+            {
+                var draw = Request.Form["draw"].FirstOrDefault();
+                // Skiping number of Rows count  
+                var start = Request.Form["start"].FirstOrDefault();
+                // Paging Length 10,20  
+                var length = Request.Form["length"].FirstOrDefault();
+                // Sort Column Name                  
+                var columnIndex = Request.Form["order[0][column]"].ToString();
+
+                // var sortColumn = Request.Form["columns[" + Request.Form["order[0][column]"].FirstOrDefault() + "][name]"].FirstOrDefault();
+                string sortColumn = Request.Form[$"columns[{columnIndex}][data]"].ToString();
+
+                var sortDirection = Request.Form["order[0][dir]"].ToString();
+                // Sort Column Direction ( asc ,desc)  
+                var sortColumnDirection = Request.Form["order[0][dir]"].FirstOrDefault();
+                // Search Value from (Search box)  
+                var searchValue = Request.Form["search[value]"].FirstOrDefault();
+
+                //Paging Size (10,20,50,100)  
+                int pageSize = length != null ? Convert.ToInt32(length) : 0;
+                int skip = start != null ? Convert.ToInt32(start) : 0;
+                int recordsTotal = 0;
+                int currentYear = DateTime.UtcNow.Year;
+                // Getting all Customer data  
+                var planData = (from tempplan in _context.Subscription
+                                where (tempplan.FkSubscriptionStatus == 1 || tempplan.FkSubscriptionStatus == 2) && tempplan.Periodes.Where(x => x.EndDate > DateTime.UtcNow && x.StartDate < DateTime.UtcNow && x.PeriodesGoodies.Where(y => y.Received == false && y.SubPeriodeYear <= currentYear).Any()).Any() 
+                                select new
+                                {
+                                    Id = tempplan.Id,
+                                    PlantNr = tempplan.PlantNumber,
+                                    Customer = tempplan.FkCustomer.FirstName + " " + tempplan.FkCustomer.LastName,
+                                    Plan = tempplan.FkPlan.Name,
+                                    Goodies = tempplan.Periodes.Where(x => x.EndDate > DateTime.UtcNow && x.StartDate < DateTime.UtcNow).FirstOrDefault().PeriodesGoodies.Where(y => y.Received == false && y.SubPeriodeYear <= currentYear),
+                                    Periode = tempplan.Periodes.Where(x => x.EndDate > DateTime.UtcNow && x.StartDate < DateTime.UtcNow).FirstOrDefault(),
+                                    Status = tempplan.FkSubscriptionStatusNavigation.Label,
+                                });
+
+
+                //Sorting  
+                if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDirection)))
+                {
+                    sortColumn = sortColumn.Substring(0, 1).ToUpper() + sortColumn.Remove(0, 1);
+                    planData = planData.OrderBy(sortColumn + ' ' + sortColumnDirection);
+                }
+                //Search  
+                if (!string.IsNullOrEmpty(searchValue))
+                {
+                    planData = planData.Where(m => m.Customer.StartsWith(searchValue));
+                }
+
+                //total number of rows count   
+                recordsTotal = planData.Count();
+                //Paging   
+                var data = planData.Skip(skip).Take(pageSize).ToList();
+                List<SubscriptionGoodiesDataTableJSONModel> jsonResultList = new List<SubscriptionGoodiesDataTableJSONModel>();
+                foreach (var item in data)
+                {
+                    SubscriptionGoodiesDataTableJSONModel tmpModel = new SubscriptionGoodiesDataTableJSONModel
+                    {
+                        Id = item.Id,
+                        PlantNr = item.PlantNr ?? 0,
+                        Customer = item.Customer,
+                        Plan = item.Plan,
+                        Periode = item.Periode.StartDate.ToString("dd.MM.yyyy") + " -<br>" + item.Periode.EndDate.ToString("dd.MM.yyyy"),
+                        Status = item.Status,
+                        Goodies = ""
+                    };
+                    foreach (var goodie in item.Goodies)
+                    {
+                        tmpModel.Goodies += "<label>" + this._context.PlanGoodies.Where(x => x.Id == goodie.FkPlanGoodiesId).FirstOrDefault().Name + " (" + goodie.SubPeriodeYear + ")" + "</label> <input type = 'checkbox' class='datatableGoodieCheckbox' id='goodie_" + goodie.Id + "' value='" + goodie.Id + "' ><br>";
+
+                    }
+
+                    if(tmpModel.Goodies == "")
+                    {
+                        tmpModel.Goodies = "Alle Geschenke erhalten";
+                    }
+
+
+                    jsonResultList.Add(tmpModel);
+                }
+                //Returning Json Data  
+                return new JsonResult(new { draw = draw, recordsFiltered = recordsTotal, recordsTotal = recordsTotal, data = jsonResultList });
 
             }
             catch (Exception ex)
@@ -431,10 +539,11 @@ namespace esencialAdmin.Services
 
                     for (int i = 0; i < plan.Duration; i++)
                     {
-                        PeriodesGoodies newGoodie = new PeriodesGoodies();
-
-                        newGoodie.FkPlanGoodiesId = plan.Id;
-                        newGoodie.SubPeriodeYear = startYear;
+                        PeriodesGoodies newGoodie = new PeriodesGoodies
+                        {
+                            FkPlanGoodiesId = plan.Id,
+                            SubPeriodeYear = startYear
+                        };
                         startYear++;
                         p.PeriodesGoodies.Add(newGoodie);
                     }
@@ -469,13 +578,15 @@ namespace esencialAdmin.Services
                 return null;
             }
 
-            var subscriptionToEdit = new SubscriptionEditViewModel();
-            subscriptionToEdit.ID = subscriptionToLoad.Id;
-            subscriptionToEdit.PlantNumber = subscriptionToLoad.PlantNumber ?? 0;
-            subscriptionToEdit.Customer = SubscriptionCustomerViewModel.CreateFromCustomer(subscriptionToLoad.FkCustomer);
-            subscriptionToEdit.Plan = SubscriptionPlanViewModel.CreateFromPlan(subscriptionToLoad.FkPlan);
-            subscriptionToEdit.StatusID = subscriptionToLoad.FkSubscriptionStatus;
-            subscriptionToEdit.StatusLabel = subscriptionToLoad.FkSubscriptionStatusNavigation.Label;
+            var subscriptionToEdit = new SubscriptionEditViewModel
+            {
+                ID = subscriptionToLoad.Id,
+                PlantNumber = subscriptionToLoad.PlantNumber ?? 0,
+                Customer = SubscriptionCustomerViewModel.CreateFromCustomer(subscriptionToLoad.FkCustomer),
+                Plan = SubscriptionPlanViewModel.CreateFromPlan(subscriptionToLoad.FkPlan),
+                StatusID = subscriptionToLoad.FkSubscriptionStatus,
+                StatusLabel = subscriptionToLoad.FkSubscriptionStatusNavigation.Label
+            };
             var periodesToLoad = this._context.Periodes
                 .Include(c => c.FkGiftedBy)
                 .Include(c => c.PeriodesGoodies)
@@ -520,11 +631,11 @@ namespace esencialAdmin.Services
 
             if (subscriptionToLoad.DateCreated != null)
             {
-                subscriptionToEdit.DateCreated = subscriptionToLoad?.DateCreated.Value.ToLocalTime();
+                subscriptionToEdit.DateCreated = subscriptionToLoad?.DateCreated.Value.ToLocalTime().ToString("dd.MM.yyyy");
             }
             if (subscriptionToLoad.DateModified != null)
             {
-                subscriptionToEdit.DateModified = subscriptionToLoad?.DateModified.Value.ToLocalTime();
+                subscriptionToEdit.DateModified = subscriptionToLoad?.DateModified.Value.ToLocalTime().ToString("dd.MM.yyyy");
 
             }
 
@@ -610,16 +721,20 @@ namespace esencialAdmin.Services
                     count++;
                 }
 
-                var newFile = new Files();
-                newFile.OriginalName = originalFileName;
-                newFile.Path = "\\Data\\Userdata\\" + subscription.FkCustomerId + "\\" + subscription.Id + "\\";
-                newFile.FileName = newFileName;
-                newFile.ContentType = formFile.ContentType;
+                var newFile = new Files
+                {
+                    OriginalName = originalFileName,
+                    Path = "\\Data\\Userdata\\" + subscription.FkCustomerId + "\\" + subscription.Id + "\\",
+                    FileName = newFileName,
+                    ContentType = formFile.ContentType
+                };
                 this._context.Files.Add(newFile);
 
-                var newSubscriptionPhotos = new SubscriptionPhotos();
-                newSubscriptionPhotos.FkFile = newFile;
-                newSubscriptionPhotos.FkSubscription = subscription;
+                var newSubscriptionPhotos = new SubscriptionPhotos
+                {
+                    FkFile = newFile,
+                    FkSubscription = subscription
+                };
 
                 this._context.SubscriptionPhotos.Add(newSubscriptionPhotos);
 

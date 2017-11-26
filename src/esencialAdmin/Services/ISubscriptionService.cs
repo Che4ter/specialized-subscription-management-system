@@ -15,6 +15,9 @@ namespace esencialAdmin.Services
         int createNewSubscription(SubscriptionCreateViewModel newPlan);
         bool deleteSubscription(int id);
         JsonResult loadDefaultSubscriptionDataTable(HttpRequest Request);
+
+        JsonResult loadGoodiesSubscriptionDataTable(HttpRequest Request);
+       
         SubscriptionEditViewModel loadSubscriptionInputModel(int id);
         bool updatePlan(PlanInputViewModel planToUpdate);
 
@@ -39,5 +42,8 @@ namespace esencialAdmin.Services
         Task<bool> addSubscriptionPhoto(IFormFile formFile, int subscriptionID);
 
         void updateSubscriptionStatus();
+
+        SubscriptionPlanFilterViewModel getAvailablePlans();
+
     }
 }

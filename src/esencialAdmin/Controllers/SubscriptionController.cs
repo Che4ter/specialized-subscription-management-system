@@ -176,6 +176,11 @@ namespace esencialAdmin.Controllers
             return _sService.loadDefaultSubscriptionDataTable(Request);
         }
 
+        public IActionResult LoadGoodiesData()
+        {
+            return _sService.loadGoodiesSubscriptionDataTable(Request);
+        }
+
         private static object GetPropertyValue(object obj, string property)
         {
             System.Reflection.PropertyInfo propertyInfo = obj.GetType().GetProperty(property);
@@ -197,6 +202,11 @@ namespace esencialAdmin.Controllers
             //Get the paged results and the total count of the results for this query. 
             return _sService.getSelect2Plans(search, pageSize, page);
 
+        }
+
+        public IActionResult managegoodies()
+        {
+            return View();
         }
 
         #region Helper

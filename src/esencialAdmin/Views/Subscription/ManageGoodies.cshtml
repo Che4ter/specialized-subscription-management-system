@@ -1,15 +1,15 @@
 ﻿@{
-    ViewData["Title"] = "Patenschafts Pläne Übersicht";
+    ViewData["Title"] = "Patenschaften Geschenke";
 }
 
 <div class="col-12 col-medium-12 col-small-12">
     <div class="grid">
         <div class="row row-space-between overview-header-row">
             <div class="col-6 col-medium-6 col-small-12">
-                <h2>Patenschafts Pläne</h2>
+                <h2>Patenschaften</h2>
             </div>
             <div class="col-6 col-medium-6 col-small-1 mui--text-right">
-                <a asp-area="" asp-controller="Plan" asp-action="Create" class="mui-btn mui-btn--primary">Neuer Plan erstellen</a>
+                <a asp-area="" asp-controller="Subscription" asp-action="Create" class="mui-btn mui-btn--primary">Neue Patenschaft erstellen</a>
             </div>
         </div>
     </div>
@@ -18,18 +18,16 @@
     <div class="row">
         <div class="col-12 col-medium-12 col-small-12">
             <div class="mui-panel">
- 
-
-                <table id="planTable" class="mui-table mui-table--bordered" cellspacing="0">
+                <table id="goodiesTable" class="mui-table mui-table--bordered hover " cellspacing="0">
                     <thead>
                         <tr>
                             <th>Id</th>
-                            <th>Name</th>
-                            <th>Preis</th>
+                            <th>RebstockNr</th>
+                            <th>Kunde</th>
+                            <th>Patenschaft</th>
+                            <th>Geschenke</th>
                             <th>Laufzeit</th>
-                            <th>In Gebrauch</th>
-                            @*<th>Edit</th>
-                                <th>Delete</th>*@
+                            <th>Status</th>
                         </tr>
                     </thead>
                 </table>
@@ -43,7 +41,7 @@
         <script src="~/lib/sweetalert2/sweetalert2.js" asp-append-version="true"></script>
         <script src="~/lib/DataTables/datatables.js" asp-append-version="true"></script>
         <script src="~/lib/jquery-contextMenu/dist/jquery.contextMenu.js" asp-append-version="true"></script>
-        <script src="~/js/planDatatable.js" asp-append-version="true"></script>
+        <script src="~/js/subscriptionDatatableGoodies.js" asp-append-version="true"></script>
     }
     @section styles {
         <link rel="stylesheet" href="~/lib/jquery-contextMenu/dist/jquery.contextMenu.css" />

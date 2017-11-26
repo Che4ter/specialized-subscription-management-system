@@ -1,5 +1,5 @@
 ﻿$(document).ready(function () {
-    var subscriptiontable = $("#subscriptionTable").DataTable({
+    var goodiestable = $("#goodiesTable").DataTable({
         "processing": true, // for show progress bar
         "serverSide": true, // for process server side
         "filter": true, // this is for disable filter (search box)
@@ -10,7 +10,7 @@
             "url": "/lib/DataTables/dataTablesGerman.json"
         },
         "ajax": {
-            "url": "/Subscription/LoadDefaultData",
+            "url": "/Subscription/LoadGoodiesData",
             "type": "POST",
             "datatype": "json"
         },
@@ -20,22 +20,20 @@
             "visible": false,
             "searchable": false
         },
-        { "width": "100px", "targets": 1 },
+        { "width": "90px", "targets": 1 },
         { "width": "300px", "targets": 2 },
-        { "width": "300px", "targets": 3 },
-        { "width": "110px", "targets": 4 },
-        { "width": "110px", "targets": 5 },
-        { "width": "110px", "targets": 6 },
-
-     ],
+        { "width": "200px", "targets": 3 },
+        { "width": "200px", "targets": 4 },
+        { "width": "110px", "targets": 5 }],
         "columns": [
             { "data": "id", "name": "Id", "autoWidth": true },
             { "data": "plantNr", "name": "RebstockNr", "autoWidth": false },
             { "data": "customer", "name": "Kunde", "autoWidth": false },
             { "data": "plan", "name": "Patenschaft", "autoWidth": false },
+            { "data": "goodies", "name": "Geschenke", "autoWidth": false },
             { "data": "periode", "name": "Laufzeit", "autoWidth": false },
-            { "data": "payed", "name": "Bezahlt", "autoWidth": false },
             { "data": "status", "name": "Status", "autoWidth": true },
+
             //{
             //    "render": function (data, type, full, meta)
             //    { return '<a class="btn btn-info" href="/Plan/Edit/' + full.id + '">Edit</a>'; }
@@ -44,23 +42,23 @@
             //    data: null, render: function (data, type, row) {
             //        return "<a href='#' class='btn btn-danger' onclick=PlanDeleteConfirmation('" + row.id + "'); >Delete</a>";
             //    }
-
             //},
         ]
 
     });
 
-    $('#subscriptionTable').on('draw.dt', function () {
+
+    $('#goodiestable').on('draw.dt', function () {
 
         $(".paginate_button").removeClass("paginate_button").addClass("mui-btn mui-btn--flat");
         $(".mui-btn mui-btn--flat.current").addClass("mui-btn--primary");
     });
 
     $.contextMenu({
-        selector: '#subscriptionTable tbody td',
+        selector: '#goodiesTable tbody td',
         callback: function (key, options) {
             var cellIndex = parseInt(options.$trigger[0].cellIndex),
-                row = subscriptiontable.row(options.$trigger[0].parentNode),
+                row = goodiestable.row(options.$trigger[0].parentNode),
                 rowIndex = row.index();
             switch (key) {
                 case 'edit':
@@ -74,5 +72,22 @@
         items: {
             "edit": { name: "Bearbeiten", icon: "edit" },
         }
+    });
+
+    $(document).on('change', '.datatableGoodieCheckbox', function () {
+        var isChecked = $(this).is(":checked") ? true : false;
+        $.ajax({
+            url: '/Subscription/updateReceivedGoodie',
+            type: 'POST',
+            data: { goodyID: $(this).val(), received: isChecked },
+            success: function (resp) {
+                goodiestable.ajax.reload();
+
+            },
+            error: function (req, status, err) {
+                console.log('something went wrong', status, err);
+            }
+        });
+
     });
 });

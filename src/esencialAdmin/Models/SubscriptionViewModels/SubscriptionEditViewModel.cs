@@ -33,9 +33,16 @@ namespace esencialAdmin.Models.SubscriptionViewModels
         [DisplayName("Patenschaft Status")]
         public String StatusLabel { get; set; }
 
-        public DateTime? DateCreated { get; set; }
+        [DisplayName("Erstellt am")]
+        public string DateCreated { get; set; }
+
+        [DisplayName("Erstellt durch")]
         public string UserCreated { get; set; }
-        public DateTime? DateModified { get; set; }
+
+        [DisplayName("Zuletzt bearbeitet am")]
+        public string DateModified { get; set; }
+
+        [DisplayName("Zuletzt bearbeitet durch")]
         public string UserModified { get; set; }
     }
 }
