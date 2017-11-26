@@ -62,7 +62,7 @@
                 rowIndex = row.index();
             switch (key) {
                 case 'edit':
-                    window.location.href = '/Subscription/Edit/' + subscriptiontable.cell(rowIndex, 0).data();
+                    window.location.href = '/Subscription/Edit/' + goodiestable.cell(rowIndex, 0).data();
                     //edit action here
                     break;
                 default:

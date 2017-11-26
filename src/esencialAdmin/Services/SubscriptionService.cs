@@ -52,14 +52,14 @@ namespace esencialAdmin.Services
                     this._context.SaveChanges();
 
                     var currentDeadline = new DateTime(DateTime.UtcNow.Year, plan.Deadline.Month, plan.Deadline.Day);
-                    var periodeEnd = new DateTime(currentDeadline.Year, 12, 31);
+                    var periodeEnd = new DateTime(DateTime.UtcNow.Year, 12, 31);
                     if (newSubscription.StartDate > currentDeadline)
                     {
-                        periodeEnd = periodeEnd.AddYears((plan.Duration + 1));
+                        periodeEnd = periodeEnd.AddYears((plan.Duration ));
                     }
                     else
                     {
-                        periodeEnd = periodeEnd.AddYears(plan.Duration);
+                        periodeEnd = periodeEnd.AddYears(plan.Duration -1);
                     }
                     var p = new Periodes()
                     {
@@ -86,10 +86,11 @@ namespace esencialAdmin.Services
 
                     for (int i = 0; i < plan.Duration; i++)
                     {
-                        PeriodesGoodies newGoodie = new PeriodesGoodies();
-
-                        newGoodie.FkPlanGoodiesId = plan.Id;
-                        newGoodie.SubPeriodeYear = startYear;
+                        PeriodesGoodies newGoodie = new PeriodesGoodies
+                        {
+                            FkPlanGoodiesId = plan.Id,
+                            SubPeriodeYear = startYear
+                        };
                         startYear++;
                         p.PeriodesGoodies.Add(newGoodie);
                     }

@@ -1,4 +1,5 @@
 ﻿using esencialAdmin.Data;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
@@ -13,11 +14,11 @@ namespace esencialAdmin.Services
     // For more details see https://go.microsoft.com/fwlink/?LinkID=532713
     public class EmailSender : IEmailSender
     {
-        public EmailSettings _emailSettings { get; }
+        private readonly IConfiguration _config;
 
-        public EmailSender(IOptions<EmailSettings> emailSettings)
+        public EmailSender(IConfiguration config)
         {
-            _emailSettings = emailSettings.Value;
+            _config = config;
         }
 
         public Task SendEmailAsync(string email, string subject, string message)
@@ -26,26 +27,23 @@ namespace esencialAdmin.Services
             return Task.FromResult(0);
         }
 
-        public async Task Execute(string email, string subject, string message)
+        public async Task Execute(string toEmail, string subject, string message)
         {
             try
             {
-                string toEmail = string.IsNullOrEmpty(email)
-                                 ? _emailSettings.ToEmail
-                                 : email;
                 MailMessage mail = new MailMessage()
                 {
-                    From = new MailAddress(_emailSettings.FromEmail, _emailSettings.DisplayName)
+                    From = new MailAddress(_config["FromEmail"], _config["DisplayName"])
                 };
                 mail.To.Add(new MailAddress(toEmail));
                 mail.Subject = "esencialAdmin - " + subject;
                 mail.Body = message;
                 mail.IsBodyHtml = true;
 
-                using (SmtpClient smtp = new SmtpClient(_emailSettings.Domain, _emailSettings.Port))
+                using (SmtpClient smtp = new SmtpClient(_config["Domain"], int.Parse(_config["Port"])))
                 {
                     smtp.UseDefaultCredentials = false;
-                    smtp.Credentials = new NetworkCredential(_emailSettings.UsernameEmail, _emailSettings.UsernamePassword);
+                    smtp.Credentials = new NetworkCredential(_config["UsernameEmail"], _config["UsernamePassword"]);
                     smtp.EnableSsl = true;
                     smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
                     await smtp.SendMailAsync(mail);
@@ -53,6 +51,8 @@ namespace esencialAdmin.Services
             }
             catch (Exception ex)
             {
+                System.Diagnostics.Debug.WriteLine(ex.InnerException.Message);
+
                 var es = ex.Message;
                 //do something here
             }

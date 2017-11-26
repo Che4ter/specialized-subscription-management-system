@@ -64,8 +64,8 @@ namespace esencialAdmin
             services.AddScoped<ISubscriptionService, SubscriptionService>();
             services.AddScoped<IImageService, ImageService>();
             services.AddScoped<IStatisticService, StatisticService>();
+            services.AddSingleton<IConfiguration>(Configuration);
 
-            services.Configure<EmailSettings>(Configuration.GetSection("EmailSettings"));
             // Create Policies
             services.AddAuthorization(options =>
             {
@@ -121,6 +121,8 @@ namespace esencialAdmin
                     template: "{controller=Home}/{action=Index}/{id?}");
               
             });
+
+            
         }
     }
 }
