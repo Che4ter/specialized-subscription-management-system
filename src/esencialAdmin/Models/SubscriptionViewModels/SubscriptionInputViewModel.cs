@@ -9,46 +9,21 @@ using System.Threading.Tasks;
 
 namespace esencialAdmin.Models.SubscriptionViewModels
 {
-    public class SubscriptionInputViewModel
+    public class SubscriptionIndexViewModel
     {
 
-        [DisplayName("ID")]
-        public int ID { get; set; }
+        [Display(Name = "Plan")]
+        public virtual List<SubscriptionSelectPlanViewModel> Plans { get; set; }
 
-        [Required]
-        [DisplayName("Name")]
-        public string Name { get; set; }
+        public int planID { get; set; }
 
-        [Required]
-        [DisplayName("Preis")]
-        public decimal Price { get; set; }
+        [Display(Name = "Status")]
+        public virtual List<SubscriptionSelectStatusViewModel> Status { get; set; }
 
-        [Required]
-        [DisplayName("Dauer(in Jahren)")]
-        public int Duration { get; set; }
+        [DisplayName("Geschenk erhalten?")]
+        public bool Goody { get; set; }
 
-        [Required]
-        [DisplayName("Stichtag")]
-        [DataType(DataType.Date)]
-        public DateTime Deadline { get; set; }
+        public int statusID { get; set; }
 
-        [Required]
-        [DisplayName("Geschenk")]
-        public int GoodyID { get; set; }
-
-        [DisplayName("Erstellt am")]
-        public string DateCreated { get; set; }
-
-        [DisplayName("Erstellt durch")]
-        public string UserCreated { get; set; }
-
-        [DisplayName("Zuletzt bearbeitet am")]
-        public string DateModified { get; set; }
-
-        [DisplayName("Zuletzt bearbeitet durch")]
-        public string UserModified { get; set; }
-
-        [Display(Name = "Etiketten Vorlagen")]
-        public virtual List<GoodiesViewModel> Goodies { get; set; }
     }
 }

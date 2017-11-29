@@ -12,7 +12,13 @@
         "ajax": {
             "url": "/Subscription/LoadDefaultData",
             "type": "POST",
-            "datatype": "json"
+            "datatype": "json",
+            "data": function (d) {
+                d.planId = $("#PlanMethodSelect option:selected").val() ;
+                d.statusId = $("#StatusMethodSelect option:selected").val() ;
+                d.goody = $("#goodyCheckbox").is(":checked");
+
+            }
         },
         "columnDefs":
         [{
@@ -56,6 +62,12 @@
         $(".mui-btn mui-btn--flat.current").addClass("mui-btn--primary");
     });
 
+    $('select,#goodyCheckbox').on('change', function () {
+
+        subscriptiontable.ajax.reload();
+
+    });
+
     $.contextMenu({
         selector: '#subscriptionTable tbody td',
         callback: function (key, options) {
@@ -74,5 +86,9 @@
         items: {
             "edit": { name: "Bearbeiten", icon: "edit" },
         }
+    });
+
+    $(function () {
+        $("select").removeAttr("multiple");
     });
 });

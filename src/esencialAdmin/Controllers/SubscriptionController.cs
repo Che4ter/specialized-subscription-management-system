@@ -24,7 +24,14 @@ namespace esencialAdmin.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            SubscriptionIndexViewModel model = new SubscriptionIndexViewModel
+            {
+                Plans = _sService.getAvailableSelectPlanMethods(),
+                Status = _sService.getAvailableSelectStatusMethods(),
+
+            };
+
+            return View(model);
         }
 
         [HttpGet]

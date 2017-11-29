@@ -1,19 +1,79 @@
-﻿@{
+﻿@model esencialAdmin.Models.SubscriptionViewModels.SubscriptionIndexViewModel
+
+@{
     ViewData["Title"] = "Patenschaften Übersicht";
 }
+<form asp-controller="Pdf" method="post">
 
-<div class="col-12 col-medium-12 col-small-12">
-    <div class="grid">
-        <div class="row row-space-between overview-header-row">
-            <div class="col-6 col-medium-6 col-small-12">
-                <h2>Patenschaften</h2>
+    <div class="col-12 col-medium-12 col-small-12">
+        <div class="grid">
+            <div class="row row-space-between overview-header-row">
+
+                <div class="col-6 col-medium-6 col-small-12 subscriptionHeader">
+                    <h2>Patenschaften</h2>
+
+                    <div class="mui-select">
+                        @{
+
+                            var selectPlanList = new List<SelectListItem>();
+                            foreach (var tmp in Model.Plans)
+                            {
+                                SelectListItem item = new SelectListItem();
+                                item.Value = tmp.Id.ToString();
+                                item.Text = tmp.Name;
+
+                                selectPlanList.Add(item);
+                            }
+                        }
+
+                        <select asp-for="planID" id="PlanMethodSelect" multiple="multiple" size="1" asp-items="selectPlanList">
+                            <option value="0" selected>Alle</option>
+                        </select>
+                        <label asp-for="Plans"></label>
+                        <br />
+                    </div>
+
+                    <div class="mui-select">
+                        @{
+
+                            var selectStatusList = new List<SelectListItem>();
+                            foreach (var tmp in Model.Status)
+                            {
+                                SelectListItem item = new SelectListItem();
+                                item.Value = tmp.Id.ToString();
+                                item.Text = tmp.Name;
+
+                                selectStatusList.Add(item);
+                            }
+                        }
+
+                        <select asp-for="statusID" id="StatusMethodSelect" asp-items="selectStatusList">
+                            <option value="0" selected>Alle</option>
+                        </select>
+                        <label asp-for="Status"></label>
+                        <br />
+
+                    </div>
+                    <div>
+                        <label asp-for="@Model.Goody"></label>:
+
+                        <label>
+                            <input type="checkbox" id="goodyCheckbox" value="@Model.Goody" asp-for="@Model.Goody">
+                        </label>
+                    </div>
+                </div>
+
+                <div class="col col-medium-6 col-small-1 mui--text-right">
+                    <button type="submit" asp-area="" asp-controller="Pdf" asp-action="PrintAdressLabels" class="mui-btn mui-btn--primary">Adressen export</button>
+                    <button type="submit" asp-area="" asp-controller="Pdf" asp-action="PrintBottleLabels" class="mui-btn mui-btn--primary">Etiketten export</button>
+                    <a asp-area="" asp-controller="Subscription" asp-action="Create" class="mui-btn mui-btn--primary">Neue Patenschaft erstellen</a>
+                </div>
             </div>
-            <div class="col-6 col-medium-6 col-small-1 mui--text-right">
-                <a asp-area="" asp-controller="Subscription" asp-action="Create" class="mui-btn mui-btn--primary">Neue Patenschaft erstellen</a>
-            </div>
+
         </div>
     </div>
-</div>
+</form>
+
 <div class="grid mui-form">
     <div class="row">
         <div class="col-12 col-medium-12 col-small-12">

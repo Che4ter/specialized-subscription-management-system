@@ -190,6 +190,38 @@ namespace esencialAdmin.Services
             return paymentList;
         }
 
+        public List<SubscriptionSelectPlanViewModel> getAvailableSelectPlanMethods()
+        {
+            List<SubscriptionSelectPlanViewModel> planList = new List<SubscriptionSelectPlanViewModel>();
+
+            foreach (Plans plan in _context.Plans)
+            {
+                planList.Add(new SubscriptionSelectPlanViewModel
+                {
+                    Id = plan.Id,
+                    Name = plan.Name
+                });
+            }
+
+            return planList;
+        }
+
+        public List<SubscriptionSelectStatusViewModel> getAvailableSelectStatusMethods()
+        {
+            List<SubscriptionSelectStatusViewModel> statusList = new List<SubscriptionSelectStatusViewModel>();
+
+            foreach (SubscriptionStatus status in _context.SubscriptionStatus)
+            {
+                statusList.Add(new SubscriptionSelectStatusViewModel
+                {
+                    Id = status.Id,
+                    Name = status.Label
+                });
+            }
+
+            return statusList;
+        }
+
         public SubscriptionPlanFilterViewModel getAvailablePlans()
         {
             SubscriptionPlanFilterViewModel plans = new SubscriptionPlanFilterViewModel
@@ -299,6 +331,11 @@ namespace esencialAdmin.Services
                 var draw = Request.Form["draw"].FirstOrDefault();
                 // Skiping number of Rows count  
                 var start = Request.Form["start"].FirstOrDefault();
+
+                int planId = int.Parse(Request.Form["planId"].FirstOrDefault());
+                int statusId = int.Parse(Request.Form["statusId"].FirstOrDefault());
+                bool notGoodyReceived = !bool.Parse(Request.Form["goody"].FirstOrDefault());
+
                 // Paging Length 10,20  
                 var length = Request.Form["length"].FirstOrDefault();
                 // Sort Column Name                  
@@ -317,9 +354,22 @@ namespace esencialAdmin.Services
                 int pageSize = length != null ? Convert.ToInt32(length) : 0;
                 int skip = start != null ? Convert.ToInt32(start) : 0;
                 int recordsTotal = 0;
-
+                bool filterPlan = false;
+                if(planId == 0)
+                {
+                    filterPlan = true;
+                }
+                bool filterStatus = false;
+                if (statusId == 0)
+                {
+                    filterStatus = true;
+                }
+                int currentYear = DateTime.UtcNow.Year;
                 // Getting all Customer data  
                 var planData = (from tempplan in _context.Subscription
+                                where (tempplan.FkPlanId == planId || filterPlan) && 
+                                (tempplan.FkSubscriptionStatus == statusId || filterStatus) && 
+                                (tempplan.Periodes.Any(x => x.PeriodesGoodies.Any(y => y.Received == false && y.SubPeriodeYear <= currentYear)) || notGoodyReceived)
                                 select new
                                 {
                                     Id = tempplan.Id,

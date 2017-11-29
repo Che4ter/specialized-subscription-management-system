@@ -169,10 +169,14 @@ buttons {
     margin-top: 10px;
     margin-bottom: 20px;
 }
+
+.subscriptionHeader > div, .subscriptionHeader>h2{
+    float:left;
+    margin-right: 15px;
+}
 /**
  * Sidedrawer CSS
  */
-
 #sidedrawer-brand img {
     height: 50px;
     width: auto;

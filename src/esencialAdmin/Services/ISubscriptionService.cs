@@ -28,6 +28,10 @@ namespace esencialAdmin.Services
 
         List<PaymentMethodsViewModel> getAvailablePaymentMethods();
 
+        List<SubscriptionSelectStatusViewModel> getAvailableSelectStatusMethods();
+
+        List<SubscriptionSelectPlanViewModel> getAvailableSelectPlanMethods();
+
         bool updatePaymentStatus(int periodeID, bool isPayed);
 
         bool updatePaymentMethod(int periodeID, int paymentID);

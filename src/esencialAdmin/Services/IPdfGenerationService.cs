@@ -1,4 +1,5 @@
 ﻿using esencialAdmin.Models.PdfViewModels;
+using esencialAdmin.Models.SubscriptionViewModels;
 using System.Collections.Generic;
 
 namespace esencialAdmin.Services
@@ -7,7 +8,7 @@ namespace esencialAdmin.Services
     {
         PdfCertificateViewModel getCertificateModel(int customerID);
 
-        List<PdfSingleAdressViewModel> getAdressLabelsModel();
+        List<PdfSingleAdressViewModel> getAdressLabelsModel(SubscriptionIndexViewModel filter);
 
     }
 }
