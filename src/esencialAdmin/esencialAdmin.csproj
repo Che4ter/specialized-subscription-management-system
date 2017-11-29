@@ -12,6 +12,31 @@
 	  <RepositoryUrl>https://github.com/Che4ter/PAWI</RepositoryUrl>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Models\Rotativa\**" />
+    <Content Remove="Models\Rotativa\**" />
+    <EmbeddedResource Remove="Models\Rotativa\**" />
+    <None Remove="Models\Rotativa\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Rotativa\wkhtmltoimage.exe" />
+    <None Remove="Rotativa\wkhtmltopdf.exe" />
+    <None Remove="Rotativa\wkhtmltox.dll" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Rotativa\wkhtmltoimage.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Rotativa\wkhtmltopdf.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Rotativa\wkhtmltox.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="BuildBundlerMinifier" Version="2.6.362" />
@@ -32,7 +57,14 @@
   <ItemGroup>
     <Folder Include="Data\TMPModels\" />
     <Folder Include="Data\Userdata\" />
+    <Folder Include="lib\" />
     <Folder Include="Properties\PublishProfiles\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Rotativa.NetCore">
+      <HintPath>..\..\..\Rotativa.NetCore\Rotativa.NetCore\bin\Release\netcoreapp2.0\Rotativa.NetCore.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

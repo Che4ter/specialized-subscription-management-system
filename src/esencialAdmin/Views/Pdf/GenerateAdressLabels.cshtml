@@ -1,0 +1,17 @@
+﻿@model List<esencialAdmin.Models.PdfViewModels.PdfSingleAdressViewModel>
+@{
+    Layout = "~/Views/Shared/_PdfLayout.cshtml";
+}
+    @foreach (var adress in Model)
+    {
+        <div class="adressContainer">
+            @if (@adress.Company != null)
+            {
+                @adress.Company<br />
+            }
+            @adress.Title <br />
+            @adress.FirstName @adress.LastName<br />
+            @adress.Street <br />
+            @adress.Zip @adress.City
+        </div>
+    }

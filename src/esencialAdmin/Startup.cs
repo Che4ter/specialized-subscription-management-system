@@ -64,7 +64,9 @@ namespace esencialAdmin
             services.AddScoped<ISubscriptionService, SubscriptionService>();
             services.AddScoped<IImageService, ImageService>();
             services.AddScoped<IStatisticService, StatisticService>();
+            services.AddScoped<IPdfGenerationService, PdfGenerationService>();
             services.AddSingleton<IConfiguration>(Configuration);
+
 
             // Create Policies
             services.AddAuthorization(options =>

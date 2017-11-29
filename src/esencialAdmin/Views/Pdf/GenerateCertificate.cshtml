@@ -1,0 +1,41 @@
+﻿@model esencialAdmin.Models.PdfViewModels.PdfCertificateViewModel
+
+
+<div class="row  row-equal">
+    <div class="col-12 col-medium-12 col-small-12">
+        <div class="mui-panel">
+            <div class="grid">
+                <div class="row row-space-between">
+                    <div class="col-6 col-medium-6 col-small-12">
+                        <div class="mui--text-headline">
+                            Patenschaft:
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row  row-equal">
+    <div class="col-8  col-medium-8 col-small-12">
+        <div class="mui-panel">
+            <div class="mui--form-title">Basis Daten</div>
+            <div class="grid">
+                <div class="row">
+                    <div class="col-6 col-medium-12 col-small-12">
+                        <label asp-for="Customer"></label> : @Model.Customer
+                    </div>
+                    <div class="col-6 col-medium-12 col-small-12">
+
+                        <label asp-for="Customer"></label> : @Model.Customer
+                    </div>
+
+                    <div class="col-6 col-medium-12 col-small-12">
+                        <label asp-for="PlantNumber"></label> : @Model.PlantNumber
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
