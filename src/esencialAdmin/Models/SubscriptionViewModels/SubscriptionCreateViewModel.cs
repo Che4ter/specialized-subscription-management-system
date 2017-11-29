@@ -18,10 +18,13 @@ namespace esencialAdmin.Models.SubscriptionViewModels
         [DisplayName("Kunde auswählen")]
         [Required]
         public int CustomerID { get; set; }
+        public String CustomerPreSelect { get; set; }
 
         [DisplayName("Patenschaft auswählen")]
         [Required]
         public int PlanID { get; set; }
+
+        public String PlanPreSelect { get; set; }
 
         [Required]
         [DisplayName("Start Datum")]
@@ -38,5 +41,8 @@ namespace esencialAdmin.Models.SubscriptionViewModels
 
         [DisplayName("Geschenkt von")]
         public int GiverCustomerId { get; set; }
+
+        public String GiverPreSelect { get; set; }
+
     }
 }

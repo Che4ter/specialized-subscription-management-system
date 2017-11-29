@@ -33,7 +33,7 @@ namespace esencialAdmin.Controllers
             SubscriptionCreateViewModel newSubscription = new SubscriptionCreateViewModel
             {
                 StartDate = DateTime.Now,
-                PaymentMethods = _sService.getAvailablePaymentMethods()
+                PaymentMethods = _sService.getAvailablePaymentMethods(),
             };
 
             return View(newSubscription);
@@ -42,8 +42,21 @@ namespace esencialAdmin.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public IActionResult Create(SubscriptionCreateViewModel newSubscription)
         {
+            
             if (!iNewesSubscriptionEmpty(newSubscription) && ModelState.IsValid)
             {
+                if(_sService.checkIfNrExists(newSubscription.PlantNumber))
+                {
+                    newSubscription.CustomerPreSelect = _sService.getCustomerSelect2Text(newSubscription.CustomerID);
+                    newSubscription.PlanPreSelect = _sService.getPlanSelect2Text(newSubscription.PlanID);
+                    newSubscription.PaymentMethods = _sService.getAvailablePaymentMethods();
+                    if (newSubscription.GiverCustomerId > 0)
+                    {
+                        newSubscription.GiverPreSelect = _sService.getCustomerSelect2Text(newSubscription.GiverCustomerId);
+                    }
+                    this.AddNotification("Rebstock Nummer existiert bereits", NotificationType.ERROR);
+                    return View(newSubscription);
+                }
                 var _id = _sService.createNewSubscription(newSubscription);
                 if (_id > 0)
                 {
@@ -51,7 +64,12 @@ namespace esencialAdmin.Controllers
                 }
             }
             newSubscription.PaymentMethods = _sService.getAvailablePaymentMethods();
-
+            newSubscription.CustomerPreSelect = _sService.getCustomerSelect2Text(newSubscription.CustomerID);
+            if(newSubscription.GiverCustomerId > 0)
+            {
+                newSubscription.GiverPreSelect = _sService.getCustomerSelect2Text(newSubscription.GiverCustomerId);
+            }
+            newSubscription.PlanPreSelect = _sService.getPlanSelect2Text(newSubscription.PlanID);
             this.AddNotification("Patenschaft wurde nicht erstellt<br>Überprüfe die Eingaben", NotificationType.ERROR);
             return View(newSubscription);
         }
@@ -131,6 +149,13 @@ namespace esencialAdmin.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError);
 
             }
+        }
+
+        [HttpPost]
+        public int getNextFreePlantNr(int planID)
+        {
+            return _sService.getNextPlantNr(planID);
+
         }
 
         [HttpGet]

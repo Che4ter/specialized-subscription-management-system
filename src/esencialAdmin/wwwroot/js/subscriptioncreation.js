@@ -1,7 +1,4 @@
-﻿
-
-
-//The url we will send our get request to
+﻿//The url we will send our get request to
 var pageSize = 50;
 
 $('#customersSelect').select2(
@@ -46,6 +43,7 @@ $('#customersSelect').select2(
         }
     }); 
 
+
 $('#giverSelect').select2(
     {
         placeholder: 'Name eingeben',
@@ -88,6 +86,20 @@ $('#giverSelect').select2(
         }
     }); 
 
+
+$("#planSelect").on("select2:select", function (e) {
+    var select_val = $(e.currentTarget).val();
+    $.ajax({
+        url: '/Subscription/getNextFreePlantNr',
+        type: 'POST',
+        data: { planID: select_val },
+        success: function (data) {
+            $('#plantNr').val(data);
+        },
+    });
+});
+
+
 $('#planSelect').select2(
     {
         placeholder: 'Name eingeben',
@@ -129,8 +141,7 @@ $('#planSelect').select2(
             minimumInputLength: 2
         }
     }); 
-
-$("#payedCheckbox").change(function () {
+$('#payedCheckbox').on('change', function () {
     if (this.checked) {
         $("#paymentMethodContainer").show();
     } else {
@@ -138,6 +149,12 @@ $("#payedCheckbox").change(function () {
 
     }
 });
+
+if ($("#payedCheckbox").is(':checked')) {
+    $("#paymentMethodContainer").show();
+} else {
+    $("#paymentMethodContainer").hide();
+}
 
 $(".select2-selection__arrow")
     .addClass("material-icons")

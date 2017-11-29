@@ -1,6 +1,6 @@
-﻿@model esencialAdmin.Models.SubscriptionViewModels.SubscriptionEditViewModel
-@using Microsoft.AspNetCore.Authorization
+﻿@using Microsoft.AspNetCore.Authorization
 @inject IAuthorizationService AuthorizationService
+@model esencialAdmin.Models.SubscriptionViewModels.SubscriptionEditViewModel
 
 @{
 
@@ -48,7 +48,6 @@
                                 <strong><label asp-for="Plan"></label>:</strong> <br />
                                 @Model.Plan.Name <br /><br />
                                 <strong><label asp-for="PlantNumber"></label>:</strong> @Model.PlantNumber <br />
-                                <strong><label asp-for="Plan.Duration"></label>:</strong> @Model.Plan.Duration<br />
                                 <strong><label asp-for="Plan.Price"></label>:</strong> @Model.Plan.Price.ToString("C")<br />
                             </p>
 

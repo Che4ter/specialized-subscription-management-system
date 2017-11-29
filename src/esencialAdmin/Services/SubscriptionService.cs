@@ -82,7 +82,7 @@ namespace esencialAdmin.Services
                         p.FkGiftedById = newSubscription.GiverCustomerId;
                     }
 
-                    int startYear = periodeEnd.Year - plan.Duration;
+                    int startYear = (periodeEnd.Year - plan.Duration) +1;
 
                     for (int i = 0; i < plan.Duration; i++)
                     {
@@ -211,7 +211,7 @@ namespace esencialAdmin.Services
 
                 // Getting all Customer data  
                 var customerData = (from tmpcustomer in _context.Customers
-                                    select new { Id = tmpcustomer.Id, DisplayString = ((tmpcustomer.Company ?? "") + " " + (tmpcustomer.FirstName ?? "") + " " + (tmpcustomer.LastName ?? "") + " " + (tmpcustomer.Street ?? "") + " " + (tmpcustomer.Zip ?? "") + " " + (tmpcustomer.City ?? "")).Replace("  ", " ").Trim() });
+                                    select new { Id = tmpcustomer.Id, DisplayString = ((tmpcustomer.FirstName ?? "") + " " + (tmpcustomer.LastName ?? "") + " " + (tmpcustomer.Zip ?? "")).Replace("  ", " ").Trim() });
 
                 //Sorting  
                 customerData = customerData.OrderBy(x => x.DisplayString);
@@ -342,7 +342,8 @@ namespace esencialAdmin.Services
                 //Search  
                 if (!string.IsNullOrEmpty(searchValue))
                 {
-                    planData = planData.Where(m => m.Customer.StartsWith(searchValue));
+                    searchValue = searchValue.ToLower();
+                    planData = planData.Where(m => m.Customer.ToLower().Contains(searchValue) || m.PlantNr.ToString() == searchValue || m.Periode.Contains(searchValue) || m.Payed.ToLower().Contains(searchValue) || m.Status.ToLower().Contains(searchValue) || m.Plan.ToLower().Contains(searchValue));
                 }
 
                 //total number of rows count   
@@ -396,10 +397,9 @@ namespace esencialAdmin.Services
                                     Customer = tempplan.FkCustomer.FirstName + " " + tempplan.FkCustomer.LastName,
                                     Plan = tempplan.FkPlan.Name,
                                     Goodies = tempplan.Periodes.Where(x => x.EndDate > DateTime.UtcNow && x.StartDate < DateTime.UtcNow).FirstOrDefault().PeriodesGoodies.Where(y => y.Received == false && y.SubPeriodeYear <= currentYear),
-                                    Periode = tempplan.Periodes.Where(x => x.EndDate > DateTime.UtcNow && x.StartDate < DateTime.UtcNow).FirstOrDefault(),
+                                    Periode = tempplan.Periodes.Where(x => x.EndDate > DateTime.UtcNow && x.StartDate < DateTime.UtcNow).FirstOrDefault().StartDate.ToString("dd.MM.yyyy") + " -<br>" + tempplan.Periodes.Where(x => x.EndDate > DateTime.UtcNow && x.StartDate < DateTime.UtcNow).FirstOrDefault().EndDate.ToString("dd.MM.yyyy"),
                                     Status = tempplan.FkSubscriptionStatusNavigation.Label,
                                 });
-
 
                 //Sorting  
                 if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDirection)))
@@ -410,7 +410,7 @@ namespace esencialAdmin.Services
                 //Search  
                 if (!string.IsNullOrEmpty(searchValue))
                 {
-                    planData = planData.Where(m => m.Customer.StartsWith(searchValue));
+                    planData = planData.Where(m => m.Customer.ToLower().Contains(searchValue) || m.PlantNr.ToString() == searchValue || m.Periode.Contains(searchValue) || m.Status.ToLower().Contains(searchValue) || m.Plan.ToLower().Contains(searchValue));
                 }
 
                 //total number of rows count   
@@ -426,7 +426,7 @@ namespace esencialAdmin.Services
                         PlantNr = item.PlantNr ?? 0,
                         Customer = item.Customer,
                         Plan = item.Plan,
-                        Periode = item.Periode.StartDate.ToString("dd.MM.yyyy") + " -<br>" + item.Periode.EndDate.ToString("dd.MM.yyyy"),
+                        Periode = item.Periode,
                         Status = item.Status,
                         Goodies = ""
                     };
@@ -647,34 +647,7 @@ namespace esencialAdmin.Services
 
             return subscriptionToEdit;
         }
-
-        public bool updatePlan(PlanInputViewModel planToUpdate)
-        {
-            try
-            {
-                var planToEdit = this._context.Plans
-                  .Where(c => c.Id == planToUpdate.ID)
-                  .FirstOrDefault();
-                if (planToEdit == null)
-                {
-                    return false;
-                }
-                planToEdit.Name = planToUpdate.Name;
-                planToEdit.Price = planToUpdate.Price;
-                planToEdit.Duration = planToUpdate.Duration;
-                planToEdit.Deadline = planToUpdate.Deadline;
-                planToEdit.FkGoodyId = planToUpdate.GoodyID;
-
-                this._context.SaveChanges();
-
-                return true;
-            }
-            catch (Exception ex)
-            {
-                return false;
-            }
-
-        }
+     
 
         public async Task<bool> addSubscriptionPhoto(IFormFile formFile, int subscriptionID)
         {
@@ -889,5 +862,33 @@ namespace esencialAdmin.Services
         {
             this._context.Subscription.AsParallel().Select(x => x.Id).ForAll(x => checkSubscriptionStatus(x));
         }
+
+        public bool checkIfNrExists(int nr)
+        {
+            return this._context.Subscription.Where(x => x.PlantNumber == nr).Any();
+        }
+
+        public String getCustomerSelect2Text(int customerID)
+        {
+            var customerData = (from tmpcustomer in _context.Customers where tmpcustomer.Id == customerID
+                                select new { DisplayString = ((tmpcustomer.FirstName ?? "") + " " + (tmpcustomer.LastName ?? "") + " " + (tmpcustomer.Zip ?? "")).Replace("  ", " ").Trim() }).FirstOrDefault();
+            return customerData.DisplayString;
+        }
+
+        public String getPlanSelect2Text(int planID)
+        {
+            var planData = (from tmpplan in _context.Plans
+                                where tmpplan.Id == planID
+                            select new { DisplayString = ((tmpplan.Name ?? "") + " - Laufzeit: " + (tmpplan.Duration.ToString() ?? "") + " Jahre - Preis " + (tmpplan.Price.ToString("N2") ?? "")).Replace("  ", " ").Trim() }).FirstOrDefault();
+            return planData.DisplayString;
+        }
+
+        public int getNextPlantNr(int planID)
+        {
+            int last = _context.Subscription.Where(x => x.FkPlanId == planID).Max(x => x.PlantNumber).Value + 1;
+            return last;
+        }
+
+
     }
 }

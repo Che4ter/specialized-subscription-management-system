@@ -19,7 +19,6 @@ namespace esencialAdmin.Services
         JsonResult loadGoodiesSubscriptionDataTable(HttpRequest Request);
        
         SubscriptionEditViewModel loadSubscriptionInputModel(int id);
-        bool updatePlan(PlanInputViewModel planToUpdate);
 
         List<GoodiesViewModel> getAvailableGoodies();
 
@@ -44,6 +43,13 @@ namespace esencialAdmin.Services
         void updateSubscriptionStatus();
 
         SubscriptionPlanFilterViewModel getAvailablePlans();
+
+        bool checkIfNrExists(int nr);
+
+        String getCustomerSelect2Text(int customerID);
+        String getPlanSelect2Text(int planID);
+
+        int getNextPlantNr(int planID);
 
     }
 }

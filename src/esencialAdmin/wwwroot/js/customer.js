@@ -1,7 +1,4 @@
-﻿
-
-
-function CustomerDeleteConfirmation(CustomerID) {
+﻿function CustomerDeleteConfirmation(CustomerID) {
     swal({
         title: 'Bist du sicher?',
         text: "Das löschen kann nicht rückgängig gemacht werden!",
@@ -18,11 +15,9 @@ function CustomerDeleteConfirmation(CustomerID) {
 
             }
             else {
-                alert("Something Went Wrong!");
+                alert("Es gab ein Problem beim löschen!");
             }
         });
 
     }).catch(swal.noop);
 }
-
-

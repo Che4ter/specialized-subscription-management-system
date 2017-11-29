@@ -25,9 +25,11 @@ namespace esencialAdmin.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            PlanInputViewModel newPlan = new PlanInputViewModel();
-            newPlan.Goodies = _pService.getAvailableGoodies();
-            newPlan.Deadline = DateTime.Parse("30.09 " + DateTime.Now.Year);
+            PlanInputViewModel newPlan = new PlanInputViewModel
+            {
+                Goodies = _pService.getAvailableGoodies(),
+                Deadline = DateTime.Parse("30.09 " + DateTime.Now.Year)
+            };
             return View(newPlan);
         }
 

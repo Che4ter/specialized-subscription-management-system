@@ -21,7 +21,8 @@ namespace esencialAdmin.Models.PlanViewModels
 
         [Required]
         [DisplayName("Preis")]
-        public decimal Price { get; set; }
+        [DataType(DataType.Currency)]
+        public Decimal Price { get; set; }
 
         [Required]
         [DisplayName("Dauer(in Jahren)")]
@@ -57,7 +58,7 @@ namespace esencialAdmin.Models.PlanViewModels
             {
                 ID = p.Id,
                 Name = p.Name,
-                Price = p.Price,
+                Price = Decimal.Round(p.Price, 2, MidpointRounding.AwayFromZero),
                 Duration = p.Duration,
                 Deadline = p.Deadline,
                 GoodyID = p.FkGoodyId,              

@@ -46,8 +46,6 @@ namespace esencialAdmin.Controllers
             {
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
-            return this.NotFound();
-
         }
 
         public IActionResult downloadImage(String filePath)

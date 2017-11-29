@@ -15,7 +15,7 @@
 
             }
             else {
-                alert("Something Went Wrong!");
+                alert("Es gab ein Problem beim löschen!");
             }
         });
 
