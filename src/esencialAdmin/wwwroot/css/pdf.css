@@ -1,16 +1,61 @@
 ﻿body {
     width: 100%;
-
 }
 
-.adressContainer {
-    float: left;
-    width: 33%;
+table {
+    border-spacing: 0; /* Removes the cell spacing via CSS */
+    border-collapse: collapse; /* Optional - if you don't want to have double border where cells touch */
+    box-sizing: border-box;
+    table-layout: fixed;
+}
+
+td.labelCell {
     border: 1px solid #000;
-    height: 130px;
-    padding: 10px;
-    display: inline-block;
+    padding: 0;
+    box-sizing: border-box;
+    padding-top: 28px;
+    padding-bottom: 14px;
     page-break-before: always !important;
-    page-break-inside: avoid;
-    box-sizing:border-box;
+    page-break-inside: avoid !important;
+    text-align: center;
+}
+
+td.adressCell {
+    border: 1px solid #000;
+    padding: 10px;
+    box-sizing: border-box;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    page-break-before: always !important;
+    page-break-inside: avoid !important;
+    text-align:center;
+}
+    td.adressCell span{
+        text-align:left!important;
+        margin-left:auto;
+        margin-right:auto;
+        display:inline-block;
+        width:auto;
+    }
+    
+    
+    tr {
+        page-break-before: always !important;
+        page-break-inside: avoid !important;
+    }
+
+
+
+.labelCell img {
+    width: 150px;
+    height: auto;
+}
+
+.labelCell span {
+    font-size: 16px;
+    font-family: Arial;
+    width: 100%;
+    padding-bottom: 8px;
+    display: inline-block;
+    letter-spacing: 1.4px;
 }

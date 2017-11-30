@@ -1,17 +1,40 @@
 ﻿@model List<esencialAdmin.Models.PdfViewModels.PdfSingleAdressViewModel>
 @{
     Layout = "~/Views/Shared/_PdfLayout.cshtml";
+    int i = 0;
+
 }
+<table style="width:100%">
+
     @foreach (var adress in Model)
     {
-        <div class="adressContainer">
-            @if (@adress.Company != null)
-            {
-                @adress.Company<br />
-            }
-            @adress.Title <br />
-            @adress.FirstName @adress.LastName<br />
-            @adress.Street <br />
-            @adress.Zip @adress.City
-        </div>
+        @if ((i % 4) == 0)
+        {
+            @:<tr>        
+         }
+        <td class="adressCell">
+            <span>
+                @if (@adress.Company != null)
+                {
+                    @adress.Company;<br />
+                    @(adress.Title + " " + adress.FirstName + " " + adress.LastName);<br />
+                }
+                else
+                {
+                    @adress.Title <br />
+                    @(adress.FirstName + " " + @adress.LastName)<br />
+                }
+                @adress.Street <br />
+                @adress.Zip @adress.City
+            </span>
+           
+        </td>
+
+        if ((i % 4) == 3)
+        {
+            @:</tr>      
+        }
+
+        i++;
     }
+</table>

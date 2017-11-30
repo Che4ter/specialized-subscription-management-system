@@ -14,6 +14,7 @@ namespace esencialAdmin.Data.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public int? FkTemplateLabel { get; set; }
+        public string Bezeichnung { get; set; }
 
         public Templates FkTemplateLabelNavigation { get; set; }
         public ICollection<PeriodesGoodies> PeriodesGoodies { get; set; }

@@ -4,12 +4,14 @@ using Rotativa.NetCore;
 using esencialAdmin.Models.PdfViewModels;
 using Microsoft.AspNetCore.Authorization;
 using esencialAdmin.Models.SubscriptionViewModels;
+using Rotativa.NetCore.Options;
+using System.Collections.Generic;
 
 //https://github.com/Stefanone91/Rotativa.NetCore
 
 namespace esencialAdmin.Controllers
 {
-    public class Pdf : Controller
+    public class Pdf : BaseController
     {
         private IPdfGenerationService _pService;
         public Pdf(IPdfGenerationService pService)
@@ -22,7 +24,6 @@ namespace esencialAdmin.Controllers
             return View();
         }
 
-        [Authorize(Policy = "RequireEmployeeRole")]
         public IActionResult PrintCertificate(int id)
         {
             return new ActionAsPdf("GenerateCertificate", new { id = id }) { FileName = "Test.pdf" };
@@ -35,17 +36,35 @@ namespace esencialAdmin.Controllers
         }
 
         [HttpPost]
-        [Authorize(Policy = "RequireEmployeeRole")]
         public IActionResult PrintAdressLabels(SubscriptionIndexViewModel filter)
         {
-            return new ActionAsPdf("GenerateAdressLabels", filter) { FileName = "AdressEtiketten.pdf" };
+            Dictionary<string, string> cookieCollection = new Dictionary<string, string>();
+            foreach (var key in Request.Cookies)
+            {
+                cookieCollection.Add(key.Key, key.Value);
+            }
+
+            var pdf = new ActionAsPdf("GenerateAdressLabels", filter);
+            pdf.FileName = "AdressEtiketten.pdf";
+            pdf.PageMargins = new Margins(0, 0, 0, 0);
+            pdf.Cookies = cookieCollection;
+            return pdf;
         }
 
         [HttpPost]
-        [Authorize(Policy = "RequireEmployeeRole")]
         public IActionResult PrintBottleLabels(SubscriptionIndexViewModel filter)
         {
-            return new ActionAsPdf("GenerateAdressLabels", filter) { FileName = "AdressEtiketten.pdf" };
+            Dictionary<string, string> cookieCollection = new Dictionary<string, string>();
+            foreach (var key in Request.Cookies)
+            {
+                cookieCollection.Add(key.Key, key.Value);
+            }
+
+            var pdf = new ActionAsPdf("GenerateBottleLabels", filter);
+            pdf.FileName = "Etiketten.pdf";
+            pdf.PageMargins = new Margins(0,0,0,0);
+            pdf.Cookies = cookieCollection;
+            return pdf;
         }
 
 
@@ -53,6 +72,13 @@ namespace esencialAdmin.Controllers
         public IActionResult GenerateAdressLabels(SubscriptionIndexViewModel filter)
         {
             return View(_pService.getAdressLabelsModel(filter));
+        }
+
+        [HttpGet]
+
+        public IActionResult GenerateBottleLabels(SubscriptionIndexViewModel filter)
+        {
+            return View(_pService.getBottleLabels(filter));
         }
 
         #region Helper

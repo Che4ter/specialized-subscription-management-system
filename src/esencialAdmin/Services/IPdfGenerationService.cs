@@ -10,5 +10,7 @@ namespace esencialAdmin.Services
 
         List<PdfSingleAdressViewModel> getAdressLabelsModel(SubscriptionIndexViewModel filter);
 
+        List<PdfSingleBottleLabelViewModel> getBottleLabels(SubscriptionIndexViewModel filter);
+
     }
 }

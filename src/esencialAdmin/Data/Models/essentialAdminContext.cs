@@ -253,6 +253,10 @@ namespace esencialAdmin.Data.Models
 
             modelBuilder.Entity<PlanGoodies>(entity =>
             {
+                entity.Property(e => e.Bezeichnung)
+                    .IsRequired()
+                    .HasMaxLength(128);
+    
                 entity.Property(e => e.FkTemplateLabel).HasColumnName("fk_templateLabel");
 
                 entity.Property(e => e.Name)
