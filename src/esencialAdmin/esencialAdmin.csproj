@@ -10,6 +10,7 @@
 	  <PackageLicenseUrl>https://github.com/Che4ter/PAWI/blob/master/LICENSE</PackageLicenseUrl>
 	  <PackageProjectUrl>https://github.com/Che4ter/PAWI</PackageProjectUrl>
 	  <RepositoryUrl>https://github.com/Che4ter/PAWI</RepositoryUrl>
+	  <Version>0.3.0</Version>
   </PropertyGroup>
 
   <ItemGroup>

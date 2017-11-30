@@ -323,6 +323,7 @@ table.dataTable thead th, table.dataTable thead td {
         width: 300px;
         position: relative;
         transition: .3s;
+        margin-bottom:0!important;
     }
 
         .top-notif-holder .mui-panel.notif-error {
@@ -473,8 +474,9 @@ table.dataTable thead th, table.dataTable thead td {
  * Multiple Select2
  */
 .mui-select__menu {
-    position: static;
+    position:static;
 }
+
 
 
 .select2-container--material {

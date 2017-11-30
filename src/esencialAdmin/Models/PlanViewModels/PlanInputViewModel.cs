@@ -30,7 +30,6 @@ namespace esencialAdmin.Models.PlanViewModels
 
         [Required]
         [DisplayName("Stichtag")]
-        [DataType(DataType.Date)]
         public DateTime Deadline { get; set; }
 
         [Required]

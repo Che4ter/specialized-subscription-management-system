@@ -52,7 +52,7 @@ namespace esencialAdmin.Controllers
             
             if (!iNewesSubscriptionEmpty(newSubscription) && ModelState.IsValid)
             {
-                if(_sService.checkIfNrExists(newSubscription.PlantNumber))
+                if (_sService.checkIfNrExists(newSubscription.PlanID, newSubscription.PlantNumber))
                 {
                     newSubscription.CustomerPreSelect = _sService.getCustomerSelect2Text(newSubscription.CustomerID);
                     newSubscription.PlanPreSelect = _sService.getPlanSelect2Text(newSubscription.PlanID);

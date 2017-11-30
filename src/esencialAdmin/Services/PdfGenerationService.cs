@@ -22,7 +22,6 @@ namespace esencialAdmin.Services
 
         }
 
-
         public PdfCertificateViewModel getCertificateModel(int customerID)
         {
             var customer = this._context.Customers
@@ -52,16 +51,16 @@ namespace esencialAdmin.Services
             int currentYear = DateTime.UtcNow.Year;
 
             var customer = (from x in this._context.Subscription
-                            where 
-                            (x.FkPlanId == filter.planID ) || filterPlan && 
-                            (x.FkSubscriptionStatus == filter.statusID) || filterStatus && 
+                            where
+                            (x.FkPlanId == filter.planID) || filterPlan &&
+                            (x.FkSubscriptionStatus == filter.statusID) || filterStatus &&
                             ((x.Periodes.Any(c => c.PeriodesGoodies.Any(y => y.Received == false && y.SubPeriodeYear <= currentYear))) || !filter.Goody)
                             select x.FkCustomer
                             ).OrderBy(c => c.FirstName).OrderBy(c => c.LastName);
 
 
             List<PdfSingleAdressViewModel> labelList = new List<PdfSingleAdressViewModel>();
-            foreach(var cust in customer)
+            foreach (var cust in customer)
             {
                 labelList.Add(PdfSingleAdressViewModel.CreateFromCustomer(cust));
             }
@@ -83,18 +82,18 @@ namespace esencialAdmin.Services
             int currentYear = DateTime.UtcNow.Year;
 
             var data = (from x in this._context.Subscription
-                            where
-                            (x.FkPlanId == filter.planID) || filterPlan &&
-                            (x.FkSubscriptionStatus == filter.statusID) || filterStatus &&
-                            ((x.Periodes.Any(c => c.PeriodesGoodies.Any(y => y.Received == false && y.SubPeriodeYear <= currentYear))) || !filter.Goody)
-                            select new { Name = x.FkCustomer.FirstName + " " + x.FkCustomer.LastName, Nr = x.PlantNumber, Bezeichnung = x.FkPlan.FkGoody.Bezeichnung }
+                        where
+                        (x.FkPlanId == filter.planID) || filterPlan &&
+                        (x.FkSubscriptionStatus == filter.statusID) || filterStatus &&
+                        ((x.Periodes.Any(c => c.PeriodesGoodies.Any(y => y.Received == false && y.SubPeriodeYear <= currentYear))) || !filter.Goody)
+                        select new { Name = x.FkCustomer.FirstName + " " + x.FkCustomer.LastName, Nr = x.PlantNumber, Bezeichnung = x.FkPlan.FkGoody.Bezeichnung }
                             ).OrderBy(c => c.Name);
 
 
             List<PdfSingleBottleLabelViewModel> labelList = new List<PdfSingleBottleLabelViewModel>();
             foreach (var item in data)
             {
-                labelList.Add(PdfSingleBottleLabelViewModel.Create(item.Name,item.Nr.ToString(),item.Bezeichnung));
+                labelList.Add(PdfSingleBottleLabelViewModel.Create(item.Name, item.Nr.ToString(), item.Bezeichnung));
             }
             return labelList;
         }

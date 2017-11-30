@@ -88,14 +88,15 @@ namespace esencialAdmin.Services
                     {
                         PeriodesGoodies newGoodie = new PeriodesGoodies
                         {
-                            FkPlanGoodiesId = plan.Id,
+                            FkPlanGoodiesId = plan.FkGoodyId,
                             SubPeriodeYear = startYear
                         };
-                        startYear++;
                         p.PeriodesGoodies.Add(newGoodie);
-                    }
+                        startYear++;
 
+                    }
                     this._context.Periodes.Add(p);
+
                     this._context.SaveChanges();
                     dbContextTransaction.Commit();
                     return s.Id;
@@ -584,22 +585,23 @@ namespace esencialAdmin.Services
                         Price = plan.Price
                     };
 
-                    subscription.FkSubscriptionStatus = 3; //Da Rechnung bereits bezahlt, Status Aktiv
+                    subscription.FkSubscriptionStatus = 3;
 
-                    int startYear = DateTime.UtcNow.Year + 1;
+                    int startYear = (p.EndDate.Year - plan.Duration) + 1;
 
                     for (int i = 0; i < plan.Duration; i++)
                     {
                         PeriodesGoodies newGoodie = new PeriodesGoodies
                         {
-                            FkPlanGoodiesId = plan.Id,
+                            FkPlanGoodiesId = plan.FkGoodyId,
                             SubPeriodeYear = startYear
                         };
-                        startYear++;
                         p.PeriodesGoodies.Add(newGoodie);
-                    }
+                        startYear++;
 
+                    }
                     this._context.Periodes.Add(p);
+
                     this._context.SaveChanges();
                     dbContextTransaction.Commit();
                     return true;
@@ -913,9 +915,9 @@ namespace esencialAdmin.Services
             this._context.Subscription.AsParallel().Select(x => x.Id).ForAll(x => checkSubscriptionStatus(x));
         }
 
-        public bool checkIfNrExists(int nr)
+        public bool checkIfNrExists(int planId, int nr)
         {
-            return this._context.Subscription.Where(x => x.PlantNumber == nr).Any();
+            return this._context.Subscription.Where(x => x.FkPlanId == planId && x.PlantNumber == nr).Any();
         }
 
         public String getCustomerSelect2Text(int customerID)
@@ -935,8 +937,16 @@ namespace esencialAdmin.Services
 
         public int getNextPlantNr(int planID)
         {
-            int last = _context.Subscription.Where(x => x.FkPlanId == planID).Max(x => x.PlantNumber).Value + 1;
-            return last;
+            try
+            {
+                int last = _context.Subscription.Where(x => x.FkPlanId == planID).Max(x => x.PlantNumber).Value + 1;
+                
+                return last;
+            }catch(Exception ex)
+            {
+                return 1;
+            }
+         
         }
 
 

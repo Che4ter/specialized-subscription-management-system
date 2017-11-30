@@ -48,7 +48,7 @@ namespace esencialAdmin.Services
 
         SubscriptionPlanFilterViewModel getAvailablePlans();
 
-        bool checkIfNrExists(int nr);
+        bool checkIfNrExists(int planId, int nr);
 
         String getCustomerSelect2Text(int customerID);
         String getPlanSelect2Text(int planID);
