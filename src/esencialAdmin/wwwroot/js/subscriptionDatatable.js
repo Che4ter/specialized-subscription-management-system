@@ -16,7 +16,7 @@
             "data": function (d) {
                 d.planId = $("#PlanMethodSelect option:selected").val() ;
                 d.statusId = $("#StatusMethodSelect option:selected").val() ;
-                d.goody = $("#goodyCheckbox").is(":checked");
+                //d.goody = $("#goodyCheckbox").is(":checked");
 
             }
         },
@@ -62,7 +62,7 @@
         $(".mui-btn mui-btn--flat.current").addClass("mui-btn--primary");
     });
 
-    $('select,#goodyCheckbox').on('change', function () {
+    $('select').on('change', function () {
 
         subscriptiontable.ajax.reload();
 

@@ -1,41 +1,64 @@
 ﻿@model esencialAdmin.Models.PdfViewModels.PdfCertificateViewModel
-
-
-<div class="row  row-equal">
-    <div class="col-12 col-medium-12 col-small-12">
-        <div class="mui-panel">
-            <div class="grid">
-                <div class="row row-space-between">
-                    <div class="col-6 col-medium-6 col-small-12">
-                        <div class="mui--text-headline">
-                            Patenschaft:
-                        </div>
-                    </div>
-                    
-                </div>
-            </div>
-        </div>
+@{
+    Layout = "~/Views/Shared/_PdfLayout.cshtml";
+}
+<div class="certificat">
+<div class="header">
+    <img src="~/images/zertificate_img.png"/>
+    <div class="title">
+        <h1>ZERTIFIKAT</h1>
+        <h6>über den Besitz einer Weinrebe der Sorte Mencia<br />im D.O. Bierzo (Léon), Spanien</h6>
+        <br />
+        <span class="for">für</span>
+        <h3>@Model.Customer</h3>
+        <span>NR. @Model.PlantNumber</span>
     </div>
-</div>
-<div class="row  row-equal">
-    <div class="col-8  col-medium-8 col-small-12">
-        <div class="mui-panel">
-            <div class="mui--form-title">Basis Daten</div>
-            <div class="grid">
-                <div class="row">
-                    <div class="col-6 col-medium-12 col-small-12">
-                        <label asp-for="Customer"></label> : @Model.Customer
-                    </div>
-                    <div class="col-6 col-medium-12 col-small-12">
-
-                        <label asp-for="Customer"></label> : @Model.Customer
-                    </div>
-
-                    <div class="col-6 col-medium-12 col-small-12">
-                        <label asp-for="PlantNumber"></label> : @Model.PlantNumber
-                    </div>
-                </div>
-            </div>
-        </div>
+    <img src="~/images/zertificate_img.png" />
     </div>
+
+    <div class="content">
+        <img src="~/images/zertificate_img2.png" />
+
+        <p>
+            Mit diesem Zertifikat werden Sie für drei Jahre Besitzer/Pate Ihrer persönlichen Mencia-Rebpflanzen auf der Finca esencial in Villafranca del Bierzo, León, Spanien. Mit Ihrem Besitztum tragen Sie dazu bei, dass integrierte Land- und Weinwirtschaft gepflegt wird und dass dieser Naturflecken so erhalten bleibt und weiterentwickelt wird.
+            <br /><br />
+            Hier sind die genauen Koordinaten Ihrer Weinrebe:
+
+        </p>
+        <div class="logo"><img src="~/images/logo_black.png" /></div>
+        <table>
+            <tr>
+                <td><strong>Land:</strong></td>
+                <td>Spanien</td>
+                <td><strong>Adresse:</strong></td>
+            </tr>
+            <tr>
+                <td><strong>Provinz:</strong></td>
+                <td>Castilla y León</td>
+                <td>Finca esencial</td>
+            </tr>
+            <tr>
+                <td><strong>Google Earth:</strong></td>
+                <td>42°36’17.99‘‘N /6°47’42.35W</td>
+                <td>Camino de la Virgen</td>
+            </tr>
+            <tr>
+                <td><strong>Höhe:</strong></td>
+                <td>583m</td>
+                <td>Villafranca del Bierzo</td>
+            </tr>
+        </table>
+        <p class="small">
+            Patenschaft endet mit dem Erntedankfest im Oktober @Model.LastYear<br />Bitte beachten Sie die Anlage zum Zertifikat
+        </p>
+    </div>
+    <div class="footer">
+        <span>
+            CASCADA Hotel ∙ BOLERO Restaurante<br />
+            Bundesplatz 18 ∙ CH-6003 Luzern<br />
+            Tel: +41 41 226 80 88 ∙ Fax: +41 41 226 80 00<br />
+            info@cascada.ch ∙ www.cascada.ch
+        </span>
+    </div>
+
 </div>

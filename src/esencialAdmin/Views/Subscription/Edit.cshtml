@@ -20,6 +20,8 @@
                         @if ((await AuthorizationService.AuthorizeAsync(User, "RequireAdminRole")).Succeeded)
                         {
                             <div class="col-6 col-medium-6 col-small-1 mui--text-right">
+                                <button type="submit" asp-action="PrintCertificate" asp-controller="Pdf" asp-route-id="@Model.ID" class="mui-btn mui-btn--primary">Zertifikat herunterladen</button>
+
                                 @if (@Model.ID != 0)
                                 {
                                     <button type="button" class="mui-btn mui-btn--danger" onclick="SubscriptionDeleteConfirmation(@Model.ID)">Patenschaft löschen</button>
@@ -86,7 +88,12 @@
                     }
                     else if (Model.StatusID == 4)
                     {
+                        <div class="mui-panel panel-warning">
+                            <p>Warnung: Patenschaft ist inaktiv</p>
+                            <input type="hidden" value="@Model.ID" name="subscriptionID" />
 
+                            <button asp-action="renewSubscription" class="mui-btn">Erneuern?</button>
+                        </div>
 
                     }
                     <br /><br />
@@ -129,26 +136,26 @@
             </div>
         </form>
         <br /><br />
-        <div>
-            @foreach (var photoPath in Model.Photos)
+    @foreach (var photoPath in Model.Photos)
             {
-                <div class="col-thumbImages">
+        <div class="col-thumbImages">
 
-                    <form method="post" enctype="multipart/form-data" asp-controller="Subscription" asp-action="uploadImageForUser">
+            <form method="post" enctype="multipart/form-data" asp-controller="Subscription" asp-action="uploadImageForUser">
 
-                        <div class="previewPhotoContainer">
-                            <img src="@photoPath.Value" />
-                            <input type="hidden" name="fileID" value="@photoPath.Key" />
-                            <input type="hidden" name="filePath" value="@photoPath.Value" />
+                <div class="previewPhotoContainer">
+                    <img src="@photoPath.Value" />
+                    <input type="hidden" name="fileID" value="@photoPath.Key" />
+                    <input type="hidden" name="filePath" value="@photoPath.Value" />
 
-                            <button asp-action="deleteImage" asp-controller="File" class="mui-btn--small mui-btn--fab mui-btn--danger remove-photo-fab"><i class="material-icons">delete</i></button>
-                            <button asp-action="downloadImage" asp-controller="File" class="mui-btn--small mui-btn--fab mui-btn--primary download-photo-fab"><i class="material-icons">file_download</i></button>
+                    <button asp-action="deleteImage" asp-controller="File" class="mui-btn--small mui-btn--fab mui-btn--danger remove-photo-fab"><i class="material-icons">delete</i></button>
+                    <button asp-action="downloadImage" asp-controller="File" class="mui-btn--small mui-btn--fab mui-btn--primary download-photo-fab"><i class="material-icons">file_download</i></button>
 
-                        </div>
-                    </form>
                 </div>
+            </form>
+        </div>
 
-            }
+    }
+
         </div>
 
     </div>

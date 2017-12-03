@@ -335,7 +335,7 @@ namespace esencialAdmin.Services
 
                 int planId = int.Parse(Request.Form["planId"].FirstOrDefault());
                 int statusId = int.Parse(Request.Form["statusId"].FirstOrDefault());
-                bool notGoodyReceived = !bool.Parse(Request.Form["goody"].FirstOrDefault());
+                //bool notGoodyReceived = !bool.Parse(Request.Form["goody"].FirstOrDefault());
 
                 // Paging Length 10,20  
                 var length = Request.Form["length"].FirstOrDefault();
@@ -369,8 +369,7 @@ namespace esencialAdmin.Services
                 // Getting all Customer data  
                 var planData = (from tempplan in _context.Subscription
                                 where (tempplan.FkPlanId == planId || filterPlan) && 
-                                (tempplan.FkSubscriptionStatus == statusId || filterStatus) && 
-                                (tempplan.Periodes.Any(x => x.PeriodesGoodies.Any(y => y.Received == false && y.SubPeriodeYear <= currentYear)) || notGoodyReceived)
+                                (tempplan.FkSubscriptionStatus == statusId || filterStatus) 
                                 select new
                                 {
                                     Id = tempplan.Id,
@@ -489,7 +488,7 @@ namespace esencialAdmin.Services
 
                     if(tmpModel.Goodies == "")
                     {
-                        tmpModel.Goodies = "Alle Geschenke erhalten";
+                        tmpModel.Goodies = "Alle Ernteanteile erhalten";
                     }
 
 
@@ -524,7 +523,7 @@ namespace esencialAdmin.Services
                 return;
             }
 
-            var LastPeriode = subscriptionToCheck.Periodes.OrderByDescending(x => x.EndDate).FirstOrDefault();
+            var LastPeriode = subscriptionToCheck.Periodes.OrderByDescending(x => x.Id).FirstOrDefault();
             //Neue Patenschaft
             if (LastPeriode.EndDate.Year > DateTime.UtcNow.Year)
             {

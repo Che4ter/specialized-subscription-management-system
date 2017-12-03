@@ -40,7 +40,7 @@ namespace esencialAdmin.Models.SubscriptionViewModels
         [DisplayName("Geschenkt von")]
         public SubscriptionCustomerViewModel GiftetBy { get; set; }
 
-        [Display(Name = "Geschenk")]
+        [Display(Name = "Ernteanteil")]
         public virtual List<SubscriptionPeriodesGoodiesViewModel> Goodies { get; set; }
 
         public string GoodiesLabel { get; set; }

@@ -20,8 +20,8 @@ namespace esencialAdmin.Models.SubscriptionViewModels
         [Display(Name = "Status")]
         public virtual List<SubscriptionSelectStatusViewModel> Status { get; set; }
 
-        [DisplayName("Geschenk erhalten?")]
-        public bool Goody { get; set; }
+        //[DisplayName("Ernteanteil erhalten?")]
+        //public bool Goody { get; set; }
 
         public int statusID { get; set; }
 

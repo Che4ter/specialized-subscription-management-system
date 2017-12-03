@@ -33,7 +33,7 @@ namespace esencialAdmin.Models.PlanViewModels
         public DateTime Deadline { get; set; }
 
         [Required]
-        [DisplayName("Geschenk")]
+        [DisplayName("Ernteanteil")]
         public int GoodyID { get; set; }
 
         [DisplayName("Erstellt am")]

@@ -30,7 +30,7 @@
             { "data": "plantNr", "name": "RebstockNr", "autoWidth": false },
             { "data": "customer", "name": "Kunde", "autoWidth": false },
             { "data": "plan", "name": "Patenschaft", "autoWidth": false },
-            { "data": "goodies", "name": "Geschenke", "autoWidth": false },
+            { "data": "goodies", "name": "Ernteanteil", "autoWidth": false },
             { "data": "periode", "name": "Laufzeit", "autoWidth": false },
             { "data": "status", "name": "Status", "autoWidth": true },
 

@@ -22,17 +22,18 @@ namespace esencialAdmin.Services
 
         }
 
-        public PdfCertificateViewModel getCertificateModel(int customerID)
+        public PdfCertificateViewModel getCertificateModel(int id)
         {
-            var customer = this._context.Customers
-                             .Include(c => c.Subscription)
-                             .Where(c => c.Id == customerID)
+            var subscription = this._context.Subscription
+                             .Include(c => c.FkCustomer)
+                             .Include(c => c.Periodes)
+                             .Where(c => c.Id == id)
                              .FirstOrDefault();
 
             PdfCertificateViewModel certModel = new PdfCertificateViewModel();
-            certModel.Customer = customer.FirstName + " " + customer.LastName;
-            certModel.PlantNumber = 3;
-            certModel.LastYear = 2017;
+            certModel.Customer = subscription.FkCustomer.FirstName + " " + subscription.FkCustomer.LastName;
+            certModel.PlantNumber = subscription.PlantNumber.Value;
+            certModel.LastYear = subscription.Periodes.OrderByDescending(c => c.EndDate).FirstOrDefault().EndDate.Year;
             return certModel;
         }
 
@@ -52,11 +53,13 @@ namespace esencialAdmin.Services
 
             var customer = (from x in this._context.Subscription
                             where
-                            (x.FkPlanId == filter.planID) || filterPlan &&
-                            (x.FkSubscriptionStatus == filter.statusID) || filterStatus &&
-                            ((x.Periodes.Any(c => c.PeriodesGoodies.Any(y => y.Received == false && y.SubPeriodeYear <= currentYear))) || !filter.Goody)
+                            (x.FkPlanId == filter.planID || filterPlan) &&
+                            (x.FkSubscriptionStatus == filter.statusID || filterStatus)
                             select x.FkCustomer
-                            ).OrderBy(c => c.FirstName).OrderBy(c => c.LastName);
+                            ).OrderBy(c => c.LastName).ThenBy(c => c.FirstName).ToList();
+
+            //((x.Periodes.Any(c => c.PeriodesGoodies.Any(y => y.Received == false && y.SubPeriodeYear <= currentYear))) || !filter.Goody)
+
 
 
             List<PdfSingleAdressViewModel> labelList = new List<PdfSingleAdressViewModel>();
@@ -83,17 +86,19 @@ namespace esencialAdmin.Services
 
             var data = (from x in this._context.Subscription
                         where
-                        (x.FkPlanId == filter.planID) || filterPlan &&
-                        (x.FkSubscriptionStatus == filter.statusID) || filterStatus &&
-                        ((x.Periodes.Any(c => c.PeriodesGoodies.Any(y => y.Received == false && y.SubPeriodeYear <= currentYear))) || !filter.Goody)
-                        select new { Name = x.FkCustomer.FirstName + " " + x.FkCustomer.LastName, Nr = x.PlantNumber, Bezeichnung = x.FkPlan.FkGoody.Bezeichnung }
-                            ).OrderBy(c => c.Name);
+                        (x.FkPlanId == filter.planID || filterPlan) &&
+                        (x.FkSubscriptionStatus == filter.statusID || filterStatus) &&
+                        (x.Periodes.Any(c => c.PeriodesGoodies.Any(y => y.Received == false && y.SubPeriodeYear <= currentYear)))
+                        select new { FirstName = x.FkCustomer.FirstName, LastName = x.FkCustomer.LastName, Nr = x.PlantNumber, Bezeichnung = x.FkPlan.FkGoody.Bezeichnung }
+                            )
+                            .OrderBy(c => c.LastName).ThenBy(c => c.FirstName).ToList();
 
 
             List<PdfSingleBottleLabelViewModel> labelList = new List<PdfSingleBottleLabelViewModel>();
+
             foreach (var item in data)
             {
-                labelList.Add(PdfSingleBottleLabelViewModel.Create(item.Name, item.Nr.ToString(), item.Bezeichnung));
+                labelList.Add(PdfSingleBottleLabelViewModel.Create(item.FirstName + " " + item.LastName, item.Nr.ToString(), item.Bezeichnung));
             }
             return labelList;
         }

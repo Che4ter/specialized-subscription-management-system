@@ -19,6 +19,7 @@ namespace esencialAdmin.Controllers
             _iService = sService;
         }
 
+        [ResponseCache(Duration = 256,Location = ResponseCacheLocation.Client)]
         public IActionResult DisplayImage(string name)
         {
             if(name != "")

@@ -26,12 +26,22 @@ namespace esencialAdmin.Controllers
 
         public IActionResult PrintCertificate(int id)
         {
-            return new ActionAsPdf("GenerateCertificate", new { id = id }) { FileName = "Test.pdf" };
+            Dictionary<string, string> cookieCollection = new Dictionary<string, string>();
+            foreach (var key in Request.Cookies)
+            {
+                cookieCollection.Add(key.Key, key.Value);
+            }
+
+            var pdf = new ActionAsPdf("GenerateCertificate", new { id = id });
+            pdf.FileName = "Zertifikat.pdf";
+            pdf.Cookies = cookieCollection;
+            return pdf;
         }
 
         [HttpGet]
         public IActionResult GenerateCertificate(int id)
         {
+
             return View(_pService.getCertificateModel(id));
         }
 
