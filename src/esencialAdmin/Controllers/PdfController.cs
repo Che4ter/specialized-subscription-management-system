@@ -62,6 +62,23 @@ namespace esencialAdmin.Controllers
         }
 
         [HttpPost]
+        public IActionResult PrintPictureTemplate(SubscriptionIndexViewModel filter)
+        {
+            Dictionary<string, string> cookieCollection = new Dictionary<string, string>();
+            foreach (var key in Request.Cookies)
+            {
+                cookieCollection.Add(key.Key, key.Value);
+            }
+
+            var pdf = new ActionAsPdf("GeneratePictureTemplate", filter);
+            pdf.FileName = "A5.pdf";
+            pdf.PageSize = Size.A5;
+            pdf.PageMargins = new Margins(0, 0, 0, 0);
+            pdf.Cookies = cookieCollection;
+            return pdf;
+        }
+
+        [HttpPost]
         public IActionResult PrintBottleLabels(SubscriptionIndexViewModel filter)
         {
             Dictionary<string, string> cookieCollection = new Dictionary<string, string>();
@@ -77,9 +94,14 @@ namespace esencialAdmin.Controllers
             return pdf;
         }
 
-
         [HttpGet]
         public IActionResult GenerateAdressLabels(SubscriptionIndexViewModel filter)
+        {
+            return View(_pService.getAdressLabelsModel(filter));
+        }
+
+        [HttpGet]
+        public IActionResult GeneratePictureTemplate(SubscriptionIndexViewModel filter)
         {
             return View(_pService.getAdressLabelsModel(filter));
         }

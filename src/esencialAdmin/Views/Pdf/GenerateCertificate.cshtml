@@ -3,21 +3,24 @@
     Layout = "~/Views/Shared/_PdfLayout.cshtml";
 }
 <div class="certificat">
-<div class="header">
-    <img src="~/images/zertificate_img.png"/>
-    <div class="title">
-        <h1>ZERTIFIKAT</h1>
-        <h6>über den Besitz einer Weinrebe der Sorte Mencia<br />im D.O. Bierzo (Léon), Spanien</h6>
-        <br />
-        <span class="for">für</span>
-        <h3>@Model.Customer</h3>
-        <span>NR. @Model.PlantNumber</span>
-    </div>
-    <img src="~/images/zertificate_img.png" />
+    <div class="header">
+        <img src="~/images/zertificate_img.png" />
+        <div class="title">
+            <h1>ZERTIFIKAT</h1>
+            <h6>über den Besitz einer Weinrebe der Sorte Mencia<br />im D.O. Bierzo (Léon), Spanien</h6>
+            <br />
+            <span class="for">für</span>
+            <h3>@Model.Customer</h3>
+            <span>NR. @Model.PlantNumber</span>
+        </div>
+        <img src="~/images/zertificate_img.png" />
     </div>
 
     <div class="content">
-        <img src="~/images/zertificate_img2.png" />
+        <div class="imgcontainer">
+            <img src="~/images/zertificate_img2.png" />
+
+        </div>
 
         <p>
             Mit diesem Zertifikat werden Sie für drei Jahre Besitzer/Pate Ihrer persönlichen Mencia-Rebpflanzen auf der Finca esencial in Villafranca del Bierzo, León, Spanien. Mit Ihrem Besitztum tragen Sie dazu bei, dass integrierte Land- und Weinwirtschaft gepflegt wird und dass dieser Naturflecken so erhalten bleibt und weiterentwickelt wird.
@@ -48,6 +51,7 @@
                 <td>Villafranca del Bierzo</td>
             </tr>
         </table>
+        <br />
         <p class="small">
             Patenschaft endet mit dem Erntedankfest im Oktober @Model.LastYear<br />Bitte beachten Sie die Anlage zum Zertifikat
         </p>
