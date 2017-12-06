@@ -70,6 +70,8 @@ namespace esencialAdmin
             services.AddScoped<IImageService, ImageService>();
             services.AddScoped<IStatisticService, StatisticService>();
             services.AddScoped<IPdfGenerationService, PdfGenerationService>();
+            services.AddScoped<IImportService, ImportService>();
+
             services.AddSingleton<IConfiguration>(Configuration);
 
 

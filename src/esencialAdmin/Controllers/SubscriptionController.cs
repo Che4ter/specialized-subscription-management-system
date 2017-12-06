@@ -128,9 +128,6 @@ namespace esencialAdmin.Controllers
         {
             long size = files.Sum(f => f.Length);
 
-            // full path to file in temp location
-            var filePath = Path.GetTempFileName();
-
             foreach (var formFile in files)
             {
                 if (formFile.Length > 0 && (formFile.ContentType == "image/jpeg" || formFile.ContentType == "image/jpg" || formFile.ContentType == "image/gif" || formFile.ContentType == "image/png"))

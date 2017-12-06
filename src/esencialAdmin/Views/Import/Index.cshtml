@@ -1,0 +1,13 @@
+﻿@{
+    ViewData["Title"] = "Kunden Import";
+}
+
+<div class="col-12 col-medium-12 col-small-12">
+    <form method="post" enctype="multipart/form-data" asp-controller="Import" asp-action="ImportCustomer">
+        <div>
+            <p>Datei auswählen</p>
+            <input type="file" name="file" />
+            <input type="submit" class="mui-btn mui-btn--primary" value="Import" />
+        </div>
+    </form>
+</div>

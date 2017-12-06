@@ -11,7 +11,13 @@
 
                 <div class="col-6 col-medium-6 col-small-12 subscriptionHeader">
                     <h2>Patenschaften</h2>
+                </div>
 
+                <div class="col col-medium-6 col-small-12 mui--text-right">
+                                  <a asp-area="" asp-controller="Subscription" asp-action="Create" class="mui-btn mui-btn--primary">Neue Patenschaft erstellen</a>
+                </div>
+
+                <div class="col-6 col-medium-5 col-small-12 subscriptionHeader">
                     <div class="mui-select">
                         @{
 
@@ -55,19 +61,18 @@
 
                     </div>
                     @*<div>
-                        <label asp-for="@Model.Goody"></label>:
+            <label asp-for="@Model.Goody"></label>:
 
-                        <label>
-                            <input type="checkbox" id="goodyCheckbox" value="@Model.Goody" asp-for="@Model.Goody">
-                        </label>
-                    </div>*@
+            <label>
+                <input type="checkbox" id="goodyCheckbox" value="@Model.Goody" asp-for="@Model.Goody">
+            </label>
+        </div>*@
                 </div>
 
-                <div class="col col-medium-6 col-small-1 mui--text-right">
+                <div class="col col-medium-7 col-small-12 mui--text-right">
                     <button type="submit" asp-area="" asp-controller="Pdf" asp-action="PrintPictureTemplate" class="mui-btn mui-btn--primary">A5 export</button>
                     <button type="submit" asp-area="" asp-controller="Pdf" asp-action="PrintAdressLabels" class="mui-btn mui-btn--primary">Adressen export</button>
                     <button type="submit" asp-area="" asp-controller="Pdf" asp-action="PrintBottleLabels" class="mui-btn mui-btn--primary">Etiketten export</button>
-                    <a asp-area="" asp-controller="Subscription" asp-action="Create" class="mui-btn mui-btn--primary">Neue Patenschaft erstellen</a>
                 </div>
             </div>
 
