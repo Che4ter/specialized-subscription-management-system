@@ -70,6 +70,40 @@ namespace esencialAdmin.Services
             return labelList;
         }
 
+        public List<PdfSinglePictureTemplateViewModel> getPictureTemplatesModel(SubscriptionIndexViewModel filter)
+        {
+            bool filterPlan = false;
+            if (filter.planID == 0)
+            {
+                filterPlan = true;
+            }
+            bool filterStatus = false;
+            if (filter.statusID == 0)
+            {
+                filterStatus = true;
+            }
+            int currentYear = DateTime.UtcNow.Year;
+
+            var customer = (from x in this._context.Subscription
+                            where
+                            (x.FkPlanId == filter.planID || filterPlan) &&
+                            (x.FkSubscriptionStatus == filter.statusID || filterStatus) &&
+                            (x.SubscriptionPhotos.Count == 0)
+                            select x.FkCustomer
+                            ).OrderBy(c => c.LastName).ThenBy(c => c.FirstName).ToList();
+
+            //((x.Periodes.Any(c => c.PeriodesGoodies.Any(y => y.Received == false && y.SubPeriodeYear <= currentYear))) || !filter.Goody)
+
+
+
+            List<PdfSinglePictureTemplateViewModel> labelList = new List<PdfSinglePictureTemplateViewModel>();
+            foreach (var cust in customer)
+            {
+                labelList.Add(PdfSinglePictureTemplateViewModel.CreateFromCustomer(cust));
+            }
+            return labelList;
+        }
+
         public List<PdfSingleBottleLabelViewModel> getBottleLabels(SubscriptionIndexViewModel filter)
         {
             bool filterPlan = false;

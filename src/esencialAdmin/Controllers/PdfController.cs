@@ -103,7 +103,7 @@ namespace esencialAdmin.Controllers
         [HttpGet]
         public IActionResult GeneratePictureTemplate(SubscriptionIndexViewModel filter)
         {
-            return View(_pService.getAdressLabelsModel(filter));
+            return View(_pService.getPictureTemplatesModel(filter));
         }
 
         [HttpGet]
