@@ -6,6 +6,7 @@ using esencialAdmin.Models.CustomerViewModels;
 using esencialAdmin.Extensions;
 using System.Reflection;
 using esencialAdmin.Services;
+using Microsoft.AspNetCore.Http;
 
 namespace esencialAdmin.Controllers
 {
@@ -98,9 +99,13 @@ namespace esencialAdmin.Controllers
             if (_cService.deleteCustomer(id))
             {
                 this.AddNotification("Kunde wurde gelöscht", NotificationType.SUCCESS);
+                return StatusCode(StatusCodes.Status200OK);
+
             }
-            this.AddNotification("Konnte Kunde nicht löschen", NotificationType.ERROR);
-            return this.RedirectToAction("Index");
+            this.AddNotification("Konnte Kunde nicht löschen", NotificationType.WARNING);
+            return StatusCode(StatusCodes.Status400BadRequest);
+
+
         }
 
         public IActionResult LoadData()

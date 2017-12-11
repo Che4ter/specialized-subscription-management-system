@@ -73,42 +73,42 @@
                     window.location.href = '/Customer/Edit/' + customertable.cell(rowIndex, 0).data();
                     //edit action here
                     break;
-                case 'delete':
-                    CustomerDeleteConfirmation(customertable.cell(rowIndex, 0).data());
-                    break;
+                //case 'delete':
+                //    CustomerDeleteConfirmation(customertable.cell(rowIndex, 0).data());
+                //    break;
                 default:
                     break;
             }
         },
         items: {
             "edit": { name: "Bearbeiten", icon: "edit" },
-            "delete": { name: "Löschen", icon: "delete" },
+            //"delete": { name: "Löschen", icon: "delete" },
         }
     });
 
 
 });
 
-function CustomerDeleteConfirmation(CustomerID) {
-    swal({
-        title: 'Bist du sicher?',
-        text: "Das löschen kann nicht rückgängig gemacht werden!",
-        type: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#d33',
-        cancelButtonColor: '#929292',
-        confirmButtonText: 'Ja, löschen.'
-    }).then(function () {
-        var url = "/Customer/Delete";
-        $.post(url, { ID: CustomerID }, function (data) {
-            if (data) {
-                oTable = $('#customerTable').DataTable();
-                oTable.draw();
-            }
-            else {
-                alert("Something Went Wrong!");
-            }
-        });
+//function CustomerDeleteConfirmation(CustomerID) {
+//    swal({
+//        title: 'Bist du sicher?',
+//        text: "Das löschen kann nicht rückgängig gemacht werden!",
+//        type: 'warning',
+//        showCancelButton: true,
+//        confirmButtonColor: '#d33',
+//        cancelButtonColor: '#929292',
+//        confirmButtonText: 'Ja, löschen.'
+//    }).then(function () {
+//        var url = "/Customer/Delete";
+//        $.post(url, { ID: CustomerID }, function (data) {
+//            if (data) {
+//                oTable = $('#customerTable').DataTable();
+//                oTable.draw();
+//            }
+//            else {
+//                alert("Something Went Wrong!");
+//            }
+//        });
 
-    }).catch(swal.noop);
-}
+//    }).catch(swal.noop);
+//}

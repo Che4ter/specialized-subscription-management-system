@@ -10,13 +10,11 @@
     }).then(function () {
         var url = "/Customer/Delete";
         $.post(url, { ID: CustomerID }, function (data) {
-            if (data) {
-                window.location.replace("/Customer/Index");
+            window.location.href = "/Customer/Index";
 
-            }
-            else {
-                alert("Es gab ein Problem beim löschen!");
-            }
+        }).fail(function () {
+            window.location.href = "/Customer/Edit/" + CustomerID;
+
         });
 
     }).catch(swal.noop);
