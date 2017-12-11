@@ -1,40 +1,19 @@
 ﻿@model List<esencialAdmin.Models.PdfViewModels.PdfSinglePictureTemplateViewModel>
 @{
     Layout = "~/Views/Shared/_PdfLayout.cshtml";
-    int i = 0;
+}
+
+@foreach (var item in Model)
+{
+    <div class="pictureTemplateContainer">
+        <div class="pictureTemplateLogo">
+            <img src="~/images/weinetikette_vertical.jpg" />
+        </div>
+        <div class="pictureTemplateText">
+            <span>@item.FirstName</span>
+            <span>@item.LastName</span>
+            <span>#@item.PlantNr</span>
+        </div>
+    </div>
 
 }
-<table style="width:100%">
-
-    @foreach (var adress in Model)
-    {
-        @if ((i % 3) == 0)
-        {
-            @:<tr>        
-         }
-        <td class="adressCell">
-            <span>
-                @if (@adress.Company != null)
-                {
-                    @adress.Company;<br />
-                    @(adress.Title + " " + adress.FirstName + " " + adress.LastName);<br />
-                }
-                else
-                {
-                    @adress.Title <br />
-                    @(adress.FirstName + " " + @adress.LastName)<br />
-                }
-                @adress.Street <br />
-                @adress.Zip @adress.City
-            </span>
-           
-        </td>
-
-        if ((i % 3) == 3)
-        {
-            @:</tr>      
-        }
-
-        i++;
-    }
-</table>

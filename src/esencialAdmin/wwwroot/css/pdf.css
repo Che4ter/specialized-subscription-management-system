@@ -80,24 +80,24 @@ tr {
     .certificat .header .title {
         float: left;
         width: 56%;
-        padding-top:66px;
+        padding-top: 66px;
     }
 
 
 .certificat h1 {
     font-family: 'Perpetua Tiling MT';
     color: #952b27;
-    font-size:66px;
-    font-weight:550;
-    padding-bottom:31px;
+    font-size: 66px;
+    font-weight: 550;
+    padding-bottom: 31px;
 }
 
 .certificat h6 {
     font-family: Arial;
     color: #952b27;
-    font-size:22px;
-    font-weight:500;
-    margin-bottom:20px;
+    font-size: 22px;
+    font-weight: 500;
+    margin-bottom: 20px;
 }
 
 
@@ -106,12 +106,13 @@ tr {
     font-size: 20px;
     font-weight: 500;
 }
-    .certificat h3 {
-        font-family: 'Arial';
-        font-size: 32px;
-        font-weight: 550;
-        margin-bottom: 28px;
-    }
+
+.certificat h3 {
+    font-family: 'Arial';
+    font-size: 32px;
+    font-weight: 550;
+    margin-bottom: 28px;
+}
 
 .certificat {
     font-family: Arial;
@@ -140,36 +141,35 @@ tr {
     font-weight: 400;
 }
 
-    .certificat p.small{
-        font-size:16px;
-        line-height:unset;
-    }
-    
-    
-    .certificat .logo {
-        float: right;
-        display: inline-block;
-        width: 100%;
-        height: 5px;
-        position:relative;
+    .certificat p.small {
+        font-size: 16px;
+        line-height: unset;
     }
 
-        .certificat .logo img {
-            position: absolute;
-            width: 95px;
-            right: 48px;
-            top: -15px;
-        }
+
+.certificat .logo {
+    float: right;
+    display: inline-block;
+    width: 100%;
+    height: 5px;
+    position: relative;
+}
+
+    .certificat .logo img {
+        position: absolute;
+        width: 95px;
+        right: 48px;
+        top: -15px;
+    }
 
 .certificat table {
     width: 100%;
     font-size: 18px;
 }
 
-.certificat table tr td:first-child {
-    width: 135px;
-    
-}
+    .certificat table tr td:first-child {
+        width: 135px;
+    }
 
     .certificat table tr td:nth-child(2) {
         width: 320px;
@@ -178,6 +178,50 @@ tr {
 .certificat .footer {
     text-align: center;
     font-size: 11px;
-    margin-top:55px;
-    font-weight:400;
+    margin-top: 55px;
+    font-weight: 400;
 }
+
+
+.pictureTemplateContainer {
+    width: 100%;
+    height: 100%;
+    page-break-before: always !important;
+    page-break-inside: avoid !important;
+    display: inline-block;
+    height: 650px;
+    position: relative;
+}
+
+.pictureTemplateLogo {
+    float: left;
+    width: 35%;
+    height: 100%;
+    display: inline-block;
+    position: relative;
+    text-align: center;
+}
+
+    .pictureTemplateLogo img {
+        height: 320px;
+        margin-top: 160px;
+        margin-left: 30px;
+    }
+
+.pictureTemplateText {
+    float: right;
+    width: 65%;
+    height: 100%;
+    display: inline-block;
+    padding-top: 50px;
+}
+
+    .pictureTemplateText span {
+        width: 100%;
+        font-size: 110px;
+        font-weight: 500;
+        display: block;
+        line-height: 1.5;
+        letter-spacing: 1.3px;
+        font-family: Calibri;
+    }

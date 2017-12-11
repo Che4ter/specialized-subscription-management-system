@@ -59,7 +59,6 @@
   <ItemGroup>
     <Folder Include="Data\TMPModels\" />
     <Folder Include="Data\Userdata\" />
-    <Folder Include="lib\" />
     <Folder Include="Properties\PublishProfiles\" />
     <Folder Include="wwwroot\.well-known\acme-challenge\" />
   </ItemGroup>

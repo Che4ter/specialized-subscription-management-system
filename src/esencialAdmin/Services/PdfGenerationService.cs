@@ -89,8 +89,8 @@ namespace esencialAdmin.Services
                             (x.FkPlanId == filter.planID || filterPlan) &&
                             (x.FkSubscriptionStatus == filter.statusID || filterStatus) &&
                             (x.SubscriptionPhotos.Count == 0)
-                            select x.FkCustomer
-                            ).OrderBy(c => c.LastName).ThenBy(c => c.FirstName).ToList();
+                            select new { Firstname = x.FkCustomer.FirstName, Lastname = x.FkCustomer.LastName, PlantNr = x.PlantNumber }
+                            ).OrderBy(c => c.Lastname).ThenBy(c => c.Firstname).ToList();
 
             //((x.Periodes.Any(c => c.PeriodesGoodies.Any(y => y.Received == false && y.SubPeriodeYear <= currentYear))) || !filter.Goody)
 
@@ -99,7 +99,11 @@ namespace esencialAdmin.Services
             List<PdfSinglePictureTemplateViewModel> labelList = new List<PdfSinglePictureTemplateViewModel>();
             foreach (var cust in customer)
             {
-                labelList.Add(PdfSinglePictureTemplateViewModel.CreateFromCustomer(cust));
+                PdfSinglePictureTemplateViewModel tmp = new PdfSinglePictureTemplateViewModel();
+                tmp.FirstName = cust.Firstname;
+                tmp.LastName = cust.Lastname;
+                tmp.PlantNr = cust.PlantNr.ToString();
+                labelList.Add(tmp);
             }
             return labelList;
         }

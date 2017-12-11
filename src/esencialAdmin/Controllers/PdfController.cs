@@ -73,6 +73,7 @@ namespace esencialAdmin.Controllers
             var pdf = new ActionAsPdf("GeneratePictureTemplate", filter);
             pdf.FileName = "A5.pdf";
             pdf.PageSize = Size.A5;
+            pdf.PageOrientation = Orientation.Landscape;
             pdf.PageMargins = new Margins(0, 0, 0, 0);
             pdf.Cookies = cookieCollection;
             return pdf;
