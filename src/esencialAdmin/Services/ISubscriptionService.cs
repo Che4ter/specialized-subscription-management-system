@@ -44,7 +44,7 @@ namespace esencialAdmin.Services
 
         Task<bool> addSubscriptionPhoto(IFormFile formFile, int subscriptionID);
 
-        void updateSubscriptionStatus();
+        Task updateSubscriptionStatusAsync();
 
         SubscriptionPlanFilterViewModel getAvailablePlans();
 

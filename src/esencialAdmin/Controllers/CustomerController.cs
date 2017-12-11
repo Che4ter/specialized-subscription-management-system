@@ -81,7 +81,7 @@ namespace esencialAdmin.Controllers
                     if (_cService.updateCustomer(updatedCustomer))
                     {
                         this.AddNotification("Kunde wurde aktualisiert", NotificationType.SUCCESS);
-                        return this.RedirectToAction("Edit", updatedCustomer.ID);
+                        return this.RedirectToAction("Edit", new {id = updatedCustomer.ID });
                     }
                 }
                 else

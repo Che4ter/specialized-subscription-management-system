@@ -95,6 +95,16 @@ namespace esencialAdmin.Controllers
             }
         }
 
+        public async Task<IActionResult> updateSubscriptionStatus()
+        {
+            await _sService.updateSubscriptionStatusAsync();
+            this.AddNotification("Patenschafts Status wurde aktualisiert", NotificationType.SUCCESS);
+
+            return this.RedirectToAction("Index");
+
+        }
+
+
         [HttpPost]
         public IActionResult updatePaymentReminderStatus(int periodID, bool reminderState)
         {

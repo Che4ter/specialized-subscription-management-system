@@ -909,9 +909,9 @@ namespace esencialAdmin.Services
             }
         }
 
-        public void updateSubscriptionStatus()
+        public async Task updateSubscriptionStatusAsync()
         {
-            this._context.Subscription.AsParallel().Select(x => x.Id).ForAll(x => checkSubscriptionStatus(x));
+           await this._context.Subscription.Select(x => x.Id).ForEachAsync(x => checkSubscriptionStatus(x));
         }
 
         public bool checkIfNrExists(int planId, int nr)
