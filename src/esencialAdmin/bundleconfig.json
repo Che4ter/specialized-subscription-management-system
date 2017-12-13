@@ -54,5 +54,53 @@
     },
     // Optionally generate .map file
     "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/js/subscriptionindex.min.js",
+    "inputFiles": [
+      "wwwroot/lib/sweetalert2/sweetalert2.js",
+      "wwwroot/lib/DataTables/datatables.js",
+      "wwwroot/lib/jquery-contextMenu/dist/jquery.contextMenu.js",
+      "wwwroot/js/subscriptionDatatable.js"
+    ],
+    // Optionally specify minification options
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    // Optionally generate .map file
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/css/subscriptionindex.min.css",
+    // An array of relative input file paths. Globbing patterns supported
+    "inputFiles": [
+      "wwwroot/lib/jquery-contextMenu/dist/jquery.contextMenu.css",
+      "wwwroot/lib/DataTables/datatables.css",
+      "wwwroot/lib/sweetalert2/sweetalert2.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/subscriptionEdit.min.js",
+    "inputFiles": [
+      "wwwroot/lib/sweetalert2/sweetalert2.js",
+      "wwwroot/lib/slick/slick.js",
+      "wwwroot/js/subscriptionEdit.js"
+    ],
+    // Optionally specify minification options
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    // Optionally generate .map file
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/css/subscriptionEdit.min.css",
+    // An array of relative input file paths. Globbing patterns supported
+    "inputFiles": [
+      "wwwroot/lib/sweetalert2/sweetalert2.css",
+      "wwwroot/lib/slick/slick.css"
+    ]
   }
 ]

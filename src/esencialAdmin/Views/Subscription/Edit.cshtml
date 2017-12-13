@@ -20,7 +20,7 @@
                         @if ((await AuthorizationService.AuthorizeAsync(User, "RequireAdminRole")).Succeeded)
                         {
                             <div class="col-6 col-medium-6 col-small-1 mui--text-right">
-                                <button type="submit" asp-action="PrintCertificate" asp-controller="Pdf" asp-route-id="@Model.ID" class="mui-btn mui-btn--primary">Zertifikat herunterladen</button>
+                                <button type="submit" asp-action="PrintCertificate" asp-controller="Pdf" asp-route-id="@Model.ID" asp-route-TemplateID="@Model.TemplateID" class="mui-btn mui-btn--primary">Zertifikat herunterladen</button>
 
                                 @if (@Model.ID != 0)
                                 {
@@ -61,7 +61,7 @@
 
         </div>
         @if (@Model.ID != 0)
-            {
+        {
             <div class="col-4  col-medium-4 col-small-12">
                 <div class="mui-panel">
                     <div class="mui--form-title">
@@ -136,45 +136,48 @@
             </div>
         </form>
         <br /><br />
-    @foreach (var photoPath in Model.Photos)
-            {
-        <div class="col-thumbImages">
+        @foreach (var photoPath in Model.Photos)
+        {
+            <div class="col-thumbImages">
 
-            <form method="post" enctype="multipart/form-data" asp-controller="Subscription" asp-action="uploadImageForUser">
+                <form method="post" enctype="multipart/form-data" asp-controller="Subscription" asp-action="uploadImageForUser">
 
-                <div class="previewPhotoContainer">
-                    <img src="@photoPath.Value" />
-                    <input type="hidden" name="fileID" value="@photoPath.Key" />
-                    <input type="hidden" name="filePath" value="@photoPath.Value" />
+                    <div class="previewPhotoContainer">
+                        <img src="@photoPath.Value" />
+                        <input type="hidden" name="fileID" value="@photoPath.Key" />
+                        <input type="hidden" name="filePath" value="@photoPath.Value" />
 
-                    <button asp-action="deleteImage" asp-controller="File" class="mui-btn--small mui-btn--fab mui-btn--danger remove-photo-fab"><i class="material-icons">delete</i></button>
-                    <button asp-action="downloadImage" asp-controller="File" class="mui-btn--small mui-btn--fab mui-btn--primary download-photo-fab"><i class="material-icons">file_download</i></button>
+                        <button asp-action="deleteImage" asp-controller="File" class="mui-btn--small mui-btn--fab mui-btn--danger remove-photo-fab"><i class="material-icons">delete</i></button>
+                        <button asp-action="downloadImage" asp-controller="File" class="mui-btn--small mui-btn--fab mui-btn--primary download-photo-fab"><i class="material-icons">file_download</i></button>
 
-                </div>
-            </form>
-        </div>
-
-    }
-
-        </div>
-
+                    </div>
+                </form>
+            </div>
+        }
     </div>
 </div>
-<environment include="Development,Preview,Production">
+<environment include="Development">
     @section scripts {
         <script src="~/lib/sweetalert2/sweetalert2.js" asp-append-version="true"></script>
         <script src="~/lib/slick/slick.js" asp-append-version="true"></script>
-
         <script src="~/js/subscriptionEdit.js" asp-append-version="true"></script>
         @await Html.PartialAsync("_ValidationScriptsPartial")
-
     }
 
     @section styles {
         <link rel="stylesheet" href="~/lib/sweetalert2/sweetalert2.css" />
         <!-- Add the slick-theme.css if you want default styling -->
-        <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.1/slick/slick.css" />
+        <link rel="stylesheet" type="text/css" href="~/lib/slick/slick.css" />
         <!-- Add the slick-theme.css if you want default styling -->
+    }
+</environment>
+<environment include="Development,Production,Preview">
+    @section scripts {
+        <script src="~/js/subscriptionEdit.min.js"></script>
+        @await Html.PartialAsync("_ValidationScriptsPartial")
+    }
 
+    @section styles {
+        <link rel="stylesheet" href="~/css/subscriptionEdit.min.css" />
     }
 </environment>

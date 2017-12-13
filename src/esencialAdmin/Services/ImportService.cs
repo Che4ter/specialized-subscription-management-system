@@ -51,11 +51,24 @@ namespace esencialAdmin.Services
                                         City = table.Rows[i].ItemArray[4]?.ToString(),
                                         Phone = table.Rows[i].ItemArray[5]?.ToString(),
                                         Email = table.Rows[i].ItemArray[6]?.ToString(),
-
+                                        GeneralRemarks = table.Rows[i].ItemArray[7]?.ToString(),
+                                        Company = table.Rows[i].ItemArray[8]?.ToString(),
                                     };
-                                    if(cust.Email == "")
+                                    if (cust.Email == "")
                                     {
                                         cust.Email = null;
+                                    }
+                                    if (cust.GeneralRemarks == "")
+                                    {
+                                        cust.Email = null;
+                                    }
+                                    if (cust.Company == "")
+                                    {
+                                        cust.Company = null;
+                                    }
+                                    if (cust.Phone != "")
+                                    {
+                                        cust.Phone = cust.Phone.Replace(" ", "");
                                     }
                                     customerList.Add(cust);
                                 }
@@ -70,6 +83,7 @@ namespace esencialAdmin.Services
             }
             catch (Exception ex)
             {
+                var a = ex.Message;
             }
 
             return -1;

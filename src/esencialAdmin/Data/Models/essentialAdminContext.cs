@@ -142,7 +142,7 @@ namespace esencialAdmin.Data.Models
                     .IsUnique()
                     .HasFilter("([Email] IS NOT NULL)");
 
-                entity.Property(e => e.City).HasMaxLength(50);
+                entity.Property(e => e.City).HasMaxLength(60);
 
                 entity.Property(e => e.Company).HasMaxLength(256);
 
@@ -154,9 +154,9 @@ namespace esencialAdmin.Data.Models
 
                 entity.Property(e => e.LastName).HasMaxLength(50);
 
-                entity.Property(e => e.Phone).HasMaxLength(15);
+                entity.Property(e => e.Phone).HasMaxLength(25);
 
-                entity.Property(e => e.Street).HasMaxLength(100);
+                entity.Property(e => e.Street).HasMaxLength(256);
 
                 entity.Property(e => e.Title).HasMaxLength(20);
 

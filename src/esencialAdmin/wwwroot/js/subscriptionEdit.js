@@ -51,10 +51,10 @@
             nextArrow: $('.slick-next')
         });
 
-        if ($("#StatusLabel").data("statusId") === 4){
-            console.log("status4");
-            $(".periodesFields").prop("disabled", true);
-        }
+        //if ($("#StatusLabel").data("statusId") === 4){
+        //    console.log("status4");
+        //    $(".periodesFields").prop("disabled", true);
+        //}
 });
 
 function SubscriptionDeleteConfirmation(SubID) {

@@ -52,10 +52,11 @@ namespace esencialAdmin.Services
                     if (originalWithoutThumb.Contains("_thumb"))
                     {
                         var tmp = new ResizeOptions();
+                        
                         tmp.Mode = ResizeMode.Max;
                         tmp.Size = new SixLabors.Primitives.Size(250,180);
 
-                        image.Mutate(x => x.Resize(tmp));
+                       image.Mutate(x => x.AutoOrient().Resize(tmp));
                     }
                     Stream outputStream = new MemoryStream();
 

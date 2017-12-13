@@ -377,6 +377,7 @@ namespace esencialAdmin.Services
                                     Customer = tempplan.FkCustomer.FirstName + " " + tempplan.FkCustomer.LastName,
                                     Plan = tempplan.FkPlan.Name,
                                     Periode = tempplan.Periodes.Where(x => x.EndDate > DateTime.UtcNow).First().StartDate.ToString("dd.MM.yyyy") + " -<br>" + tempplan.Periodes.Where(x => x.EndDate > DateTime.UtcNow).First().EndDate.ToString("dd.MM.yyyy"),
+                                    StartDate = tempplan.Periodes.Where(x => x.EndDate > DateTime.UtcNow).First().StartDate,
                                     Payed = tempplan.Periodes.Where(x => x.EndDate > DateTime.UtcNow).First().Payed ? "Ja" : "Nein",
                                     Status = tempplan.FkSubscriptionStatusNavigation.Label
 
@@ -387,6 +388,10 @@ namespace esencialAdmin.Services
                 if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDirection)))
                 {
                     sortColumn = sortColumn.Substring(0, 1).ToUpper() + sortColumn.Remove(0, 1);
+                    if(sortColumn == "Periode")
+                    {
+                        sortColumn = "StartDate";
+                    }
                     planData = planData.OrderBy(sortColumn + ' ' + sortColumnDirection);
                 }
                 //Search  
@@ -448,12 +453,17 @@ namespace esencialAdmin.Services
                                     Plan = tempplan.FkPlan.Name,
                                     Goodies = tempplan.Periodes.Where(x => x.EndDate > DateTime.UtcNow && x.StartDate < DateTime.UtcNow).FirstOrDefault().PeriodesGoodies.Where(y => y.Received == false && y.SubPeriodeYear <= currentYear),
                                     Periode = tempplan.Periodes.Where(x => x.EndDate > DateTime.UtcNow && x.StartDate < DateTime.UtcNow).FirstOrDefault().StartDate.ToString("dd.MM.yyyy") + " -<br>" + tempplan.Periodes.Where(x => x.EndDate > DateTime.UtcNow && x.StartDate < DateTime.UtcNow).FirstOrDefault().EndDate.ToString("dd.MM.yyyy"),
+                                    StartDate = tempplan.Periodes.Where(x => x.EndDate > DateTime.UtcNow && x.StartDate < DateTime.UtcNow).FirstOrDefault().StartDate,
                                     Status = tempplan.FkSubscriptionStatusNavigation.Label,
                                 });
 
                 //Sorting  
                 if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDirection)))
                 {
+                    if (sortColumn == "Periode")
+                    {
+                        sortColumn = "StartDate";
+                    }
                     sortColumn = sortColumn.Substring(0, 1).ToUpper() + sortColumn.Remove(0, 1);
                     planData = planData.OrderBy(sortColumn + ' ' + sortColumnDirection);
                 }
@@ -580,7 +590,7 @@ namespace esencialAdmin.Services
                     {
                         FkSubscriptionId = subId,
                         StartDate = new DateTime(DateTime.UtcNow.Year + 1, 1, 1),
-                        EndDate = new DateTime((DateTime.UtcNow.Year + 1 + plan.Duration), 12, 31),
+                        EndDate = new DateTime((DateTime.UtcNow.Year + plan.Duration), 12, 31),
                         Price = plan.Price
                     };
 
@@ -637,7 +647,8 @@ namespace esencialAdmin.Services
                 Customer = SubscriptionCustomerViewModel.CreateFromCustomer(subscriptionToLoad.FkCustomer),
                 Plan = SubscriptionPlanViewModel.CreateFromPlan(subscriptionToLoad.FkPlan),
                 StatusID = subscriptionToLoad.FkSubscriptionStatus,
-                StatusLabel = subscriptionToLoad.FkSubscriptionStatusNavigation.Label
+                StatusLabel = subscriptionToLoad.FkSubscriptionStatusNavigation.Label,
+                TemplateID = subscriptionToLoad.FkPlan.FkGoody.FkTemplateLabel.Value
             };
             var periodesToLoad = this._context.Periodes
                 .Include(c => c.FkGiftedBy)

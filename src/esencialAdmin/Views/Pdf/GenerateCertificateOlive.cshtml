@@ -1,0 +1,63 @@
+﻿@model esencialAdmin.Models.PdfViewModels.PdfCertificateViewModel
+@{
+    Layout = "~/Views/Shared/_PdfLayout.cshtml";
+}
+<div class="certificat olive">
+    <div class="header">
+        <img src="~/images/zertificate_img_header_olive.jpg" />
+        <div class="title">
+            <h1>ZERTIFIKAT</h1>
+            <h6>über einen Olivenbaum<br />im Bierzo (León), Spanien</h6>
+            <br />
+            <span class="for">für</span>
+            <h3>@Model.Customer</h3>
+            <span>NR. @Model.PlantNumber</span>
+        </div>
+        <img src="~/images/zertificate_img_header_olive.jpg" />
+    </div>
+
+    <div class="content">
+        <div class="imgcontainer">
+            <img src="~/images/zertificate_img_olive.jpg" />
+
+        </div>
+
+        <p>
+            Mit diesem Zertifikat werden Sie für drei Jahre Besitzer/Pate Ihres persönlichen Olivenbaumes auf der Finca «esencial» in Villafranca del Bierzo, León, Spanien. Ihr Olivenbaum befindet sich auf der wunderschönen Finca, wo Natur mit integrierter Land- und Weinwirtschaft gepflegt wird. Mit Ihrem Besitztum tragen Sie dazu bei, dass dieser Naturflecken so erhalten bleibt wie er ist und weiter entwickelt wird.<br /><br />
+            Hier sind die genauen Koordinaten Ihrers Olivenbaumes:
+
+        </p>
+        <div class="logo"><img src="~/images/logo_black.png" /></div>
+        <table>
+            <tr>
+                <td><strong>Land:</strong></td>
+                <td>Spanien</td>
+                <td><strong>Adresse:</strong></td>
+            </tr>
+            <tr>
+                <td><strong>Provinz:</strong></td>
+                <td>Castilla y León</td>
+                <td>Finca esencial</td>
+            </tr>
+           
+            <tr>
+                <td><strong>Gemeinde:</strong></td>
+                <td>Villafranca del Bierzo</td>
+                <td>Camino de la Virgen</td>
+            </tr>
+        </table>
+        <br />
+        <p class="small">
+            Patenschaft gültig bis _________________<br />Bitte beachten Sie die Anlage zum Zertifikat
+        </p>
+    </div>
+    <div class="footer">
+        <span>
+            CASCADA Hotel ∙ BOLERO Restaurante<br />
+            Bundesplatz 18 ∙ CH-6003 Luzern<br />
+            Tel: +41 41 226 80 88 ∙ Fax: +41 41 226 80 00<br />
+            info@cascada.ch ∙ www.cascada.ch
+        </span>
+    </div>
+
+</div>

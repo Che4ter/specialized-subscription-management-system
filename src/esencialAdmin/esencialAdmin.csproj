@@ -58,9 +58,9 @@
 
   <ItemGroup>
     <Folder Include="Data\TMPModels\" />
-    <Folder Include="Data\Userdata\" />
     <Folder Include="Properties\PublishProfiles\" />
     <Folder Include="wwwroot\.well-known\acme-challenge\" />
+    <Folder Include="wwwroot\Data\Userdata\" />
   </ItemGroup>
 
   <ItemGroup>

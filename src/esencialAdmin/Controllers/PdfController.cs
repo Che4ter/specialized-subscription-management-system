@@ -24,22 +24,37 @@ namespace esencialAdmin.Controllers
             return View();
         }
 
-        public IActionResult PrintCertificate(int id)
+        public IActionResult PrintCertificate(int Id, int TemplateID)
         {
             Dictionary<string, string> cookieCollection = new Dictionary<string, string>();
             foreach (var key in Request.Cookies)
             {
                 cookieCollection.Add(key.Key, key.Value);
             }
+            ActionAsPdf pdf;
 
-            var pdf = new ActionAsPdf("GenerateCertificate", new { id = id });
+            if (TemplateID == 1)
+            {
+                pdf = new ActionAsPdf("GenerateCertificateWine", new { id = Id });
+            }
+            else
+            {
+                pdf = new ActionAsPdf("GenerateCertificateOlive", new { id = Id });
+            }
             pdf.FileName = "Zertifikat.pdf";
             pdf.Cookies = cookieCollection;
             return pdf;
         }
 
         [HttpGet]
-        public IActionResult GenerateCertificate(int id)
+        public IActionResult GenerateCertificateOlive(int id)
+        {
+
+            return View(_pService.getCertificateModel(id));
+        }
+
+        [HttpGet]
+        public IActionResult GenerateCertificateWine(int id)
         {
 
             return View(_pService.getCertificateModel(id));
@@ -72,8 +87,8 @@ namespace esencialAdmin.Controllers
 
             var pdf = new ActionAsPdf("GeneratePictureTemplate", filter);
             pdf.FileName = "A5.pdf";
-            pdf.PageSize = Size.A5;
-            pdf.PageOrientation = Orientation.Landscape;
+            pdf.PageSize = Size.A4;
+            pdf.PageOrientation = Orientation.Portrait;
             pdf.PageMargins = new Margins(0, 0, 0, 0);
             pdf.Cookies = cookieCollection;
             return pdf;
