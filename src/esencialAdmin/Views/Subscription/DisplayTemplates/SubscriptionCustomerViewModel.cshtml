@@ -8,11 +8,11 @@
     @Model.FirstName @Model.LastName<br />
     @Model.Street <br />
     @Model.Zip @Model.City<br /><br />
-    @if (@Model.Email != null)
+    @if (@Model.Email != null && @Model.Email != "")
     {
         <strong><label asp-for="Email"></label></strong> @Model.Email<br />
     }
-    @if (@Model.Phone != null)
+    @if (@Model.Phone != null && @Model.Phone != "")
     {
         <strong><label asp-for="Phone"></label></strong> @Model.Phone<br />
     }
