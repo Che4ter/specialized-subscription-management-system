@@ -51,8 +51,8 @@ namespace esencialAdmin.Services
                     this._context.Subscription.Add(s);
                     this._context.SaveChanges();
 
-                    var currentDeadline = new DateTime(DateTime.UtcNow.Year, plan.Deadline.Month, plan.Deadline.Day);
-                    var periodeEnd = new DateTime(DateTime.UtcNow.Year, 12, 31);
+                    var currentDeadline = new DateTime(newSubscription.StartDate.Year, plan.Deadline.Month, plan.Deadline.Day);
+                    var periodeEnd = new DateTime(newSubscription.StartDate.Year, 12, 31);
                     if (newSubscription.StartDate > currentDeadline)
                     {
                         periodeEnd = periodeEnd.AddYears((plan.Duration ));
@@ -586,11 +586,32 @@ namespace esencialAdmin.Services
 
                     }
 
+                    var lastperiode = this._context.Periodes.Where(x => x.FkSubscriptionId == subId).OrderByDescending(x => x.EndDate).FirstOrDefault();
+
+                    var newStartDate = DateTime.Now;
+
+                    if (lastperiode.EndDate > newStartDate)
+                    {
+                        newStartDate = lastperiode.EndDate;
+                        newStartDate = newStartDate.AddDays(1);
+                    }
+
+                    var currentDeadline = new DateTime(newStartDate.Year, plan.Deadline.Month, plan.Deadline.Day);
+                    var periodeEnd = new DateTime(newStartDate.Year, 12, 31);
+                    if (newStartDate > currentDeadline)
+                    {
+                        periodeEnd = periodeEnd.AddYears((plan.Duration));
+                    }
+                    else
+                    {
+                        periodeEnd = periodeEnd.AddYears(plan.Duration - 1);
+                    }
+
                     var p = new Periodes()
                     {
                         FkSubscriptionId = subId,
-                        StartDate = new DateTime(DateTime.UtcNow.Year + 1, 1, 1),
-                        EndDate = new DateTime((DateTime.UtcNow.Year + plan.Duration), 12, 31),
+                        StartDate = newStartDate,
+                        EndDate = periodeEnd,
                         Price = plan.Price
                     };
 
@@ -657,16 +678,18 @@ namespace esencialAdmin.Services
 
             subscriptionToEdit.Periodes = new List<SubscriptionPeriodeViewModel>();
 
+            var currentDeadline = new DateTime(DateTime.Now.Year, subscriptionToLoad.FkPlan.Deadline.Month, subscriptionToLoad.FkPlan.Deadline.Day);
+
             bool hasCurrent = false;
             foreach (Periodes p in periodesToLoad)
             {
                 SubscriptionPeriodeViewModel pModel = SubscriptionPeriodeViewModel.CreateFromPeriode(p);
-                if (p.StartDate < DateTime.UtcNow && p.EndDate > DateTime.UtcNow)
+                if (p.StartDate < DateTime.UtcNow && p.EndDate > currentDeadline)
                 {
                     pModel.CurrentPeriode = true;
                     hasCurrent = true;
                 }
-                else if (p.StartDate == new DateTime(DateTime.UtcNow.Year + 1, 1, 1) && p.EndDate.Year > (DateTime.UtcNow.Year + 1))
+                else if (p.StartDate > DateTime.UtcNow && !hasCurrent)
                 {
                     pModel.CurrentPeriode = true;
                     hasCurrent = true;

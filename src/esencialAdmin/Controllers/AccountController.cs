@@ -124,7 +124,7 @@ namespace esencialAdmin.Controllers
                 var code = await _userManager.GeneratePasswordResetTokenAsync(user);
                 var callbackUrl = Url.ResetPasswordCallbackLink(user.Id, code, Request.Scheme);
                 await _emailSender.SendEmailAsync(model.Email, "Passwort zurückzusetzen - esencialAdmin",
-                   $"Um Ihr Passwort zurückzusetzen klicken Sie bitte auf folgenden Link: <a href='{callbackUrl}'>link</a>");
+                   $"Um Ihr Passwort zurückzusetzen klicken Sie bitte auf diesen <a href='{callbackUrl}'>Link</a>");
                 return RedirectToAction(nameof(ForgotPasswordConfirmation));
             }
 
