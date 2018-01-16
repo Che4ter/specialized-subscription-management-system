@@ -68,7 +68,6 @@ namespace esencialAdmin.Services
                     Name = goody.Name
                 });
             }
-
             return goodiesList;
         }
 

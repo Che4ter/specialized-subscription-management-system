@@ -1,11 +1,5 @@
-﻿using esencialAdmin.Data.Models;
-using esencialAdmin.Models.GoodiesViewModels;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace esencialAdmin.Models.SubscriptionViewModels
 {
@@ -20,10 +14,6 @@ namespace esencialAdmin.Models.SubscriptionViewModels
         [Display(Name = "Status")]
         public virtual List<SubscriptionSelectStatusViewModel> Status { get; set; }
 
-        //[DisplayName("Ernteanteil erhalten?")]
-        //public bool Goody { get; set; }
-
         public int statusID { get; set; }
-
     }
 }

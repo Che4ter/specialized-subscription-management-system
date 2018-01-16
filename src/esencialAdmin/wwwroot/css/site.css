@@ -170,8 +170,8 @@ buttons {
     margin-bottom: 20px;
 }
 
-.subscriptionHeader > div, .subscriptionHeader>h2{
-    float:left;
+.subscriptionHeader > div, .subscriptionHeader > h2 {
+    float: left;
     margin-right: 15px;
 }
 /**
@@ -208,7 +208,7 @@ buttons {
 #sidedrawer .nav-title {
     padding: 15px 22px;
     font-weight: bolder;
-    font-size:18px;
+    font-size: 18px;
 }
 
 #sidedrawer strong {
@@ -261,7 +261,7 @@ buttons {
 */
 
 table.dataTable tbody th, table.dataTable tbody td {
-    outline:none;
+    outline: none;
 }
 
 
@@ -305,12 +305,13 @@ table.dataTable thead th, table.dataTable thead td {
 /* Info Panel**/
 .mui-panel.panel-warning {
     background-color: #F4511E;
-    color:#fff;
-    font-size:17px;
+    color: #fff;
+    font-size: 17px;
 }
-.mui-panel.panel-warning p{
-    margin-bottom:0;
-}
+
+    .mui-panel.panel-warning p {
+        margin-bottom: 0;
+    }
 /**
 * Notify
 */
@@ -324,7 +325,7 @@ table.dataTable thead th, table.dataTable thead td {
         width: 300px;
         position: relative;
         transition: .3s;
-        margin-bottom:0!important;
+        margin-bottom: 0 !important;
     }
 
         .top-notif-holder .mui-panel.notif-error {
@@ -427,13 +428,13 @@ table.dataTable thead th, table.dataTable thead td {
     cursor: pointer;
     outline: none;
     position: absolute;
-    top:0;
-    right:0;
+    top: 0;
+    right: 0;
 }
 
-    .remove-photo-fab .material-icons {
-        line-height: 35px;
-    }
+.remove-photo-fab .material-icons {
+    line-height: 35px;
+}
 
 .previewPhotoContainer .download-photo-fab {
     border: none;
@@ -453,21 +454,21 @@ table.dataTable thead th, table.dataTable thead td {
     line-height: 35px;
 }
 
-.previewPhotoContainer{
-    position:relative;
-    padding:7px;
-    width:auto;
-    display:inline-block;
+.previewPhotoContainer {
+    position: relative;
+    padding: 7px;
+    width: auto;
+    display: inline-block;
 }
 
-.col-thumbImages{
-    min-width:220px;
-    float:left;
+.col-thumbImages {
+    min-width: 220px;
+    float: left;
 }
 
 .mui-form fieldset, .periode-container {
     outline: none !important;
-    margin-bottom:0;
+    margin-bottom: 0;
 }
 
 /*******SELECT 2*******/
@@ -475,7 +476,7 @@ table.dataTable thead th, table.dataTable thead td {
  * Multiple Select2
  */
 .mui-select__menu {
-    position:static;
+    position: static;
 }
 
 
@@ -570,75 +571,75 @@ table.dataTable thead th, table.dataTable thead td {
         /**
    * Multiple selected options
    */
-        /**
+    /**
    * Multiple selected option clear button
    
     }*/
 
-        .select2-container--material .select2-selection--multiple .select2-selection__rendered {
-            width: 100%;
+    .select2-container--material .select2-selection--multiple .select2-selection__rendered {
+        width: 100%;
+    }
+
+        .select2-container--material .select2-selection--multiple .select2-selection__rendered li {
+            list-style: none;
         }
 
-            .select2-container--material .select2-selection--multiple .select2-selection__rendered li {
-                list-style: none;
-            }
+    .select2-container--material .select2-selection--multiple .select2-selection__choice {
+        /* @extend .mdl-chip */
+        height: 32px;
+        line-height: 32px;
+        padding: 0 12px;
+        border: 0;
+        border-radius: 16px;
+        background-color: #dedede;
+        display: inline-block;
+        color: rgba(0, 0, 0, 0.87);
+        margin: 2px 0;
+        font-size: 0;
+        white-space: nowrap;
+        /* @extend .mdl-chip__text */
+        font-size: 16px;
+        vertical-align: middle;
+        display: inline-block;
+        margin-right: 8px;
+        margin-bottom: 4px;
+    }
 
-        .select2-container--material .select2-selection--multiple .select2-selection__choice {
-            /* @extend .mdl-chip */
-            height: 32px;
-            line-height: 32px;
-            padding: 0 12px;
-            border: 0;
-            border-radius: 16px;
-            background-color: #dedede;
-            display: inline-block;
-            color: rgba(0, 0, 0, 0.87);
-            margin: 2px 0;
-            font-size: 0;
-            white-space: nowrap;
-            /* @extend .mdl-chip__text */
+    .select2-container--material .select2-selection--multiple .select2-selection__choice__remove {
+        /* Hide default content */
+        font-size: 0;
+        opacity: 0.38;
+        cursor: pointer;
+        float: right;
+        margin-top: 4px;
+        margin-right: -6px;
+        margin-left: 6px;
+        -webkit-transition: opacity;
+        transition: opacity;
+    }
+
+        .select2-container--material .select2-selection--multiple .select2-selection__choice__remove::before {
+            content: "cancel";
+            /* @extend .material-icons */
+            font-family: 'Material Icons';
+            font-weight: normal;
+            font-style: normal;
             font-size: 16px;
-            vertical-align: middle;
+            line-height: 1;
+            letter-spacing: normal;
+            text-transform: none;
             display: inline-block;
-            margin-right: 8px;
-            margin-bottom: 4px;
+            white-space: nowrap;
+            word-wrap: normal;
+            direction: ltr;
+            -webkit-font-feature-settings: 'liga';
+            -webkit-font-smoothing: antialiased;
+            color: #000;
         }
 
-        .select2-container--material .select2-selection--multiple .select2-selection__choice__remove {
-            /* Hide default content */
-            font-size: 0;
-            opacity: 0.38;
-            cursor: pointer;
-            float: right;
-            margin-top: 4px;
-            margin-right: -6px;
-            margin-left: 6px;
-            -webkit-transition: opacity;
-            transition: opacity;
+        .select2-container--material .select2-selection--multiple .select2-selection__choice__remove:hover {
+            opacity: 0.54;
         }
-
-            .select2-container--material .select2-selection--multiple .select2-selection__choice__remove::before {
-                content: "cancel";
-                /* @extend .material-icons */
-                font-family: 'Material Icons';
-                font-weight: normal;
-                font-style: normal;
-                font-size: 16px;
-                line-height: 1;
-                letter-spacing: normal;
-                text-transform: none;
-                display: inline-block;
-                white-space: nowrap;
-                word-wrap: normal;
-                direction: ltr;
-                -webkit-font-feature-settings: 'liga';
-                -webkit-font-smoothing: antialiased;
-                color: #000;
-            }
-
-            .select2-container--material .select2-selection--multiple .select2-selection__choice__remove:hover {
-                opacity: 0.54;
-            }
 
 .select2-search.select2-search--dropdown {
     margin-top: -40px !important;

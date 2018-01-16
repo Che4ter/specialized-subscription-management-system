@@ -17,14 +17,11 @@ namespace esencialAdmin.Services
         protected readonly esencialAdminContext _context;
         private readonly IHostingEnvironment _hostingEnvironment;
 
-
         public ImageService(esencialAdminContext context, IHostingEnvironment hostingEnvironment)
         {
             _context = context;
             _hostingEnvironment = hostingEnvironment;
-
         }
-
 
         public FileStreamResult loadSubscriptionImage(String URL)
         {
@@ -52,11 +49,11 @@ namespace esencialAdmin.Services
                     if (originalWithoutThumb.Contains("_thumb"))
                     {
                         var tmp = new ResizeOptions();
-                        
-                        tmp.Mode = ResizeMode.Max;
-                        tmp.Size = new SixLabors.Primitives.Size(250,180);
 
-                       image.Mutate(x => x.AutoOrient().Resize(tmp));
+                        tmp.Mode = ResizeMode.Max;
+                        tmp.Size = new SixLabors.Primitives.Size(250, 180);
+
+                        image.Mutate(x => x.AutoOrient().Resize(tmp));
                     }
                     Stream outputStream = new MemoryStream();
 
@@ -85,7 +82,6 @@ namespace esencialAdmin.Services
             }
 
             return null;
-
         }
         public bool deleteSubscriptionPhoto(int fileID)
         {
@@ -99,11 +95,9 @@ namespace esencialAdmin.Services
 
                 String path = _hostingEnvironment.WebRootPath + file.Path + file.FileName;
 
-
                 if (File.Exists(path))
                 {
                     File.Delete(path);
-
                 }
 
                 this._context.SubscriptionPhotos.Remove(this._context.SubscriptionPhotos.Where(x => x.FkFileId == fileID).FirstOrDefault());
@@ -115,9 +109,7 @@ namespace esencialAdmin.Services
             {
 
             }
-
             return false;
-
         }
     }
 }

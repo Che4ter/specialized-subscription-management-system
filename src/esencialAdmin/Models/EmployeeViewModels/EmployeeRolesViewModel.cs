@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace esencialAdmin.Models.EmployeeViewModels
 {
@@ -13,6 +9,5 @@ namespace esencialAdmin.Models.EmployeeViewModels
 
         [Display(Name = "Rolle")]
         public string Role { get; set; }
-
     }
 }

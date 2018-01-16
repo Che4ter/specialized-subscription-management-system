@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using esencialAdmin.Services;
 using Rotativa.NetCore;
-using esencialAdmin.Models.PdfViewModels;
-using Microsoft.AspNetCore.Authorization;
 using esencialAdmin.Models.SubscriptionViewModels;
 using Rotativa.NetCore.Options;
 using System.Collections.Generic;
@@ -49,14 +47,12 @@ namespace esencialAdmin.Controllers
         [HttpGet]
         public IActionResult GenerateCertificateOlive(int id)
         {
-
             return View(_pService.getCertificateModel(id));
         }
 
         [HttpGet]
         public IActionResult GenerateCertificateWine(int id)
         {
-
             return View(_pService.getCertificateModel(id));
         }
 

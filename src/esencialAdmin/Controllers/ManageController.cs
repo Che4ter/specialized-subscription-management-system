@@ -1,19 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using esencialAdmin.Models.ManageViewModels;
 using esencialAdmin.Services;
 using esencialAdmin.Data;
-using esencialAdmin.Data.Models;
 using esencialAdmin.Extensions;
 
 namespace esencialAdmin.Controllers
@@ -27,7 +22,6 @@ namespace esencialAdmin.Controllers
         private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
         private readonly UrlEncoder _urlEncoder;
-
 
         public ManageController(
           UserManager<ApplicationUser> userManager,
@@ -43,7 +37,6 @@ namespace esencialAdmin.Controllers
             _logger = logger;
             _urlEncoder = urlEncoder;
         }
-
 
         [HttpGet]
         public async Task<IActionResult> Index()
@@ -68,7 +61,6 @@ namespace esencialAdmin.Controllers
 
             return View(indexModel);
         }
-
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -100,9 +92,7 @@ namespace esencialAdmin.Controllers
                     await _userManager.SetEmailAsync(user, user.UserName);
                     throw new ApplicationException($"Unexpected error occurred setting email for user with ID '{user.Id}'.");
                 }
-
                 await _signInManager.RefreshSignInAsync(user);
-
             }
 
             this.AddNotification("Dein Profil wurde aktualisiert", NotificationType.SUCCESS);
@@ -130,12 +120,10 @@ namespace esencialAdmin.Controllers
                 if (changePasswordResult.Errors.FirstOrDefault().Code == "PasswordMismatch")
                 {
                     this.AddNotification("Das Passwort konnte nicht geändert werden. Überprüfe ob das aktuelle Korrekt ist", NotificationType.ERROR);
-
                 }
                 else
                 {
                     this.AddNotification("Das Passwort konnte nicht geändert werden.", NotificationType.ERROR);
-
                 }
 
                 return RedirectToAction(nameof(Index));
@@ -144,7 +132,6 @@ namespace esencialAdmin.Controllers
             await _signInManager.SignInAsync(user, isPersistent: false);
             _logger.LogInformation("User changed their password successfully.");
             this.AddNotification("Dein Passwort wurde geändert", NotificationType.SUCCESS);
-
 
             return RedirectToAction(nameof(Index));
         }

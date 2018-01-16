@@ -10,10 +10,6 @@ using System;
 using System.Globalization;
 using Microsoft.AspNetCore.Localization;
 using System.Collections.Generic;
-using System.IO;
-using Microsoft.Extensions.FileProviders;
-using Microsoft.AspNetCore.Http;
-using esencialAdmin.Extensions;
 
 namespace esencialAdmin
 {
@@ -55,7 +51,7 @@ namespace esencialAdmin
             })
               .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
-            
+
 
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
@@ -130,13 +126,8 @@ namespace esencialAdmin
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
-              
+
             });
-
-            
         }
-
-       
     }
-   
 }

@@ -1,16 +1,13 @@
 ﻿using System;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using esencialAdmin.Data.Models;
 using esencialAdmin.Extensions;
 using System.Reflection;
 using esencialAdmin.Services;
-using esencialAdmin.Models.PlanViewModels;
 using esencialAdmin.Models.SubscriptionViewModels;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
-using System.IO;
 
 namespace esencialAdmin.Controllers
 {
@@ -28,7 +25,6 @@ namespace esencialAdmin.Controllers
             {
                 Plans = _sService.getAvailableSelectPlanMethods(),
                 Status = _sService.getAvailableSelectStatusMethods(),
-
             };
 
             return View(model);
@@ -91,7 +87,6 @@ namespace esencialAdmin.Controllers
             else
             {
                 return StatusCode(StatusCodes.Status500InternalServerError);
-
             }
         }
 
@@ -101,9 +96,7 @@ namespace esencialAdmin.Controllers
             this.AddNotification("Patenschafts Status wurde aktualisiert", NotificationType.SUCCESS);
 
             return this.RedirectToAction("Index");
-
         }
-
 
         [HttpPost]
         public IActionResult updatePaymentReminderStatus(int periodID, bool reminderState)
@@ -115,7 +108,6 @@ namespace esencialAdmin.Controllers
             else
             {
                 return StatusCode(StatusCodes.Status500InternalServerError);
-
             }
         }
 
@@ -129,7 +121,6 @@ namespace esencialAdmin.Controllers
             else
             {
                 return StatusCode(StatusCodes.Status500InternalServerError);
-
             }
         }
 
@@ -146,7 +137,6 @@ namespace esencialAdmin.Controllers
 
                 }
             }
-
             return this.RedirectToAction("Edit", new { id = subscriptionID });
         }
 
@@ -161,7 +151,6 @@ namespace esencialAdmin.Controllers
             else
             {
                 return StatusCode(StatusCodes.Status500InternalServerError);
-
             }
         }
 
@@ -169,7 +158,6 @@ namespace esencialAdmin.Controllers
         public int getNextFreePlantNr(int planID)
         {
             return _sService.getNextPlantNr(planID);
-
         }
 
         [HttpGet]
@@ -232,7 +220,6 @@ namespace esencialAdmin.Controllers
         {
             //Get the paged results and the total count of the results for this query. 
             return _sService.getSelect2Customers(search, pageSize, page);
-
         }
 
         [HttpGet]
@@ -240,7 +227,6 @@ namespace esencialAdmin.Controllers
         {
             //Get the paged results and the total count of the results for this query. 
             return _sService.getSelect2Plans(search, pageSize, page);
-
         }
 
         public IActionResult managegoodies()
@@ -279,6 +265,4 @@ namespace esencialAdmin.Controllers
 
         #endregion
     }
-
-
 }

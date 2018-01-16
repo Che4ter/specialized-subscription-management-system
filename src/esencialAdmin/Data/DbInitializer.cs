@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace esencialAdmin.Data
 {
-    public static class DbInitializer 
+    public static class DbInitializer
     {
         //This example just creates an Administrator role and one Admin users
         public async static Task<bool> Initialize(ApplicationDbContext context, esencialAdminContext esencialAdminContext, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
@@ -14,9 +14,10 @@ namespace esencialAdmin.Data
             esencialAdminContext.Database.EnsureCreated();
             context.Database.EnsureCreated();
 
-            if(!esencialAdminContext.Templates.Any())
+            if (!esencialAdminContext.Templates.Any())
             {
-                var template1 = new Templates(){
+                var template1 = new Templates()
+                {
                     Name = "Wein Etikette"
                 };
 
@@ -63,7 +64,6 @@ namespace esencialAdmin.Data
                 esencialAdminContext.PaymentMethods.Add(paymentMethod4);
                 esencialAdminContext.PaymentMethods.Add(paymentMethod5);
                 esencialAdminContext.SaveChanges();
-
             }
 
             if (!esencialAdminContext.PlanGoodies.Any())
@@ -83,7 +83,6 @@ namespace esencialAdmin.Data
                 esencialAdminContext.PlanGoodies.Add(planGoody);
                 esencialAdminContext.PlanGoodies.Add(planGoody2);
                 esencialAdminContext.SaveChanges();
-
             }
 
             if (esencialAdminContext.SubscriptionStatus.Count() != 4)
@@ -119,7 +118,7 @@ namespace esencialAdmin.Data
 
             //If there is already an User with Administrator role, abort
             string roleID = context.Roles.Where(r => r.Name == "Administrator").Select(r => r.Id).FirstOrDefault();
-            if(roleID != null)
+            if (roleID != null)
             {
                 if (context.UserRoles.Any(r => r.RoleId == roleID))
                 {
@@ -140,7 +139,6 @@ namespace esencialAdmin.Data
             await userManager.AddToRoleAsync(user, "Administrator");
             // userManager.AddToRoleAsync(await userManager.FindByNameAsync(user), "Administrator");
             return true;
-
         }
     }
 }

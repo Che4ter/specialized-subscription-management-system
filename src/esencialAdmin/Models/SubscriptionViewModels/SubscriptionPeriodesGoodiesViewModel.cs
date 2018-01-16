@@ -1,10 +1,5 @@
 ﻿using esencialAdmin.Data.Models;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace esencialAdmin.Models.SubscriptionViewModels
 {
@@ -13,18 +8,17 @@ namespace esencialAdmin.Models.SubscriptionViewModels
         public int ID { get; set; }
         public bool Received { get; set; }
         public DateTime? ReceivedAt { get; set; }
-        
+
         public int SubPeriodeYear { get; set; }
-       
 
         public static SubscriptionPeriodesGoodiesViewModel CreateFromGoodie(PeriodesGoodies g)
         {
             var newModel = new SubscriptionPeriodesGoodiesViewModel()
             {
-               ID = g.Id,
-               Received = g.Received,
-               ReceivedAt = g.ReceivedAt,
-               SubPeriodeYear = g.SubPeriodeYear,           
+                ID = g.Id,
+                Received = g.Received,
+                ReceivedAt = g.ReceivedAt,
+                SubPeriodeYear = g.SubPeriodeYear,
             };
 
             return newModel;

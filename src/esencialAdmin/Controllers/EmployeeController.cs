@@ -1,14 +1,10 @@
-﻿using System;
-using System.Linq;
-using Microsoft.AspNetCore.Mvc;
-using esencialAdmin.Data.Models;
+﻿using Microsoft.AspNetCore.Mvc;
 using esencialAdmin.Models.CustomerViewModels;
 using esencialAdmin.Extensions;
 using System.Reflection;
 using esencialAdmin.Services;
 using Microsoft.AspNetCore.Authorization;
 using esencialAdmin.Models.EmployeeViewModels;
-using System.Collections.Generic;
 using esencialAdmin.Data;
 using Microsoft.AspNetCore.Identity;
 
@@ -137,7 +133,7 @@ namespace esencialAdmin.Controllers
             else
             {
                 this.AddNotification("Konnte Mitarbeiter nicht entsperren", NotificationType.ERROR);
-    
+
             }
             updatedEmployee.EmployeeRoles = _eService.getAvailableRoles();
 
@@ -147,7 +143,6 @@ namespace esencialAdmin.Controllers
         public IActionResult LoadData()
         {
             return _eService.loadEmployeeDataTable(Request);
-
         }
 
         private static object GetPropertyValue(object obj, string property)
@@ -188,6 +183,4 @@ namespace esencialAdmin.Controllers
 
         #endregion
     }
-
-
 }

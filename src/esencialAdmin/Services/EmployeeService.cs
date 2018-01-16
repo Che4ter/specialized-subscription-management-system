@@ -1,5 +1,4 @@
 ﻿using esencialAdmin.Data.Models;
-using esencialAdmin.Models.CustomerViewModels;
 using System;
 using System.Linq;
 using Microsoft.AspNetCore.Http;
@@ -8,7 +7,6 @@ using Microsoft.AspNetCore.Identity;
 using esencialAdmin.Data;
 using esencialAdmin.Models.EmployeeViewModels;
 using System.Collections.Generic;
-using System.Security.Claims;
 
 namespace esencialAdmin.Services
 {
@@ -24,7 +22,6 @@ namespace esencialAdmin.Services
         {
             _context = context;
             _userManager = userManager;
-
         }
 
         public async System.Threading.Tasks.Task<bool> deleteEmployee(string username)
@@ -210,7 +207,6 @@ namespace esencialAdmin.Services
             {
                 return false;
             }
-
         }
 
         public List<EmployeeRolesViewModel> getAvailableRoles()
@@ -225,14 +221,12 @@ namespace esencialAdmin.Services
                     Role = role.Name
                 });
             }
-
             return roleList;
         }
 
         public bool isUsernameUnique(string username)
         {
             return !_context.AspNetUsers.Any(x => x.UserName == username);
-
         }
     }
 }

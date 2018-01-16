@@ -3,15 +3,9 @@ using esencialAdmin.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace esencialAdmin.Controllers
 {
-
-
     [Authorize(Policy = "RequireAdminRole")]
     public class ImportController : BaseController
     {
@@ -34,15 +28,12 @@ namespace esencialAdmin.Controllers
             if (count >= 0)
             {
                 this.AddNotification(count + " Kunden wurden importiert", NotificationType.SUCCESS);
-
             }
             else
             {
                 this.AddNotification("Der Import war fehlerhaft", NotificationType.ERROR);
-
             }
             return this.RedirectToAction("Index");
-
         }
     }
 }

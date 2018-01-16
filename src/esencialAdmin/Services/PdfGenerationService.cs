@@ -59,9 +59,6 @@ namespace esencialAdmin.Services
                             ).OrderBy(c => c.LastName).ThenBy(c => c.FirstName).ToList();
 
             //((x.Periodes.Any(c => c.PeriodesGoodies.Any(y => y.Received == false && y.SubPeriodeYear <= currentYear))) || !filter.Goody)
-
-
-
             List<PdfSingleAdressViewModel> labelList = new List<PdfSingleAdressViewModel>();
             foreach (var cust in customer)
             {
@@ -93,9 +90,6 @@ namespace esencialAdmin.Services
                             ).OrderBy(c => c.Lastname).ThenBy(c => c.Firstname).ToList();
 
             //((x.Periodes.Any(c => c.PeriodesGoodies.Any(y => y.Received == false && y.SubPeriodeYear <= currentYear))) || !filter.Goody)
-
-
-
             List<PdfSinglePictureTemplateViewModel> labelList = new List<PdfSinglePictureTemplateViewModel>();
             foreach (var cust in customer)
             {
@@ -130,7 +124,6 @@ namespace esencialAdmin.Services
                         select new { FirstName = x.FkCustomer.FirstName, LastName = x.FkCustomer.LastName, Nr = x.PlantNumber, Bezeichnung = x.FkPlan.FkGoody.Bezeichnung }
                             )
                             .OrderBy(c => c.LastName).ThenBy(c => c.FirstName).ToList();
-
 
             List<PdfSingleBottleLabelViewModel> labelList = new List<PdfSingleBottleLabelViewModel>();
 

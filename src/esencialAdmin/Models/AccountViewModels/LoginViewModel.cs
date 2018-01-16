@@ -5,7 +5,6 @@ namespace esencialAdmin.Models.AccountViewModels
 {
     public class LoginViewModel
     {
-
         [DisplayName("E-Mail Adresse")]
         public string Email { get; set; }
 

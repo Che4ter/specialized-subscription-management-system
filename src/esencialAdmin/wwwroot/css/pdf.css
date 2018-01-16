@@ -125,14 +125,13 @@ tr {
     }
 
     .certificat.olive .header img {
-        margin-top:40px
+        margin-top: 40px
+    }
 
-    }
-    
-    .imgcontainer {
-        text-align: center;
-        margin-bottom: 25px;
-    }
+.imgcontainer {
+    text-align: center;
+    margin-bottom: 25px;
+}
 
     .imgcontainer img {
         max-width: 67%;

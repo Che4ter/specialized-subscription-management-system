@@ -1,7 +1,4 @@
-﻿using System;
-using System.Linq;
-using Microsoft.AspNetCore.Mvc;
-using esencialAdmin.Data.Models;
+﻿using Microsoft.AspNetCore.Mvc;
 using esencialAdmin.Models.CustomerViewModels;
 using esencialAdmin.Extensions;
 using System.Reflection;
@@ -81,7 +78,7 @@ namespace esencialAdmin.Controllers
                     if (_cService.updateCustomer(updatedCustomer))
                     {
                         this.AddNotification("Kunde wurde aktualisiert", NotificationType.SUCCESS);
-                        return this.RedirectToAction("Edit", new {id = updatedCustomer.ID });
+                        return this.RedirectToAction("Edit", new { id = updatedCustomer.ID });
                     }
                 }
                 else
@@ -100,18 +97,14 @@ namespace esencialAdmin.Controllers
             {
                 this.AddNotification("Kunde wurde gelöscht", NotificationType.SUCCESS);
                 return StatusCode(StatusCodes.Status200OK);
-
             }
             this.AddNotification("Konnte Kunde nicht löschen", NotificationType.WARNING);
             return StatusCode(StatusCodes.Status400BadRequest);
-
-
         }
 
         public IActionResult LoadData()
         {
             return _cService.loadCustomerDataTable(Request);
-
         }
 
         private static object GetPropertyValue(object obj, string property)
@@ -152,6 +145,4 @@ namespace esencialAdmin.Controllers
 
         #endregion
     }
-
-
 }

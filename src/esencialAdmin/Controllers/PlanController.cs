@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using esencialAdmin.Data.Models;
 using esencialAdmin.Extensions;
 using System.Reflection;
 using esencialAdmin.Services;
@@ -68,10 +66,8 @@ namespace esencialAdmin.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public IActionResult Edit(int id, PlanInputViewModel updatedPlan)
         {
-
             if (!isPlanEmpty(updatedPlan) && ModelState.IsValid)
             {
-
                 if (_pService.updatePlan(updatedPlan))
                 {
                     this.AddNotification("Plan wurde aktualisiert", NotificationType.SUCCESS);
@@ -105,7 +101,6 @@ namespace esencialAdmin.Controllers
         }
 
         #region Helper
-
         private bool isPlanEmpty(PlanInputViewModel c)
         {
             foreach (PropertyInfo pi in c.GetType().GetProperties())
@@ -132,9 +127,6 @@ namespace esencialAdmin.Controllers
             }
             return true;
         }
-
         #endregion
     }
-
-
 }

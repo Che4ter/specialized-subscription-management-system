@@ -1,13 +1,7 @@
 ﻿using esencialAdmin.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.Formats.Jpeg;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace esencialAdmin.Controllers
 {
@@ -19,27 +13,24 @@ namespace esencialAdmin.Controllers
             _iService = sService;
         }
 
-        [ResponseCache(Duration = 256,Location = ResponseCacheLocation.Client)]
+        [ResponseCache(Duration = 256, Location = ResponseCacheLocation.Client)]
         public IActionResult DisplayImage(string name)
         {
-            if(name != "")
+            if (name != "")
             {
                 var result = _iService.loadSubscriptionImage(name);
-                if(result != null)
+                if (result != null)
                 {
                     return result;
                 }
             }
-
             return this.NotFound();
-
         }
 
         public IActionResult DeleteImage(int fileID)
         {
-
             var result = _iService.deleteSubscriptionPhoto(fileID);
-            if (result )
+            if (result)
             {
                 return Redirect(Request.Headers["Referer"].ToString());
             }
@@ -63,8 +54,6 @@ namespace esencialAdmin.Controllers
             }
 
             return this.NotFound();
-
         }
-        
     }
 }

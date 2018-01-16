@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace esencialAdmin.Models.ManageViewModels
 {
@@ -21,6 +17,5 @@ namespace esencialAdmin.Models.ManageViewModels
         [Display(Name = "Bestätigung des neuen Passwortes")]
         [Compare("NewPassword", ErrorMessage = "Die Passwörter stimmen nicht überein")]
         public string ConfirmPassword { get; set; }
-
     }
 }

@@ -40,9 +40,8 @@ namespace esencialAdmin.Services
             }
             catch (Exception ex)
             {
-
+                return 0;
             }
-            return 0;
         }
 
         public bool deleteCustomer(int id)
@@ -163,7 +162,6 @@ namespace esencialAdmin.Services
             {
                 return false;
             }
-
         }
 
         public bool isEmailUnique(string email)
@@ -180,7 +178,6 @@ namespace esencialAdmin.Services
             else if (id > 0)
             {
                 return !_context.Customers.Any(x => x.Email == email && x.Id != id);
-
             }
             else
             {

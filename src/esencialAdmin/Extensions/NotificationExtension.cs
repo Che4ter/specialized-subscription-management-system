@@ -1,14 +1,11 @@
 ﻿using esencialAdmin.Controllers;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 
 namespace esencialAdmin.Extensions
 {
-
     public static class NotificationExtensions
     {
         private static IDictionary<String, String> NotificationKey = new Dictionary<String, String>
@@ -19,10 +16,9 @@ namespace esencialAdmin.Extensions
             { "Info",       "App.Notifications.Info" }
         };
 
-
         public static void AddNotification(this BaseController controller, String message, String notificationType)
         {
-            if(controller.TempData != null)
+            if (controller.TempData != null)
             {
                 string NotificationKey = getNotificationKeyByType(notificationType);
                 HashSet<String> notify;
@@ -36,7 +32,7 @@ namespace esencialAdmin.Extensions
                 }
                 notify.Add(message);
                 controller.TempData[NotificationKey] = JsonConvert.SerializeObject(notify);
-            }       
+            }
         }
 
         public static IEnumerable<String> GetNotifications(this ViewContext context, String notificationType)
@@ -51,7 +47,6 @@ namespace esencialAdmin.Extensions
             {
                 return null;
             }
-
         }
 
         private static string getNotificationKeyByType(string notificationType)
@@ -74,6 +69,5 @@ namespace esencialAdmin.Extensions
         public const string WARNING = "Warning";
         public const string SUCCESS = "Success";
         public const string INFO = "Info";
-
     }
 }

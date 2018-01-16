@@ -1,18 +1,11 @@
 ﻿using esencialAdmin.Data.Models;
-using esencialAdmin.Models.GoodiesViewModels;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace esencialAdmin.Models.PdfViewModels
 {
     public class PdfSingleAdressViewModel
     {
         public String Title { get; set; }
-
         public String FirstName { get; set; }
         public String LastName { get; set; }
         public String Street { get; set; }
@@ -30,12 +23,9 @@ namespace esencialAdmin.Models.PdfViewModels
                 Street = c.Street,
                 Zip = c.Zip,
                 City = c.City,
-                Company = c.Company,                
+                Company = c.Company,
             };
-
-          
             return newModel;
         }
-
     }
 }

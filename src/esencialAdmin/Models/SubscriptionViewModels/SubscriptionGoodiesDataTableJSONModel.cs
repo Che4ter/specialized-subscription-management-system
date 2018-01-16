@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace esencialAdmin.Models.SubscriptionViewModels
 {
@@ -15,6 +12,5 @@ namespace esencialAdmin.Models.SubscriptionViewModels
 
         public String Periode { get; set; }          
         public String Status { get; set; }
-
     }
 }

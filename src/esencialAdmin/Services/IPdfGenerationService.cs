@@ -12,8 +12,6 @@ namespace esencialAdmin.Services
 
         List<PdfSingleBottleLabelViewModel> getBottleLabels(SubscriptionIndexViewModel filter);
 
-        List<PdfSinglePictureTemplateViewModel> getPictureTemplatesModel(SubscriptionIndexViewModel filter);
-
-        
+        List<PdfSinglePictureTemplateViewModel> getPictureTemplatesModel(SubscriptionIndexViewModel filter);       
     }
 }

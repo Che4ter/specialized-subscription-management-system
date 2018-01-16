@@ -1,11 +1,6 @@
-﻿using esencialAdmin.Data.Models;
-using esencialAdmin.Models.GoodiesViewModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace esencialAdmin.Models.SubscriptionViewModels
 {
@@ -29,9 +24,7 @@ namespace esencialAdmin.Models.SubscriptionViewModels
         public Dictionary<int,String> Photos { get; set; }
 
         public int StatusID { get; set; }
-
         public int TemplateID { get; set; }
-
 
         [DisplayName("Patenschaft Status")]
         public String StatusLabel { get; set; }

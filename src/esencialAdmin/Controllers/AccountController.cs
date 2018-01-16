@@ -1,6 +1,4 @@
-﻿using System;
-using System.Security.Claims;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -10,7 +8,6 @@ using esencialAdmin.Models.AccountViewModels;
 using esencialAdmin.Services;
 using esencialAdmin.Data;
 using esencialAdmin.Extensions;
-using esencialAdmin.Data.Models;
 
 namespace esencialAdmin.Controllers
 {

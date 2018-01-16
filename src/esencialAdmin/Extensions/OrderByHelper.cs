@@ -91,7 +91,6 @@ public static class OrderByHelper
 
             initial = false;
         }
-
     }
 
     private class OrderByInfo

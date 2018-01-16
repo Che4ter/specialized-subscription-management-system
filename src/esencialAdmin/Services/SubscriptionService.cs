@@ -3,7 +3,6 @@ using System;
 using System.Linq;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using esencialAdmin.Models.PlanViewModels;
 using System.Collections.Generic;
 using esencialAdmin.Models.GoodiesViewModels;
 using esencialAdmin.Extensions;
@@ -25,9 +24,7 @@ namespace esencialAdmin.Services
         {
             _context = context;
             _hostingEnvironment = hostingEnvironment;
-
         }
-
 
         public int createNewSubscription(SubscriptionCreateViewModel newSubscription)
         {
@@ -55,11 +52,11 @@ namespace esencialAdmin.Services
                     var periodeEnd = new DateTime(newSubscription.StartDate.Year, 12, 31);
                     if (newSubscription.StartDate > currentDeadline)
                     {
-                        periodeEnd = periodeEnd.AddYears((plan.Duration ));
+                        periodeEnd = periodeEnd.AddYears((plan.Duration));
                     }
                     else
                     {
-                        periodeEnd = periodeEnd.AddYears(plan.Duration -1);
+                        periodeEnd = periodeEnd.AddYears(plan.Duration - 1);
                     }
                     var p = new Periodes()
                     {
@@ -82,7 +79,7 @@ namespace esencialAdmin.Services
                         p.FkGiftedById = newSubscription.GiverCustomerId;
                     }
 
-                    int startYear = (periodeEnd.Year - plan.Duration) +1;
+                    int startYear = (periodeEnd.Year - plan.Duration) + 1;
 
                     for (int i = 0; i < plan.Duration; i++)
                     {
@@ -104,7 +101,6 @@ namespace esencialAdmin.Services
                 catch (Exception ex)
                 {
                     dbContextTransaction.Rollback();
-
                 }
             }
             return 0;
@@ -273,7 +269,6 @@ namespace esencialAdmin.Services
 
                 //Returning Json Data  
                 return new JsonResult(new { items = resultList, total = recordsTotal });
-
             }
             catch (Exception ex)
             {
@@ -285,7 +280,6 @@ namespace esencialAdmin.Services
         {
             try
             {
-
                 // Getting all Plan data  
                 var planData = (from tmpplan in _context.Plans
                                 select new { Id = tmpplan.Id, DisplayString = ((tmpplan.Name ?? "") + " - Laufzeit: " + (tmpplan.Duration.ToString() ?? "") + " Jahre - Preis " + (tmpplan.Price.ToString("N2") ?? "")).Replace("  ", " ").Trim() });
@@ -317,7 +311,6 @@ namespace esencialAdmin.Services
 
                 //Returning Json Data  
                 return new JsonResult(new { items = resultList, total = recordsTotal });
-
             }
             catch (Exception ex)
             {
@@ -356,7 +349,7 @@ namespace esencialAdmin.Services
                 int skip = start != null ? Convert.ToInt32(start) : 0;
                 int recordsTotal = 0;
                 bool filterPlan = false;
-                if(planId == 0)
+                if (planId == 0)
                 {
                     filterPlan = true;
                 }
@@ -368,8 +361,8 @@ namespace esencialAdmin.Services
                 int currentYear = DateTime.UtcNow.Year;
                 // Getting all Customer data  
                 var planData = (from tempplan in _context.Subscription
-                                where (tempplan.FkPlanId == planId || filterPlan) && 
-                                (tempplan.FkSubscriptionStatus == statusId || filterStatus) 
+                                where (tempplan.FkPlanId == planId || filterPlan) &&
+                                (tempplan.FkSubscriptionStatus == statusId || filterStatus)
                                 select new
                                 {
                                     Id = tempplan.Id,
@@ -388,7 +381,7 @@ namespace esencialAdmin.Services
                 if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDirection)))
                 {
                     sortColumn = sortColumn.Substring(0, 1).ToUpper() + sortColumn.Remove(0, 1);
-                    if(sortColumn == "Periode")
+                    if (sortColumn == "Periode")
                     {
                         sortColumn = "StartDate";
                     }
@@ -444,7 +437,7 @@ namespace esencialAdmin.Services
                 int currentYear = DateTime.UtcNow.Year;
                 // Getting all Customer data  
                 var planData = (from tempplan in _context.Subscription
-                                where (tempplan.FkSubscriptionStatus == 1 || tempplan.FkSubscriptionStatus == 2) && tempplan.Periodes.Where(x => x.EndDate > DateTime.UtcNow && x.StartDate < DateTime.UtcNow && x.PeriodesGoodies.Where(y => y.Received == false && y.SubPeriodeYear <= currentYear).Any()).Any() 
+                                where (tempplan.FkSubscriptionStatus == 1 || tempplan.FkSubscriptionStatus == 2) && tempplan.Periodes.Where(x => x.EndDate > DateTime.UtcNow && x.StartDate < DateTime.UtcNow && x.PeriodesGoodies.Where(y => y.Received == false && y.SubPeriodeYear <= currentYear).Any()).Any()
                                 select new
                                 {
                                     Id = tempplan.Id,
@@ -496,17 +489,15 @@ namespace esencialAdmin.Services
 
                     }
 
-                    if(tmpModel.Goodies == "")
+                    if (tmpModel.Goodies == "")
                     {
                         tmpModel.Goodies = "Alle Ernteanteile erhalten";
                     }
-
 
                     jsonResultList.Add(tmpModel);
                 }
                 //Returning Json Data  
                 return new JsonResult(new { draw = draw, recordsFiltered = recordsTotal, recordsTotal = recordsTotal, data = jsonResultList });
-
             }
             catch (Exception ex)
             {
@@ -570,7 +561,6 @@ namespace esencialAdmin.Services
         {
             using (var dbContextTransaction = this._context.Database.BeginTransaction())
             {
-
                 try
                 {
                     var subscription = this._context.Subscription.Where(x => x.Id == subId).FirstOrDefault();
@@ -583,7 +573,6 @@ namespace esencialAdmin.Services
                     if (plan == null)
                     {
                         return false;
-
                     }
 
                     var lastperiode = this._context.Periodes.Where(x => x.FkSubscriptionId == subId).OrderByDescending(x => x.EndDate).FirstOrDefault();
@@ -639,7 +628,6 @@ namespace esencialAdmin.Services
                 catch (Exception ex)
                 {
                     dbContextTransaction.Rollback();
-
                 }
             }
             return false;
@@ -702,8 +690,8 @@ namespace esencialAdmin.Services
                 pModel.PaymentMethods = getAvailablePaymentMethods();
                 pModel.GoodiesLabel = subscriptionToLoad.FkPlan.FkGoody.Name;
                 subscriptionToEdit.Periodes.Add(pModel);
-
             }
+
             if (!hasCurrent)
             {
                 subscriptionToEdit.Periodes.LastOrDefault().CurrentPeriode = true;
@@ -714,7 +702,6 @@ namespace esencialAdmin.Services
                 subscriptionToEdit.Photos.Add(photo.FkFileId, "/file/img/" + id + '/' + photo.OriginalName.Insert(photo.OriginalName.LastIndexOf("."), "_thumb"));
             }
 
-
             if (subscriptionToLoad.DateCreated != null)
             {
                 subscriptionToEdit.DateCreated = subscriptionToLoad?.DateCreated.Value.ToLocalTime().ToString("dd.MM.yyyy");
@@ -722,17 +709,14 @@ namespace esencialAdmin.Services
             if (subscriptionToLoad.DateModified != null)
             {
                 subscriptionToEdit.DateModified = subscriptionToLoad?.DateModified.Value.ToLocalTime().ToString("dd.MM.yyyy");
-
             }
-
 
             subscriptionToEdit.UserCreated = subscriptionToLoad?.UserCreated;
             subscriptionToEdit.UserModified = subscriptionToLoad?.UserModified;
 
-
             return subscriptionToEdit;
         }
-     
+
 
         public async Task<bool> addSubscriptionPhoto(IFormFile formFile, int subscriptionID)
         {
@@ -832,9 +816,7 @@ namespace esencialAdmin.Services
                 {
                     periodeToEdit.PayedDate = null;
                     periodeToEdit.FkSubscription.FkSubscriptionStatus = 3;
-
                 }
-
                 this._context.SaveChanges();
 
                 return true;
@@ -876,7 +858,6 @@ namespace esencialAdmin.Services
             {
                 return false;
             }
-
         }
 
         public bool updateReceivedGoody(int goodyID, bool hasReceived)
@@ -909,7 +890,6 @@ namespace esencialAdmin.Services
             {
                 return false;
             }
-
         }
 
         public bool updatePaymentMethod(int periodeID, int paymentID)
@@ -945,7 +925,7 @@ namespace esencialAdmin.Services
 
         public async Task updateSubscriptionStatusAsync()
         {
-           await this._context.Subscription.Select(x => x.Id).ForEachAsync(x => checkSubscriptionStatus(x));
+            await this._context.Subscription.Select(x => x.Id).ForEachAsync(x => checkSubscriptionStatus(x));
         }
 
         public bool checkIfNrExists(int planId, int nr)
@@ -955,7 +935,8 @@ namespace esencialAdmin.Services
 
         public String getCustomerSelect2Text(int customerID)
         {
-            var customerData = (from tmpcustomer in _context.Customers where tmpcustomer.Id == customerID
+            var customerData = (from tmpcustomer in _context.Customers
+                                where tmpcustomer.Id == customerID
                                 select new { DisplayString = ((tmpcustomer.FirstName ?? "") + " " + (tmpcustomer.LastName ?? "") + " " + (tmpcustomer.Zip ?? "")).Replace("  ", " ").Trim() }).FirstOrDefault();
             return customerData.DisplayString;
         }
@@ -963,7 +944,7 @@ namespace esencialAdmin.Services
         public String getPlanSelect2Text(int planID)
         {
             var planData = (from tmpplan in _context.Plans
-                                where tmpplan.Id == planID
+                            where tmpplan.Id == planID
                             select new { DisplayString = ((tmpplan.Name ?? "") + " - Laufzeit: " + (tmpplan.Duration.ToString() ?? "") + " Jahre - Preis " + (tmpplan.Price.ToString("N2") ?? "")).Replace("  ", " ").Trim() }).FirstOrDefault();
             return planData.DisplayString;
         }
@@ -973,15 +954,13 @@ namespace esencialAdmin.Services
             try
             {
                 int last = _context.Subscription.Where(x => x.FkPlanId == planID).Max(x => x.PlantNumber).Value + 1;
-                
+
                 return last;
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 return 1;
             }
-         
         }
-
-
     }
 }

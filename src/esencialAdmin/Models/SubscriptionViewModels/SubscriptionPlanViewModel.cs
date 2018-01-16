@@ -1,10 +1,6 @@
 ﻿using esencialAdmin.Data.Models;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace esencialAdmin.Models.SubscriptionViewModels
 {
@@ -23,7 +19,6 @@ namespace esencialAdmin.Models.SubscriptionViewModels
         [DisplayName("Dauer(in Jahren)")]
         public int Duration { get; set; }
 
-       
         public static SubscriptionPlanViewModel CreateFromPlan(Plans p)
         {
             var newModel = new SubscriptionPlanViewModel()
@@ -31,10 +26,9 @@ namespace esencialAdmin.Models.SubscriptionViewModels
                 ID = p.Id,
                 Name = p.Name,
                 Price = p.Price,
-                Duration = p.Duration,           
+                Duration = p.Duration,
             };
 
-      
             return newModel;
         }
     }

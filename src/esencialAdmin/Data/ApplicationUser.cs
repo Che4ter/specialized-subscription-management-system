@@ -10,6 +10,5 @@ namespace esencialAdmin.Data
         public string FirstName { get; set; }
         [MaxLength(256)]
         public string LastName { get; set; }
-
     }
 }

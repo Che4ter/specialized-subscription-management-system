@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace esencialAdmin.Models.SubscriptionViewModels
+﻿namespace esencialAdmin.Models.SubscriptionViewModels
 {
     public class SubscriptionSelectPlanViewModel
     {
