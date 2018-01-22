@@ -369,9 +369,9 @@ namespace esencialAdmin.Services
                                     PlantNr = tempplan.PlantNumber,
                                     Customer = tempplan.FkCustomer.FirstName + " " + tempplan.FkCustomer.LastName,
                                     Plan = tempplan.FkPlan.Name,
-                                    Periode = tempplan.Periodes.Where(x => x.EndDate > DateTime.UtcNow).First().StartDate.ToString("dd.MM.yyyy") + " -<br>" + tempplan.Periodes.Where(x => x.EndDate > DateTime.UtcNow).First().EndDate.ToString("dd.MM.yyyy"),
-                                    StartDate = tempplan.Periodes.Where(x => x.EndDate > DateTime.UtcNow).First().StartDate,
-                                    Payed = tempplan.Periodes.Where(x => x.EndDate > DateTime.UtcNow).First().Payed ? "Ja" : "Nein",
+                                    Periode = tempplan.Periodes.OrderByDescending(x=>x.EndDate).FirstOrDefault().StartDate.ToString("dd.MM.yyyy") + " -<br>" + tempplan.Periodes.OrderByDescending(x => x.EndDate).FirstOrDefault().EndDate.ToString("dd.MM.yyyy"),
+                                    StartDate = tempplan.Periodes.OrderByDescending(x => x.EndDate).FirstOrDefault().StartDate,
+                                    Payed = tempplan.Periodes.OrderByDescending(x => x.EndDate).FirstOrDefault().Payed ? "Ja" : "Nein",
                                     Status = tempplan.FkSubscriptionStatusNavigation.Label
 
                                 });
@@ -437,16 +437,15 @@ namespace esencialAdmin.Services
                 int currentYear = DateTime.UtcNow.Year;
                 // Getting all Customer data  
                 var planData = (from tempplan in _context.Subscription
-                                where (tempplan.FkSubscriptionStatus == 1 || tempplan.FkSubscriptionStatus == 2) && tempplan.Periodes.Where(x => x.EndDate > DateTime.UtcNow && x.StartDate < DateTime.UtcNow && x.PeriodesGoodies.Where(y => y.Received == false && y.SubPeriodeYear <= currentYear).Any()).Any()
+                                where (tempplan.FkSubscriptionStatus == 1 || tempplan.FkSubscriptionStatus == 2) && tempplan.Periodes.Where(x => x.PeriodesGoodies.Where(y => y.Received == false && y.SubPeriodeYear <= currentYear).Any()).Any()
                                 select new
                                 {
                                     Id = tempplan.Id,
                                     PlantNr = tempplan.PlantNumber,
                                     Customer = tempplan.FkCustomer.FirstName + " " + tempplan.FkCustomer.LastName,
                                     Plan = tempplan.FkPlan.Name,
-                                    Goodies = tempplan.Periodes.Where(x => x.EndDate > DateTime.UtcNow && x.StartDate < DateTime.UtcNow).FirstOrDefault().PeriodesGoodies.Where(y => y.Received == false && y.SubPeriodeYear <= currentYear),
-                                    Periode = tempplan.Periodes.Where(x => x.EndDate > DateTime.UtcNow && x.StartDate < DateTime.UtcNow).FirstOrDefault().StartDate.ToString("dd.MM.yyyy") + " -<br>" + tempplan.Periodes.Where(x => x.EndDate > DateTime.UtcNow && x.StartDate < DateTime.UtcNow).FirstOrDefault().EndDate.ToString("dd.MM.yyyy"),
-                                    StartDate = tempplan.Periodes.Where(x => x.EndDate > DateTime.UtcNow && x.StartDate < DateTime.UtcNow).FirstOrDefault().StartDate,
+                                    Goodies = tempplan.Periodes.OrderByDescending(x => x.EndDate).FirstOrDefault().PeriodesGoodies.Where(y => y.Received == false && y.SubPeriodeYear <= currentYear),
+                                    Periode = tempplan.Periodes.OrderByDescending(x => x.EndDate).FirstOrDefault().StartDate.ToString("dd.MM.yyyy") + " -<br>" + tempplan.Periodes.OrderByDescending(x => x.EndDate).FirstOrDefault().EndDate.ToString("dd.MM.yyyy"),
                                     Status = tempplan.FkSubscriptionStatusNavigation.Label,
                                 });
 
