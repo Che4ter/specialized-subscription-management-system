@@ -20,11 +20,8 @@ namespace esencialAdmin.Models.SubscriptionViewModels
         [Display(Name = "Zahlungserinnerung gesendet")]
         public bool PaymentReminderSent { get; set; }
 
-        [Display(Name = "Zahlungserinnerung gesendet am")]
-        public DateTime? PaymentReminderSentDate { get; set; }
-
-        [Display(Name = "Bezahlt am")]
-        public DateTime? PayedDate { get; set; }
+        //[Display(Name = "Zahlungserinnerung gesendet am")]
+        //public DateTime? PaymentReminderSentDate { get; set; }
 
         [Display(Name = "Zahlungsmethode")]
         public int? PaymentMethodID { get; set; }
@@ -51,12 +48,10 @@ namespace esencialAdmin.Models.SubscriptionViewModels
                 StartDate = p.StartDate,
                 EndDate = p.EndDate,
                 Payed = p.Payed,
-                PayedDate = p.PayedDate,
                 PaymentMethodID = p.FkPayedMethodId,
                 Price = p.Price,
                 CurrentPeriode = false,
                 PaymentReminderSent = p.PaymentReminderSent,
-                PaymentReminderSentDate = p.PaymentReminderSentDate
             };
 
             if (p.FkGiftedBy != null)

@@ -15,20 +15,20 @@
                     <label>
                         <input type="checkbox" class="periodePayedCheckbox" id="payed_@Model.ID" value="@Model.ID" @if (Model.Payed) { @("checked")   }>
                     </label>
-                    @if (Model.Payed)
+                    @*@if (Model.Payed)
                     {
                         <br /><strong><label asp-for="@Model.PayedDate"></label>:</strong> @Model.PayedDate.Value.ToString("dd.MM.yyyy");
-                    }
+                    }*@
                     <br /><br />
                     <label asp-for="@Model.PaymentReminderSent"></label>:
 
                     <label>
                         <input type="checkbox" class="periodePaymentReminderCheckbox" id="reminder_@Model.ID" value="@Model.ID" @if (Model.PaymentReminderSent) { @("checked")    }>
                     </label>
-                    @if (Model.PaymentReminderSent)
+                    @*@if (Model.PaymentReminderSent)
                     {
                         <br /><strong><label asp-for="@Model.PaymentReminderSentDate"></label>:</strong> @Model.PaymentReminderSentDate.Value.ToString("dd.MM.yyyy");
-                    }
+                    }*@
                     <br /><br />
                     <div class="paymentMethodContainer" @if (Model.Payed) { @("style='display:none'")   }>
                         <div class="mui-select">
