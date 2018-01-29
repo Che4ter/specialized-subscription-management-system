@@ -6,31 +6,47 @@
         <div class="grid">
             <div class="row row-space-between">
                 <div class="col-3 col-medium-6 col-small-12">
-                    <h4>Zeitraum:</h4> @Model.StartDate.ToString("dd.MM.yyyy") - @Model.EndDate.ToString("dd.MM.yyyy") <br /><br />
+                    <h4>Zeitraum:</h4> <span class="periodeDurationText">@Model.StartDate.ToString("dd.MM.yyyy") - @Model.EndDate.ToString("dd.MM.yyyy")</span>   <button class="mui-btn mui-btn--flat btn-periode-edit"><i class="material-icons">mode_edit</i></button> <br /><br />
+                    <div class="editPeriodeDuration">
+                        <div class="mui-textfield">
+                            <input asp-for="StartDate" type="date" required class="periodeStartDate"/>
+                            <label asp-for="StartDate"></label>
+                            <span asp-validation-for="StartDate" class="text-danger"></span>
+                        </div>
+                        <div class="mui-textfield">
+                            <input asp-for="EndDate" type="date" required class="periodeEndDate" />
+                            <label asp-for="EndDate"></label>
+                            <span asp-validation-for="EndDate" class="text-danger"></span>
+                            <button class="mui-btn mui-btn--flat btn-periode-save"><i class="material-icons">save</i></button>
+
+                        </div>
+                        <input type="hidden" id="periodeID" value="@Model.ID" />
+                        <br />
+                    </div>
                     <h4>Zahlungsstatus:</h4>
 
                     <strong><label asp-for="@Model.Price"></label>:</strong> @Model.Price.ToString("C")<br />
                     <strong><label asp-for="@Model.Payed"></label>:</strong>
 
                     <label>
-                        <input type="checkbox" class="periodePayedCheckbox" id="payed_@Model.ID" value="@Model.ID" @if (Model.Payed) { @("checked")   }>
+                        <input type="checkbox" class="periodePayedCheckbox" id="payed_@Model.ID" value="@Model.ID" @if (Model.Payed) { @("checked") }>
                     </label>
                     @*@if (Model.Payed)
-                    {
-                        <br /><strong><label asp-for="@Model.PayedDate"></label>:</strong> @Model.PayedDate.Value.ToString("dd.MM.yyyy");
-                    }*@
+                        {
+                            <br /><strong><label asp-for="@Model.PayedDate"></label>:</strong> @Model.PayedDate.Value.ToString("dd.MM.yyyy");
+                        }*@
                     <br /><br />
                     <label asp-for="@Model.PaymentReminderSent"></label>:
 
                     <label>
-                        <input type="checkbox" class="periodePaymentReminderCheckbox" id="reminder_@Model.ID" value="@Model.ID" @if (Model.PaymentReminderSent) { @("checked")    }>
+                        <input type="checkbox" class="periodePaymentReminderCheckbox" id="reminder_@Model.ID" value="@Model.ID" @if (Model.PaymentReminderSent) { @("checked") }>
                     </label>
                     @*@if (Model.PaymentReminderSent)
-                    {
-                        <br /><strong><label asp-for="@Model.PaymentReminderSentDate"></label>:</strong> @Model.PaymentReminderSentDate.Value.ToString("dd.MM.yyyy");
-                    }*@
+                        {
+                            <br /><strong><label asp-for="@Model.PaymentReminderSentDate"></label>:</strong> @Model.PaymentReminderSentDate.Value.ToString("dd.MM.yyyy");
+                        }*@
                     <br /><br />
-                    <div class="paymentMethodContainer" @if (Model.Payed) { @("style='display:none'")   }>
+                    <div class="paymentMethodContainer" @if (Model.Payed) { @("style='display:none'") }>
                         <div class="mui-select">
                             @{
 
@@ -63,7 +79,7 @@
 
                             <label>Erhalten?:</label>
                             <label>
-                                <input type="checkbox" class="goodyCheckbox" id="goody_@g.ID" value="@g.ID" @if (g.Received) { @("checked")    } @if (g.SubPeriodeYear > DateTime.UtcNow.Year) { @("")    }>
+                                <input type="checkbox" class="goodyCheckbox" id="goody_@g.ID" value="@g.ID" @if (g.Received) { @("checked") } @if (g.SubPeriodeYear > DateTime.UtcNow.Year) { @("") }>
                             </label>
                             goodyNR++;
                             <br /><br />

@@ -53,5 +53,7 @@ namespace esencialAdmin.Services
 
         int getNextPlantNr(int planID);
 
+        bool updatePeriodeDates(int periodID, string periodStartDate, string periodEndDate);
+
     }
 }

@@ -961,5 +961,34 @@ namespace esencialAdmin.Services
                 return 1;
             }
         }
+        public bool updatePeriodeDates(int periodID, string periodStartDate, string periodEndDate)
+        {
+            try
+            {
+                var periodeToEdit = this._context.Periodes
+                  .Where(c => c.Id == periodID)
+                  .FirstOrDefault();
+                if (periodeToEdit == null)
+                {
+                    return false;
+                }
+
+                periodeToEdit.StartDate = DateTime.Parse(periodStartDate);
+                periodeToEdit.EndDate = DateTime.Parse(periodEndDate);
+                if (periodeToEdit.EndDate > periodeToEdit.StartDate)
+                {
+                    this._context.SaveChanges();
+
+                    return true; }
+                else {
+                    return false;
+                }
+              
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
     }
 }

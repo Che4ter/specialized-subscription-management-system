@@ -771,3 +771,36 @@ table.dataTable thead th, table.dataTable thead td {
 .select2-container .select2-selection--single {
     height: 32px !important;
 }
+
+.btn-periode-edit {
+    padding: 5px;
+    margin: 0;
+    height: auto;
+    line-height: 17px;
+}
+
+    .btn-periode-edit i {
+        font-size: 17px;
+    }
+
+.editPeriodeDuration{
+    display:none;
+}
+
+.editPeriodeDuration .mui-textfield{
+    max-width:200px;
+}
+
+.btn-periode-save {
+    padding: 5px;
+    margin: 0;
+    height: auto;
+    line-height: 20px;
+    position: absolute;
+    right: -50px;
+    bottom: -5px;
+}
+
+    .btn-periode-save i {
+        font-size: 20px;
+    }

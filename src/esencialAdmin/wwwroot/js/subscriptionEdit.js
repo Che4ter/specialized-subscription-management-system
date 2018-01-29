@@ -36,6 +36,31 @@
             });
         });
 
+        $('.btn-periode-edit').on('click', function (e) {
+            e.preventDefault();
+            $(this).parent().find(".editPeriodeDuration").toggle();
+          
+        });
+
+        $('.btn-periode-save').on('click', function (e) {
+            e.preventDefault();
+            $.ajax({
+                url: '/Subscription/updatePeriodeDates',
+                type: 'POST',
+                data: {
+                    periodID: $(this).parent().parent().find("#periodeID").val(), periodStartDate: $(this).parent().parent().find(".periodeStartDate").val(), periodEndDate: $(this).parent().find(".periodeEndDate").val()
+                },
+                statusCode: {
+                    200: function () {
+                        location.reload();
+                    },
+                    500: function () {
+                        alert("Fehler beim Speichern");
+                    },
+                }
+            });
+        });
+
         $(".periodePaymentReminderCheckbox").change(function () {
             var isChecked = $(this).is(":checked") ? true : false;
             $.ajax({
