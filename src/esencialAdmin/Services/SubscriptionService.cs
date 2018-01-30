@@ -967,6 +967,8 @@ namespace esencialAdmin.Services
             {
                 var periodeToEdit = this._context.Periodes
                   .Where(c => c.Id == periodID)
+                  .Include(c => c.PeriodesGoodies)
+                  .Include(c => c.FkSubscription).ThenInclude(c => c.FkPlan)
                   .FirstOrDefault();
                 if (periodeToEdit == null)
                 {
@@ -975,6 +977,24 @@ namespace esencialAdmin.Services
 
                 periodeToEdit.StartDate = DateTime.Parse(periodStartDate);
                 periodeToEdit.EndDate = DateTime.Parse(periodEndDate);
+                var goodies = periodeToEdit.PeriodesGoodies;
+                this._context.PeriodesGoodies.RemoveRange(goodies);
+
+                int planDuration = periodeToEdit.FkSubscription.FkPlan.Duration;
+                int goodyId = periodeToEdit.FkSubscription.FkPlan.FkGoodyId;
+                int startYear = (periodeToEdit.EndDate.Year - planDuration) + 1;
+
+                for (int i = 0; i < planDuration; i++)
+                {
+                    PeriodesGoodies newGoodie = new PeriodesGoodies
+                    {
+                        FkPlanGoodiesId = goodyId,
+                        SubPeriodeYear = startYear
+                    };
+                    periodeToEdit.PeriodesGoodies.Add(newGoodie);
+                    startYear++;
+                }
+
                 if (periodeToEdit.EndDate > periodeToEdit.StartDate)
                 {
                     this._context.SaveChanges();
