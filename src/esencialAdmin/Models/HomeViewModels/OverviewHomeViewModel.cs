@@ -18,5 +18,8 @@ namespace esencialAdmin.Models.HomeViewModels
 
         [DisplayName("Anzahl auslaufende Patenschaften")]
         public int NumberOfEndingSubscriptions { get; set; }
+
+        [DisplayName("Anzahl ausgelaufene Patenschaften")]
+        public int NumberOfEndedSubscriptions { get; set; }
     }
 }

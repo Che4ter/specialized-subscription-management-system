@@ -22,6 +22,7 @@ namespace esencialAdmin.Services
             overviewModel.NumberOfActiveSubscriptions = _context.Subscription.Where(x => x.FkSubscriptionStatus == 1).Count();
             overviewModel.NumberOfNotPayedSubscriptions = _context.Subscription.Where(x => x.FkSubscriptionStatus == 3).Count();
             overviewModel.NumberOfEndingSubscriptions = _context.Subscription.Where(x => x.FkSubscriptionStatus == 2).Count();
+            overviewModel.NumberOfEndedSubscriptions = _context.Subscription.Where(x => x.FkSubscriptionStatus == 4).Count();
 
             return overviewModel;
         }
