@@ -2,6 +2,7 @@
     var subscriptiontable = $("#subscriptionTable").DataTable({
         "processing": true, // for show progress bar
         "serverSide": true, // for process server side
+        "searchDelay": 500,
         "filter": true, // this is for disable filter (search box)
         "orderMulti": false, // for disable multiple column at once
         "pageLength": 25,

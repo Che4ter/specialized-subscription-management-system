@@ -61,6 +61,18 @@
       "wwwroot/lib/sweetalert2/sweetalert2.js",
       "wwwroot/lib/DataTables/datatables.js",
       "wwwroot/lib/jquery-contextMenu/dist/jquery.contextMenu.js",
+    ],
+    // Optionally specify minification options
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    // Optionally generate .map file
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/js/subscriptionDatatable.min.js",
+    "inputFiles": [
       "wwwroot/js/subscriptionDatatable.js"
     ],
     // Optionally specify minification options

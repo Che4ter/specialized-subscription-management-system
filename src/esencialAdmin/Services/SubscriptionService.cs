@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 
 namespace esencialAdmin.Services
 {
@@ -237,7 +238,6 @@ namespace esencialAdmin.Services
         {
             try
             {
-
                 // Getting all Customer data  
                 var customerData = (from tmpcustomer in _context.Customers
                                     select new { Id = tmpcustomer.Id, DisplayString = ((tmpcustomer.FirstName ?? "") + " " + (tmpcustomer.LastName ?? "") + " " + (tmpcustomer.Zip ?? "")).Replace("  ", " ").Trim() });
@@ -369,10 +369,11 @@ namespace esencialAdmin.Services
                                     PlantNr = tempplan.PlantNumber,
                                     Customer = tempplan.FkCustomer.FirstName + " " + tempplan.FkCustomer.LastName,
                                     Plan = tempplan.FkPlan.Name,
-                                    Periode = tempplan.Periodes.OrderByDescending(x=>x.EndDate).FirstOrDefault().StartDate.ToString("dd.MM.yyyy") + " -<br>" + tempplan.Periodes.OrderByDescending(x => x.EndDate).FirstOrDefault().EndDate.ToString("dd.MM.yyyy"),
+                                    Periode = tempplan.Periodes.OrderByDescending(x => x.EndDate).FirstOrDefault().StartDate.ToString("dd.MM.yyyy") + " -<br>" + tempplan.Periodes.OrderByDescending(x => x.EndDate).FirstOrDefault().EndDate.ToString("dd.MM.yyyy"),
                                     StartDate = tempplan.Periodes.OrderByDescending(x => x.EndDate).FirstOrDefault().StartDate,
                                     Payed = tempplan.Periodes.OrderByDescending(x => x.EndDate).FirstOrDefault().Payed ? "Ja" : "Nein",
-                                    Status = tempplan.FkSubscriptionStatusNavigation.Label
+                                    Status = tempplan.FkSubscriptionStatusNavigation.Label,
+                                    EndDate = tempplan.Periodes.OrderByDescending(x => x.EndDate).FirstOrDefault().EndDate
 
                                 });
                 //select new {Id = tmpcustomer.Id, DisplayString = ((tmpcustomer.Company ?? "") + " " + (tmpcustomer.FirstName ?? "") + " " + (tmpcustomer.LastName ?? "") + " " + (tmpcustomer.Street ?? "") + " " + (tmpcustomer.Zip ?? "") + " " + (tmpcustomer.City ?? "")).Replace("  "," ").Trim() });
@@ -391,7 +392,52 @@ namespace esencialAdmin.Services
                 if (!string.IsNullOrEmpty(searchValue))
                 {
                     searchValue = searchValue.ToLower();
-                    planData = planData.Where(m => m.Customer.ToLower().Contains(searchValue) || m.PlantNr.ToString() == searchValue || m.Periode.Contains(searchValue) || m.Payed.ToLower().Contains(searchValue) || m.Status.ToLower().Contains(searchValue) || m.Plan.ToLower().Contains(searchValue));
+                    int plantNr = 0;
+                    if (int.TryParse(searchValue, out plantNr))
+                    {
+                        planData = planData.Where(m => m.PlantNr == plantNr);
+
+                    }
+                    else if (searchValue == "ja")
+                    {
+                        planData = planData.Where(m => m.Payed == "Ja");
+                    }
+                    else if (searchValue == "nein")
+                    {
+                        planData = planData.Where(m => m.Payed == "Nein");
+                    }
+                    else if (("aktiv").StartsWith(searchValue))
+                    {
+                        planData = planData.Where(m => m.Status == "Aktiv");
+
+                    }
+                    else if (("läuft aus").StartsWith(searchValue))
+                    {
+                        planData = planData.Where(m => m.Status == "Läuft aus");
+
+                    }
+                    else if (("rechnung noch nicht bezahlt").StartsWith(searchValue))
+                    {
+                        planData = planData.Where(m => m.Status == "Rechnung noch nicht bezahlt");
+
+                    }
+                    else if (("ausgelaufen").StartsWith(searchValue))
+                    {
+                        planData = planData.Where(m => m.Status == "Ausgelaufen");
+
+                    }
+                    else if (searchValue.Length > 7 && searchValue.Contains("."))
+                    {
+                        DateTime tmp = new DateTime();
+                        if(DateTime.TryParse(searchValue,out tmp))
+                        {
+                            planData = planData.Where(x => x.StartDate == tmp || x.EndDate == tmp);
+                        }
+                    }
+                    else
+                    {
+                        planData = planData.Where(m => m.Customer.ToLower().Contains(searchValue) || m.Plan.ToLower().StartsWith(searchValue));
+                    }
                 }
 
                 //total number of rows count   
@@ -462,7 +508,7 @@ namespace esencialAdmin.Services
                 //Search  
                 if (!string.IsNullOrEmpty(searchValue))
                 {
-                    planData = planData.Where(m => m.Customer.ToLower().Contains(searchValue) || m.PlantNr.ToString() == searchValue || m.Periode.Contains(searchValue) || m.Status.ToLower().Contains(searchValue) || m.Plan.ToLower().Contains(searchValue));
+                    planData = planData.Where(m => m.Customer.ToLower().Contains(searchValue) || m.PlantNr.ToString() == searchValue);
                 }
 
                 //total number of rows count   
@@ -517,31 +563,46 @@ namespace esencialAdmin.Services
                 return;
             }
 
-            //Ausgelaufene Patenschaft
-            if (subscriptionToCheck.FkSubscriptionStatus == 4)
+            var LastPeriode = subscriptionToCheck.Periodes.OrderByDescending(x => x.Id).FirstOrDefault();
+            if (LastPeriode == null)
             {
                 return;
             }
 
-            var LastPeriode = subscriptionToCheck.Periodes.OrderByDescending(x => x.Id).FirstOrDefault();
-            //Neue Patenschaft
+            //Ausgelaufene Patenschaft
+            if (subscriptionToCheck.FkSubscriptionStatus == 4 && !LastPeriode.Payed)
+            {
+                return;
+            }
+
+            //Patenschaft läuft nicht dieses Jahr aus
             if (LastPeriode.EndDate.Year > DateTime.UtcNow.Year)
             {
                 //Patenschaft bezahlt und läuft nicht dieses Jahr aus
-                if (subscriptionToCheck.FkSubscriptionStatus == 1)
+                if (subscriptionToCheck.FkSubscriptionStatus == 1 && LastPeriode.Payed)
                 {
                     return;
                 }
                 //Patenschaft wurde im letzten Jahr erstellt oder ist eine verlängerung und wurde nicht bezahlt, daher als Ausgelaufen markieren
-                if (LastPeriode.StartDate.Year < DateTime.UtcNow.Year || LastPeriode.StartDate.Date == new DateTime(DateTime.UtcNow.Year, 1, 1))
+                else if (LastPeriode.StartDate.Year < DateTime.UtcNow.Year && !LastPeriode.Payed)
                 {
                     subscriptionToCheck.FkSubscriptionStatus = 4;
                     this._context.SaveChanges();
                     return;
                 }
+                else if (LastPeriode.Payed)
+                {
+                    subscriptionToCheck.FkSubscriptionStatus = 1;
+                    this._context.SaveChanges();
+                }
+                else if (!LastPeriode.Payed && LastPeriode.StartDate.Year == DateTime.UtcNow.Year)
+                {
+                    subscriptionToCheck.FkSubscriptionStatus = 3;
+                    this._context.SaveChanges();
+                }
             }
             //Patenschaft läuft dieses Jahr aus, als Läuft aus markieren
-            else if (LastPeriode.EndDate.Year == DateTime.UtcNow.Year)
+            else if (LastPeriode.EndDate.Year == DateTime.UtcNow.Year && LastPeriode.Payed)
             {
                 subscriptionToCheck.FkSubscriptionStatus = 2;
                 this._context.SaveChanges();
@@ -999,11 +1060,13 @@ namespace esencialAdmin.Services
                 {
                     this._context.SaveChanges();
 
-                    return true; }
-                else {
+                    return true;
+                }
+                else
+                {
                     return false;
                 }
-              
+
             }
             catch (Exception ex)
             {
