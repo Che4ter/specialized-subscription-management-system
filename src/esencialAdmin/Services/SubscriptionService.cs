@@ -869,8 +869,11 @@ namespace esencialAdmin.Services
 
                 if (isPayed)
                 {
+                    if(periodeToEdit.FkSubscription.FkSubscriptionStatus == 3)
+                    {
+                        periodeToEdit.FkSubscription.FkSubscriptionStatus = 1;
+                    }
                     periodeToEdit.PayedDate = DateTime.UtcNow;
-                    periodeToEdit.FkSubscription.FkSubscriptionStatus = 1;
                 }
                 else
                 {
@@ -878,7 +881,7 @@ namespace esencialAdmin.Services
                     periodeToEdit.FkSubscription.FkSubscriptionStatus = 3;
                 }
                 this._context.SaveChanges();
-
+                checkSubscriptionStatus(periodeToEdit.FkSubscriptionId);
                 return true;
             }
             catch (Exception ex)
