@@ -87,7 +87,7 @@ namespace esencialAdmin.Services
                             (x.FkSubscriptionStatus == filter.statusID || filterStatus) &&
                             (x.SubscriptionPhotos.Count == 0)
                             select new { Firstname = x.FkCustomer.FirstName, Lastname = x.FkCustomer.LastName, PlantNr = x.PlantNumber }
-                            ).OrderBy(c => c.Lastname).ThenBy(c => c.Firstname).ToList();
+                            ).OrderBy(c => c.PlantNr).ThenBy(c => c.Lastname).ToList();
 
             //((x.Periodes.Any(c => c.PeriodesGoodies.Any(y => y.Received == false && y.SubPeriodeYear <= currentYear))) || !filter.Goody)
             List<PdfSinglePictureTemplateViewModel> labelList = new List<PdfSinglePictureTemplateViewModel>();
