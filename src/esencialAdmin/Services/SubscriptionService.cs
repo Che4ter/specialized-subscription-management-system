@@ -429,7 +429,7 @@ namespace esencialAdmin.Services
                     else if (searchValue.Length > 7 && searchValue.Contains("."))
                     {
                         DateTime tmp = new DateTime();
-                        if(DateTime.TryParse(searchValue,out tmp))
+                        if (DateTime.TryParse(searchValue, out tmp))
                         {
                             planData = planData.Where(x => x.StartDate == tmp || x.EndDate == tmp);
                         }
@@ -586,8 +586,8 @@ namespace esencialAdmin.Services
                 //Patenschaft wurde im letzten Jahr erstellt oder ist eine verlängerung und wurde nicht bezahlt, daher als Ausgelaufen markieren
                 else if (LastPeriode.StartDate.Year < DateTime.UtcNow.Year && !LastPeriode.Payed)
                 {
-                    subscriptionToCheck.FkSubscriptionStatus = 4;
-                    this._context.SaveChanges();
+                    //subscriptionToCheck.FkSubscriptionStatus = 4;
+                    //this._context.SaveChanges();
                     return;
                 }
                 else if (LastPeriode.Payed)
@@ -595,7 +595,12 @@ namespace esencialAdmin.Services
                     subscriptionToCheck.FkSubscriptionStatus = 1;
                     this._context.SaveChanges();
                 }
-                else if (!LastPeriode.Payed && LastPeriode.StartDate.Year == DateTime.UtcNow.Year)
+                //else if (!LastPeriode.Payed && LastPeriode.StartDate.Year == DateTime.UtcNow.Year)
+                //{
+                //    subscriptionToCheck.FkSubscriptionStatus = 3;
+                //    this._context.SaveChanges();
+                //}
+                else if (!LastPeriode.Payed)
                 {
                     subscriptionToCheck.FkSubscriptionStatus = 3;
                     this._context.SaveChanges();
@@ -617,6 +622,30 @@ namespace esencialAdmin.Services
             }
         }
 
+        public bool expireSubscription(int subId)
+        {
+            using (var dbContextTransaction = this._context.Database.BeginTransaction())
+            {
+                try
+                {
+                    var subscription = this._context.Subscription.Where(x => x.Id == subId).FirstOrDefault();
+                    if (subscription == null)
+                    {
+                        return false;
+                    }
+                    subscription.FkSubscriptionStatus = 4;
+
+                    this._context.SaveChanges();
+                    dbContextTransaction.Commit();
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    dbContextTransaction.Rollback();
+                }
+            }
+            return false;
+        }
         public bool renewSubscription(int subId)
         {
             using (var dbContextTransaction = this._context.Database.BeginTransaction())
@@ -639,7 +668,7 @@ namespace esencialAdmin.Services
 
                     var newStartDate = DateTime.Now;
 
-                    if (lastperiode.EndDate > newStartDate)
+                    if (lastperiode.EndDate > newStartDate && lastperiode.Payed)
                     {
                         newStartDate = lastperiode.EndDate;
                         newStartDate = newStartDate.AddDays(1);
@@ -732,16 +761,16 @@ namespace esencialAdmin.Services
             foreach (Periodes p in periodesToLoad)
             {
                 SubscriptionPeriodeViewModel pModel = SubscriptionPeriodeViewModel.CreateFromPeriode(p);
-                if (p.StartDate < DateTime.UtcNow && p.EndDate > currentDeadline)
+                if (p.StartDate.ToUniversalTime() < DateTime.UtcNow && p.EndDate > currentDeadline && p.Payed)
                 {
                     pModel.CurrentPeriode = true;
                     hasCurrent = true;
                 }
-                else if (p.StartDate > DateTime.UtcNow && !hasCurrent)
-                {
-                    pModel.CurrentPeriode = true;
-                    hasCurrent = true;
-                }
+                //else if (p.StartDate > DateTime.UtcNow && !hasCurrent)
+                //{
+                //    pModel.CurrentPeriode = true;
+                //    hasCurrent = true;
+                //}
                 foreach (PeriodesGoodies pg in p.PeriodesGoodies)
                 {
                     pModel.Goodies.Add(SubscriptionPeriodesGoodiesViewModel.CreateFromGoodie(pg));
@@ -776,7 +805,6 @@ namespace esencialAdmin.Services
 
             return subscriptionToEdit;
         }
-
 
         public async Task<bool> addSubscriptionPhoto(IFormFile formFile, int subscriptionID)
         {
@@ -869,7 +897,7 @@ namespace esencialAdmin.Services
 
                 if (isPayed)
                 {
-                    if(periodeToEdit.FkSubscription.FkSubscriptionStatus == 3)
+                    if (periodeToEdit.FkSubscription.FkSubscriptionStatus == 3)
                     {
                         periodeToEdit.FkSubscription.FkSubscriptionStatus = 1;
                     }
@@ -1039,8 +1067,8 @@ namespace esencialAdmin.Services
                     return false;
                 }
 
-                periodeToEdit.StartDate = DateTime.Parse(periodStartDate);
-                periodeToEdit.EndDate = DateTime.Parse(periodEndDate);
+                periodeToEdit.StartDate = DateTime.Parse(periodStartDate).ToUniversalTime();
+                periodeToEdit.EndDate = DateTime.Parse(periodEndDate).ToUniversalTime();
                 var goodies = periodeToEdit.PeriodesGoodies;
                 this._context.PeriodesGoodies.RemoveRange(goodies);
 

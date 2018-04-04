@@ -3,7 +3,6 @@
 @model esencialAdmin.Models.SubscriptionViewModels.SubscriptionEditViewModel
 
 @{
-
     ViewData["Title"] = "Patenschaft für " + Model.Customer.FirstName + " " + Model.Customer.LastName + " bearbeiten";
 }
 <form method="post" asp-controller="Subscription" class="grid mui-form">
@@ -25,10 +24,9 @@
                                 @if (@Model.ID != 0)
                                 {
                                     <button type="button" class="mui-btn mui-btn--danger" onclick="SubscriptionDeleteConfirmation(@Model.ID)">Patenschaft löschen</button>
-                                }           
+                                }
                             }
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -55,8 +53,9 @@
                     </div>
                 </div>
             </div>
-
         </div>
+        <input type="hidden" value="@Model.ID" name="subscriptionID" />
+
         @if (@Model.ID != 0)
         {
             <div class="col-4  col-medium-4 col-small-12">
@@ -69,12 +68,10 @@
                     {
                         <div class="mui-panel panel-warning">
                             <p>Warnung: Patenschaft läuft dieses Jahr aus</p>
-                            <input type="hidden" value="@Model.ID" name="subscriptionID" />
 
                             <button asp-action="renewSubscription" class="mui-btn">Verlängern?</button>
                             <p>(Hinweis: Bei einer Verlängerung Kunde anschreiben)</p>
                         </div>
-
                     }
                     else if (Model.StatusID == 3)
                     {
@@ -82,25 +79,24 @@
                             <p>Warnung: Kunde hat Rechnung noch nicht bezahlt!</p>
                         </div>
 
+                        <button asp-action="expireSubscription" class="mui-btn mui-btn--danger">Patenschaft auslaufen lassen</button>
                     }
+
                     else if (Model.StatusID == 4)
                     {
                         <div class="mui-panel panel-warning">
                             <p>Warnung: Patenschaft ist inaktiv</p>
-                            <input type="hidden" value="@Model.ID" name="subscriptionID" />
 
                             <button asp-action="renewSubscription" class="mui-btn">Erneuern?</button>
                         </div>
-
                     }
+
                     <br /><br />
                     <strong><label asp-for="DateCreated"></label>:</strong> @Model.DateCreated<br />
                     <strong><label asp-for="UserCreated"></label>:</strong> @Model.UserCreated<br />
                     <strong><label asp-for="DateModified"></label>:</strong> @Model.DateModified<br />
                     <strong><label asp-for="UserModified"></label>:</strong> @Model.UserModified<br />
-
                 </div>
-
             </div>
         }
     </div>

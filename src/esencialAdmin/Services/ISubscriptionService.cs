@@ -40,6 +40,8 @@ namespace esencialAdmin.Services
 
         bool renewSubscription(int subId);
 
+        bool expireSubscription(int subId);
+        
         Task<bool> addSubscriptionPhoto(IFormFile formFile, int subscriptionID);
 
         Task updateSubscriptionStatusAsync();

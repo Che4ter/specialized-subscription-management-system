@@ -202,6 +202,22 @@ namespace esencialAdmin.Controllers
             return this.RedirectToAction("Edit", new { id = subscriptionID });
         }
 
+        [HttpPost, ValidateAntiForgeryToken]
+        public IActionResult expireSubscription(int subscriptionID)
+        {
+            if (_sService.expireSubscription(subscriptionID))
+            {
+               
+            }
+            else
+            {
+                this.AddNotification("Patenschaft konnte nicht deaktiviert werden", NotificationType.ERROR);
+            }
+            return this.RedirectToAction("Edit", new { id = subscriptionID });
+        }
+
+        
+
         public IActionResult Delete(int id)
         {
             if (_sService.deleteSubscription(id))
