@@ -124,9 +124,5 @@ namespace esencialAdmin.Controllers
         {
             return View(_pService.getBottleLabels(filter));
         }
-
-        #region Helper
-
-        #endregion
     }
 }
