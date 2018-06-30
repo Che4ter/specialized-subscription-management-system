@@ -5,7 +5,7 @@
         <div class="grid">
             <div class="row row-space-between">
                 <div class="col-3 col-medium-6 col-small-12">
-                    <h4>Zeitraum:</h4> <span class="periodeDurationText">@Model.StartDate.ToString("dd.MM.yyyy") - @Model.EndDate.ToString("dd.MM.yyyy")</span>   <button class="mui-btn mui-btn--flat btn-periode-edit"><i class="material-icons">mode_edit</i></button> <br /><br />
+                    <h4>Zeitraum:</h4> <span class="periodeDurationText">@Model.StartDate.ToString("dd.MM.yyyy") - @Model.EndDate.ToString("dd.MM.yyyy")</span><button class="mui-btn mui-btn--flat btn-periode-edit btnPeriodeDurationEdit" ><i class="material-icons">mode_edit</i></button> <br /><br />
                     <div class="editPeriodeDuration">
                         <div class="mui-textfield">
                             <input asp-for="StartDate" type="date" required class="periodeStartDate" />
@@ -16,17 +16,27 @@
                             <input asp-for="EndDate" type="date" required class="periodeEndDate" />
                             <label asp-for="EndDate"></label>
                             <span asp-validation-for="EndDate" class="text-danger"></span>
-                            <button class="mui-btn mui-btn--flat btn-periode-save"><i class="material-icons">save</i></button>
+                            <button class="mui-btn mui-btn--flat btn-periode-save btnPeriodeDurationSave"><i class="material-icons">save</i></button>
 
                         </div>
-                        <input type="hidden" id="periodeID" value="@Model.ID" />
+                        <input type="hidden" class="periodeID" value="@Model.ID" />
                         <br />
                     </div>
                     <h4>Zahlungsstatus:</h4>
 
-                    <strong><label asp-for="@Model.Price"></label>:</strong> @Model.Price.ToString("C")<br />
-                    <strong><label asp-for="@Model.Payed"></label>:</strong>
+                    <strong><label asp-for="@Model.Price"></label>:</strong><span class="periodePriceLabel">
+                        @Model.Price.ToString("C")
+                    </span><button class="mui-btn mui-btn--flat btn-periode-edit btnPeriodePriceEdit" ><i class="material-icons">mode_edit</i></button> <br />
+                    <div class="editPeriodePrice" style="display:none">
+                        <div class="mui-textfield" style="max-width:100px">
+                            <input type="number" required class="periodeStartDate txtPeriodePrice" value="@Model.Price.ToString("0.##")"/>
+                            <label asp-for="@Model.Price">Neuer Betrag</label>
+                            <input type="hidden" class="periodeID" value="@Model.ID" />
 
+                            <button class="mui-btn mui-btn--flat btn-periode-save btnPeriodePriceUpdate" value="@Model.ID"><i class="material-icons">save</i></button>
+                        </div>
+                    </div>
+                    <strong><label asp-for="@Model.Payed"></label>:</strong>
                     <label>
                         <input type="checkbox" class="periodePayedCheckbox" id="payed_@Model.ID" value="@Model.ID" @if (Model.Payed) { @("checked") }>
                     </label>
@@ -86,17 +96,20 @@
                     }
                 </div>
                 <div class="col-3 col-medium-6 col-small-12">
-                    <h4>Geschenkt von: 
-                        <button class="mui-btn mui-btn--flat btn-periode-edit" id="giverSelectionButton"><i class="material-icons">mode_edit</i></button>
-                        <button class="mui-btn mui-btn--flat btn-periode-edit" id="giverDeleteButton"><i class="material-icons">delete</i></button>
+                    <h4>
+                        Geschenkt von:
+                        <button class="mui-btn mui-btn--flat btn-periode-edit giverSelectionButton"><i class="material-icons">mode_edit</i></button>
+                        <button class="mui-btn mui-btn--flat btn-periode-edit giverDeleteButton"><i class="material-icons">delete</i></button>
                     </h4>
 
                     @if (Model.GiftetBy != null)
                     {
                         @Html.DisplayFor(x => x.GiftetBy)
                     }
-                    <div id="giverSelectContainer" style="display:none">
-                        <select id="giverSelect">
+                    <div class="giverSelectContainer" style="display:none">
+                        <input type="hidden" class="hidden-periode-id" value="@Model.ID" />
+
+                        <select class="giverSelect">
                             @if (Model.GiftetBy != null)
                             {
                                 <option value="@Model.GiftetBy.ID" selected="selected">@Model.GiftetBy.FirstName @Model.GiftetBy.LastName @Model.GiftetBy.Zip</option>

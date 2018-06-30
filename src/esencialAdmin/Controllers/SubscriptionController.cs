@@ -104,6 +104,21 @@ namespace esencialAdmin.Controllers
         }
 
         [HttpPost]
+        public IActionResult updatePeriodePrice(int periodeId, string newPeriodePrice)
+        {
+            decimal newPrice = 0;
+         
+            if (decimal.TryParse(newPeriodePrice, out newPrice) && _sService.updatePeriodePrice(periodeId, newPrice))
+            {
+                return StatusCode(StatusCodes.Status200OK);
+            }
+            else
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+
+        [HttpPost]
         public IActionResult updatePeriodeDates(int periodID, string periodStartDate, string periodEndDate)
         {
 
@@ -182,9 +197,9 @@ namespace esencialAdmin.Controllers
         }
 
         [HttpPost]
-        public IActionResult updatePeriodeGiver(int periodID, int giverId)
+        public IActionResult updatePeriodeGiver(int periodID, int giverID)
         {
-            if (_sService.updatePeriodeGiver(periodID, giverId))
+            if (_sService.updatePeriodeGiver(periodID, giverID))
             {
                 return StatusCode(StatusCodes.Status200OK);
             }

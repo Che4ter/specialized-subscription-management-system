@@ -1010,6 +1010,31 @@ namespace esencialAdmin.Services
             }
         }
 
+        public bool updatePeriodePrice(int periodeID, decimal newPeriodePrice)
+        {
+            try
+            {
+                var periodeToEdit = this._context.Periodes
+                  .Where(c => c.Id == periodeID)
+                  .FirstOrDefault();
+                if (periodeToEdit == null)
+                {
+                    return false;
+                }
+
+                periodeToEdit.Price = newPeriodePrice;
+
+                this._context.SaveChanges();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+
         public bool updatePeriodeGiver(int periodeID, int giverId)
         {
             try

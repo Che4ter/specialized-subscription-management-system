@@ -8,12 +8,6 @@ $(document).ready(function () {
             type: 'POST',
             data: { periodID: $(this).val(), paymentState: isChecked }
         });
-
-        if (this.checked) {
-            $(this).parent().parent().children(".paymentMethodContainer").show();
-        } else {
-            $(this).parent().parent().children(".paymentMethodContainer").hide();
-        }
     });
 
     $(".goodyCheckbox").change(function () {
@@ -40,19 +34,27 @@ $(document).ready(function () {
         });
     });
 
-    $('.btn-periode-edit').on('click', function (e) {
+    $('.btnPeriodeDurationEdit').on('click', function (e) {
         e.preventDefault();
         $(this).parent().find(".editPeriodeDuration").toggle();
 
     });
 
-    $('.btn-periode-save').on('click', function (e) {
+    $('.btnPeriodePriceEdit').on('click', function (e) {
         e.preventDefault();
+        $(this).parent().find(".editPeriodePrice").toggle();
+
+    });
+
+    $('.btnPeriodeDurationSave').on('click', function (e) {
+        e.preventDefault();
+        var parentelement = $(this).parent().parent();
+        console.log(parentelement);
         $.ajax({
             url: '/Subscription/updatePeriodeDates',
             type: 'POST',
             data: {
-                periodID: $(this).parent().parent().find("#periodeID").val(), periodStartDate: $(this).parent().parent().find(".periodeStartDate").val(), periodEndDate: $(this).parent().find(".periodeEndDate").val()
+                periodID: parentelement.find(".periodeID").val(), periodStartDate: parentelement.find(".periodeStartDate").val(), periodEndDate: parentelement.find(".periodeEndDate").val()
             },
             statusCode: {
                 200: function () {
@@ -86,7 +88,7 @@ $(document).ready(function () {
     //    $(".periodesFields").prop("disabled", true);
     //}
 
-    $('#giverSelect').select2(
+    $('.giverSelect').select2(
         {
             placeholder: 'Name eingeben',
             theme: "material",
@@ -128,12 +130,17 @@ $(document).ready(function () {
             }
         });
 
-    $('#giverSelect').on('change', function (e) {
-        if (e.originalEvent) {
+    $('.giverSelect').on('change', function (e,deleteflag) {
+        if (deleteflag != "delete") {
+            var pID = $(this).parent().find(".hidden-periode-id").val();
+            var gID = $(this).val();
+
             $.ajax({
                 url: '/Subscription/updatePeriodeGiver',
                 type: 'POST',
-                data: { periodID: $("#periodeID").val(), giverId: $('#giverSelect').val() },
+                data: {
+                    periodID: pID, giverID: gID
+                },
                 statusCode: {
                     200: function (xhr) {
                         alert("Schenker wurde erfolgreich gespeichert.");
@@ -143,7 +150,7 @@ $(document).ready(function () {
                     },
                 }
             });
-        }     
+        }
     });
 
     $('#subscriptionRemarks').on('change', function (e) {
@@ -163,17 +170,41 @@ $(document).ready(function () {
         }
     });
 
-   
-    $('#giverDeleteButton').on('click', function (e) {
+    $('.btnPeriodePriceUpdate').on('click', function (e) {
         e.preventDefault();
+        var newPrice = $(this).parent().find(".txtPeriodePrice").val();
+        console.log(newPrice);
+        var tmp = $(this).parent().parent().parent().find(".periodePriceLabel");
+        var pID = $(this).val()
+        $.ajax({
+            url: '/Subscription/updatePeriodePrice',
+            type: 'POST',
+            data: { periodeId: pID, newPeriodePrice: newPrice },
+            statusCode: {
+                200: function (xhr) {
+                    tmp.text(" CHF " + newPrice);
+                },
+                500: function (xhr) {
+                },
+            }
+        });
+
+    });
+
+    $('.giverDeleteButton').on('click', function (e) {
+        e.preventDefault();
+        console.log(pID);
+        var sendercontainer = $(this).parent().parent();
+        var pID = sendercontainer.find(".hidden-periode-id").val();
+
         $.ajax({
             url: '/Subscription/updatePeriodeGiver',
             type: 'POST',
-            data: { periodID: $("#periodeID").val(), giverId: -1 },
+            data: { periodID: pID, giverId: -1 },
             statusCode: {
                 200: function (xhr) {
-                    $("#giverDeleteButton").parent().parent().find(".customerAddressBlock").empty();
-                    $("#giverSelect").val([]).trigger('change');
+                    sendercontainer.find(".customerAddressBlock").empty();
+                    sendercontainer.find(".giverSelect").val([]).trigger('change', ["delete"]);
                     alert("Schenker wurde erfolgreich entfernt.");
                 },
                 500: function (xhr) {
@@ -183,10 +214,10 @@ $(document).ready(function () {
         });
 
     });
-    
-    $('#giverSelectionButton').on('click', function (e) {
+
+    $('.giverSelectionButton').on('click', function (e) {
         e.preventDefault();
-        $(this).parent().parent().find("#giverSelectContainer").toggle();
+        $(this).parent().parent().find(".giverSelectContainer").toggle();
         $(this).parent().parent().find(".customerAddressBlock").toggle();
 
     });

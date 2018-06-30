@@ -42,6 +42,8 @@ namespace esencialAdmin.Services
 
         bool updatePaymentReminderSent(int periodeID, bool isReminderSent);
 
+        bool updatePeriodePrice(int periodeID, decimal newPeriodePrice);
+
         bool renewSubscription(int subId);
 
         bool expireSubscription(int subId);
