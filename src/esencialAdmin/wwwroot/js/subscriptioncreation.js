@@ -141,20 +141,6 @@ $('#planSelect').select2(
             minimumInputLength: 2
         }
     }); 
-$('#payedCheckbox').on('change', function () {
-    if (this.checked) {
-        $("#paymentMethodContainer").show();
-    } else {
-        $("#paymentMethodContainer").hide();
-
-    }
-});
-
-if ($("#payedCheckbox").is(':checked')) {
-    $("#paymentMethodContainer").show();
-} else {
-    $("#paymentMethodContainer").hide();
-}
 
 $(".select2-selection__arrow")
     .addClass("material-icons")

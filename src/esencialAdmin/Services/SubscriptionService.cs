@@ -71,9 +71,9 @@ namespace esencialAdmin.Services
                     {
                         p.Payed = true;
                         p.PayedDate = DateTime.UtcNow;
-                        p.FkPayedMethodId = newSubscription.PaymentMethodID;
                         s.FkSubscriptionStatus = 1; //Da Rechnung bereits bezahlt, Status Aktiv
                     }
+                    p.FkPayedMethodId = newSubscription.PaymentMethodID;
 
                     if (newSubscription.GiverCustomerId != 0)
                     {
