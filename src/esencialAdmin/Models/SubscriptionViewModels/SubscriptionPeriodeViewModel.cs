@@ -26,7 +26,7 @@ namespace esencialAdmin.Models.SubscriptionViewModels
         [Display(Name = "Zahlungsmethode")]
         public int? PaymentMethodID { get; set; }
 
-        [Display(Name = "Zahlugngssart")]
+        [Display(Name = "Zahlungsart")]
         public virtual List<PaymentMethodsViewModel> PaymentMethods { get; set; }
 
         [Display(Name = "Betrag")]

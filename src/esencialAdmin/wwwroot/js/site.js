@@ -3,7 +3,6 @@ jQuery(function ($) {
     var $bodyEl = $('body'),
         $sidedrawerEl = $('#sidedrawer');
 
-
     // ==========================================================================
     // Toggle Sidedrawer
     // ==========================================================================
@@ -25,7 +24,6 @@ jQuery(function ($) {
             $sidedrawerEl.addClass('active');
         }, 20);
     }
-
 
     function hideSidedrawer() {
         $bodyEl.toggleClass('hide-sidedrawer');

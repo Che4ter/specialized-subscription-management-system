@@ -1,5 +1,4 @@
-﻿//The url we will send our get request to
-var pageSize = 50;
+﻿var pageSize = 50;
 
 $('#customersSelect').select2(
     {
@@ -43,7 +42,6 @@ $('#customersSelect').select2(
         }
     }); 
 
-
 $('#giverSelect').select2(
     {
         placeholder: 'Name eingeben',
@@ -86,7 +84,6 @@ $('#giverSelect').select2(
         }
     }); 
 
-
 $("#planSelect").on("select2:select", function (e) {
     var select_val = $(e.currentTarget).val();
     $.ajax({
@@ -98,7 +95,6 @@ $("#planSelect").on("select2:select", function (e) {
         },
     });
 });
-
 
 $('#planSelect').select2(
     {
