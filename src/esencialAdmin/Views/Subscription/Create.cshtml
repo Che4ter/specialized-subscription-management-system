@@ -33,7 +33,7 @@
                     <div class="row">
                         <div class="col-6 col-medium-12 col-small-12">
                             <label>@Html.DisplayNameFor(model => model.CustomerID)</label>
-                          
+
                             <select asp-for="CustomerID" id="customersSelect" style="width:100%!important" required>
                                 @if (Model.CustomerID != 0)
                                 {
@@ -67,7 +67,7 @@
                         </div>
                         <div class="col-6 col-medium-12 col-small-12">
                             <div class="mui-textfield">
-                                <input asp-for="StartDate" type="date" required/>
+                                <input asp-for="StartDate" type="date" required />
                                 <label asp-for="StartDate"></label>
                                 <span asp-validation-for="StartDate" class="text-danger"></span>
                             </div>
@@ -87,14 +87,14 @@
                         <div class="col-12 col-medium-12 col-small-12">
                             <div class="mui-checkbox">
                                 <label>
-                                    <input asp-for="Payed" id="payedCheckbox"/> bezahlt?
+                                    <input asp-for="Payed" id="payedCheckbox" /> bezahlt?
                                 </label>
                             </div>
                         </div>
-                        <div class="col-12 col-medium-12 col-small-12" id="paymentMethodContainer" >
+                        <div class="col-12 col-medium-12 col-small-12" id="paymentMethodContainer">
                             <div class="mui-select">
                                 @{
-                                    
+
                                     var selectList = new List<SelectListItem>();
                                     foreach (var tmp in Model.PaymentMethods)
                                     {
@@ -128,6 +128,21 @@
                 </div>
             </div>
         </div>
+        <div class="col-12  col-medium-12 col-small-12">
+            <div class="mui-panel">
+                <div class="mui--form-title">Bemerkungen</div>
+                <div class="grid">
+                    <div class="row">
+                        <div class="col-6 col-medium-12 col-small-12">
+                            <div class="mui-textfield">
+                                <textarea asp-for="SubscriptionRemarks"></textarea>
+                                <span asp-validation-for="SubscriptionRemarks" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </form>
 <environment include="Development,Preview,Production">
@@ -135,7 +150,6 @@
         <script src="~/lib/select2/dist/js/select2.full.js" asp-append-version="true"></script>
         <script src="~/lib/select2/dist/js/i18n/de.js" asp-append-version="true"></script>
         <script src="~/js/subscriptioncreation.js" asp-append-version="true"></script>
-
     }
 
     @section styles {

@@ -54,7 +54,7 @@
                 </div>
             </div>
         </div>
-        <input type="hidden" value="@Model.ID" name="subscriptionID" />
+        <input type="hidden" value="@Model.ID" name="subscriptionID" id="subId"/>
 
         @if (@Model.ID != 0)
         {
@@ -147,6 +147,21 @@
                 </form>
             </div>
         }
+    </div>
+</div>
+<div class="col-12  col-medium-12 col-small-12">
+    <div class="mui-panel">
+        <div class="mui--form-title">Bemerkungen</div>
+        <div class="grid">
+            <div class="row">
+                <div class="col-6 col-medium-12 col-small-12">
+                    <div class="mui-textfield">
+                        <textarea asp-for="SubscriptionRemarks" id="subscriptionRemarks"></textarea>
+                        <span asp-validation-for="SubscriptionRemarks" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 <environment include="Development">

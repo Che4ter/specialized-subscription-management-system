@@ -39,5 +39,8 @@ namespace esencialAdmin.Models.SubscriptionViewModels
         public int GiverCustomerId { get; set; }
 
         public String GiverPreSelect { get; set; }
+
+        [DisplayName("Bemerkungen")]
+        public string SubscriptionRemarks { get; set; }
     }
 }

@@ -44,6 +44,12 @@ namespace esencialAdmin.Services
                         PlantNumber = newSubscription.PlantNumber,
                         FkSubscriptionStatus = 3 //Rechnung noch nicht bezahlt
                     };
+
+                    if (!String.IsNullOrEmpty(newSubscription.SubscriptionRemarks))
+                    {
+                        s.SubscriptionRemarks = newSubscription.SubscriptionRemarks;
+                    }
+
                     this._context.Subscription.Add(s);
                     this._context.SaveChanges();
 
@@ -744,7 +750,8 @@ namespace esencialAdmin.Services
                 Plan = SubscriptionPlanViewModel.CreateFromPlan(subscriptionToLoad.FkPlan),
                 StatusID = subscriptionToLoad.FkSubscriptionStatus,
                 StatusLabel = subscriptionToLoad.FkSubscriptionStatusNavigation.Label,
-                TemplateID = subscriptionToLoad.FkPlan.FkGoody.FkTemplateLabel.Value
+                TemplateID = subscriptionToLoad.FkPlan.FkGoody.FkTemplateLabel.Value,
+                SubscriptionRemarks = subscriptionToLoad.SubscriptionRemarks
             };
             var periodesToLoad = this._context.Periodes
                 .Include(c => c.FkGiftedBy)
@@ -914,7 +921,6 @@ namespace esencialAdmin.Services
             {
                 return false;
             }
-
         }
 
         public bool updatePaymentReminderSent(int periodeID, bool isReminderSent)
@@ -949,6 +955,29 @@ namespace esencialAdmin.Services
             }
         }
 
+
+        public bool updateSubscriptionRemarks(int subscriptionId, string subscriptionRemarks)
+        {
+            try
+            {
+                var subscriptionToEdit = this._context.Subscription
+                  .Where(c => c.Id == subscriptionId)
+                  .FirstOrDefault();
+                if (subscriptionToEdit == null)
+                {
+                    return false;
+                }
+                subscriptionToEdit.SubscriptionRemarks = subscriptionRemarks;
+
+                this._context.SaveChanges();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
         public bool updateReceivedGoody(int goodyID, bool hasReceived)
         {
             try
@@ -993,7 +1022,7 @@ namespace esencialAdmin.Services
                     return false;
                 }
 
-                if(giverId > -1)
+                if (giverId > -1)
                 {
                     if (this._context.Customers.Any(x => x.Id == giverId))
                     {

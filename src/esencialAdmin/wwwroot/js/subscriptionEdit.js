@@ -145,6 +145,24 @@ $(document).ready(function () {
             });
         }     
     });
+
+    $('#subscriptionRemarks').on('change', function (e) {
+        if (e.originalEvent) {
+            $.ajax({
+                url: '/Subscription/updateSubscriptionRemarks',
+                type: 'POST',
+                data: { subscriptionId: $("#subId").val(), subscriptionRemarks: $('#subscriptionRemarks').val() },
+                statusCode: {
+                    200: function (xhr) {
+                    },
+                    500: function (xhr) {
+                        alert("Error: Bemerkung konnte nicht gespeichert werden.");
+                    },
+                }
+            });
+        }
+    });
+
    
     $('#giverDeleteButton').on('click', function (e) {
         e.preventDefault();

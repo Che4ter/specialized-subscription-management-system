@@ -91,6 +91,19 @@ namespace esencialAdmin.Controllers
         }
 
         [HttpPost]
+        public IActionResult updateSubscriptionRemarks(int subscriptionId, string subscriptionRemarks)
+        {
+            if (_sService.updateSubscriptionRemarks(subscriptionId, subscriptionRemarks))
+            {
+                return StatusCode(StatusCodes.Status200OK);
+            }
+            else
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+
+        [HttpPost]
         public IActionResult updatePeriodeDates(int periodID, string periodStartDate, string periodEndDate)
         {
 

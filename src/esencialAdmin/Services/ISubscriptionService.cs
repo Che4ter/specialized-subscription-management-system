@@ -36,6 +36,8 @@ namespace esencialAdmin.Services
 
         bool updatePeriodeGiver(int periodeID, int giverId);
 
+        bool updateSubscriptionRemarks(int subscriptionId, string subscriptionRemarks);
+
         bool updateReceivedGoody(int goodyID, bool hasReceived);
 
         bool updatePaymentReminderSent(int periodeID, bool isReminderSent);

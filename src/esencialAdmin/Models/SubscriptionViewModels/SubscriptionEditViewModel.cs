@@ -40,5 +40,8 @@ namespace esencialAdmin.Models.SubscriptionViewModels
 
         [DisplayName("Zuletzt bearbeitet durch")]
         public string UserModified { get; set; }
+
+        [DisplayName("Bemerkungen")]
+        public string SubscriptionRemarks { get; set; }
     }
 }
