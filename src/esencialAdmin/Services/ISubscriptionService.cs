@@ -34,6 +34,8 @@ namespace esencialAdmin.Services
 
         bool updatePaymentMethod(int periodeID, int paymentID);
 
+        bool updatePeriodeGiver(int periodeID, int giverId);
+
         bool updateReceivedGoody(int goodyID, bool hasReceived);
 
         bool updatePaymentReminderSent(int periodeID, bool isReminderSent);

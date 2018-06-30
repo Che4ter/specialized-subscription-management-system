@@ -11,7 +11,6 @@ using Microsoft.EntityFrameworkCore;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using System.Threading.Tasks;
-using System.Text.RegularExpressions;
 
 namespace esencialAdmin.Services
 {
@@ -19,7 +18,6 @@ namespace esencialAdmin.Services
     {
         protected readonly esencialAdminContext _context;
         private readonly IHostingEnvironment _hostingEnvironment;
-
 
         public SubscriptionService(esencialAdminContext context, IHostingEnvironment hostingEnvironment)
         {
@@ -971,6 +969,44 @@ namespace esencialAdmin.Services
                 else
                 {
                     goodyToEdit.ReceivedAt = null;
+                }
+
+                this._context.SaveChanges();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+        public bool updatePeriodeGiver(int periodeID, int giverId)
+        {
+            try
+            {
+                var periodeToEdit = this._context.Periodes
+                  .Where(c => c.Id == periodeID)
+                  .FirstOrDefault();
+                if (periodeToEdit == null)
+                {
+                    return false;
+                }
+
+                if(giverId > -1)
+                {
+                    if (this._context.Customers.Any(x => x.Id == giverId))
+                    {
+                        periodeToEdit.FkGiftedById = giverId;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    periodeToEdit.FkGiftedById = null;
                 }
 
                 this._context.SaveChanges();

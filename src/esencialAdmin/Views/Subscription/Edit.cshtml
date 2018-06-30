@@ -151,6 +151,8 @@
 </div>
 <environment include="Development">
     @section scripts {
+        <script src="~/lib/select2/dist/js/select2.full.js" asp-append-version="true"></script>
+        <script src="~/lib/select2/dist/js/i18n/de.js" asp-append-version="true"></script>
         <script src="~/lib/sweetalert2/sweetalert2.js" asp-append-version="true"></script>
         <script src="~/lib/slick/slick.js" asp-append-version="true"></script>
         <script src="~/js/subscriptionEdit.js" asp-append-version="true"></script>
@@ -159,18 +161,21 @@
 
     @section styles {
         <link rel="stylesheet" href="~/lib/sweetalert2/sweetalert2.css" />
-        <!-- Add the slick-theme.css if you want default styling -->
         <link rel="stylesheet" type="text/css" href="~/lib/slick/slick.css" />
-        <!-- Add the slick-theme.css if you want default styling -->
+        <link rel="stylesheet" href="~/lib/select2/dist/css/select2.css" />
+
     }
 </environment>
 <environment include="Production,Preview">
     @section scripts {
+        <script src="~/lib/select2/dist/js/select2.full.js" asp-append-version="true"></script>
+        <script src="~/lib/select2/dist/js/i18n/de.js" asp-append-version="true"></script>
         <script src="~/js/subscriptionEdit.min.js"></script>
         @await Html.PartialAsync("_ValidationScriptsPartial")
     }
 
     @section styles {
         <link rel="stylesheet" href="~/css/subscriptionEdit.min.css" />
+        <link rel="stylesheet" href="~/lib/select2/dist/css/select2.css" />
     }
 </environment>

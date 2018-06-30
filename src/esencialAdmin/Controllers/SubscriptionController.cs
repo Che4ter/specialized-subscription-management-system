@@ -45,7 +45,7 @@ namespace esencialAdmin.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public IActionResult Create(SubscriptionCreateViewModel newSubscription)
         {
-            
+
             if (!iNewesSubscriptionEmpty(newSubscription) && ModelState.IsValid)
             {
                 if (_sService.checkIfNrExists(newSubscription.PlanID, newSubscription.PlantNumber))
@@ -68,7 +68,7 @@ namespace esencialAdmin.Controllers
             }
             newSubscription.PaymentMethods = _sService.getAvailablePaymentMethods();
             newSubscription.CustomerPreSelect = _sService.getCustomerSelect2Text(newSubscription.CustomerID);
-            if(newSubscription.GiverCustomerId > 0)
+            if (newSubscription.GiverCustomerId > 0)
             {
                 newSubscription.GiverPreSelect = _sService.getCustomerSelect2Text(newSubscription.GiverCustomerId);
             }
@@ -169,6 +169,19 @@ namespace esencialAdmin.Controllers
         }
 
         [HttpPost]
+        public IActionResult updatePeriodeGiver(int periodID, int giverId)
+        {
+            if (_sService.updatePeriodeGiver(periodID, giverId))
+            {
+                return StatusCode(StatusCodes.Status200OK);
+            }
+            else
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+
+        [HttpPost]
         public int getNextFreePlantNr(int planID)
         {
             return _sService.getNextPlantNr(planID);
@@ -207,7 +220,7 @@ namespace esencialAdmin.Controllers
         {
             if (_sService.expireSubscription(subscriptionID))
             {
-               
+
             }
             else
             {
@@ -216,7 +229,7 @@ namespace esencialAdmin.Controllers
             return this.RedirectToAction("Edit", new { id = subscriptionID });
         }
 
-        
+
 
         public IActionResult Delete(int id)
         {

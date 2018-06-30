@@ -2,14 +2,13 @@
 
 <div class="periode-container">
     <fieldset class="periodesFields">
-
         <div class="grid">
             <div class="row row-space-between">
                 <div class="col-3 col-medium-6 col-small-12">
                     <h4>Zeitraum:</h4> <span class="periodeDurationText">@Model.StartDate.ToString("dd.MM.yyyy") - @Model.EndDate.ToString("dd.MM.yyyy")</span>   <button class="mui-btn mui-btn--flat btn-periode-edit"><i class="material-icons">mode_edit</i></button> <br /><br />
                     <div class="editPeriodeDuration">
                         <div class="mui-textfield">
-                            <input asp-for="StartDate" type="date" required class="periodeStartDate"/>
+                            <input asp-for="StartDate" type="date" required class="periodeStartDate" />
                             <label asp-for="StartDate"></label>
                             <span asp-validation-for="StartDate" class="text-danger"></span>
                         </div>
@@ -87,11 +86,23 @@
                     }
                 </div>
                 <div class="col-3 col-medium-6 col-small-12">
+                    <h4>Geschenkt von: 
+                        <button class="mui-btn mui-btn--flat btn-periode-edit" id="giverSelectionButton"><i class="material-icons">mode_edit</i></button>
+                        <button class="mui-btn mui-btn--flat btn-periode-edit" id="giverDeleteButton"><i class="material-icons">delete</i></button>
+                    </h4>
+
                     @if (Model.GiftetBy != null)
                     {
-                        <h4><label asp-for="@Model.GiftetBy"></label>:</h4>
                         @Html.DisplayFor(x => x.GiftetBy)
                     }
+                    <div id="giverSelectContainer" style="display:none">
+                        <select id="giverSelect">
+                            @if (Model.GiftetBy != null)
+                            {
+                                <option value="@Model.GiftetBy.ID" selected="selected">@Model.GiftetBy.FirstName @Model.GiftetBy.LastName @Model.GiftetBy.Zip</option>
+                            }
+                        </select>
+                    </div>
                 </div>
             </div>
         </div>
