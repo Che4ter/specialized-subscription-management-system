@@ -2,7 +2,7 @@
  * Translated default messages for the jQuery validation plugin.
  * Locale: DE (German, Deutsch)
  */
-jQuery.extend(jQuery.validator.messages, {
+$.extend( $.validator.messages, {
 	required: "Dieses Feld ist ein Pflichtfeld.",
 	maxlength: $.validator.format( "Geben Sie bitte maximal {0} Zeichen ein." ),
 	minlength: $.validator.format( "Geben Sie bitte mindestens {0} Zeichen ein." ),

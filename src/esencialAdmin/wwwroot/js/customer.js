@@ -7,15 +7,18 @@
         confirmButtonColor: '#d33',
         cancelButtonColor: '#929292',
         confirmButtonText: 'Ja, löschen.'
-    }).then(function () {
-        var url = "/Customer/Delete";
-        $.post(url, { ID: CustomerID }, function (data) {
-            window.location.href = "/Customer/Index";
+    }).then(result => {
+        if (result.value) {
+            var url = "/Customer/Delete";
+            $.post(url, { ID: CustomerID }, function (data) {
+                window.location.href = "/Customer/Index";
 
-        }).fail(function () {
-            window.location.href = "/Customer/Edit/" + CustomerID;
+            }).fail(function () {
+                window.location.href = "/Customer/Edit/" + CustomerID;
 
-        });
+            });
+        } else {
 
-    }).catch(swal.noop);
+        }
+    });
 }

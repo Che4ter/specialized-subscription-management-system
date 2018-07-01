@@ -7,17 +7,20 @@
         confirmButtonColor: '#d33',
         cancelButtonColor: '#929292',
         confirmButtonText: 'Ja, löschen.'
-    }).then(function () {
-        var url = "/Plan/Delete";
-        $.post(url, { ID: PlanID }, function (data) {
-            if (data) {
-                window.location.replace("/Plan/Index");
+    }).then(result => {
+        if (result.value) {
+            var url = "/Plan/Delete";
+            $.post(url, { ID: PlanID }, function (data) {
+                if (data) {
+                    window.location.replace("/Plan/Index");
 
-            }
-            else {
-                alert("Es gab ein Problem beim löschen!");
-            }
-        });
+                }
+                else {
+                    alert("Es gab ein Problem beim löschen!");
+                }
+            });
+        } else {
 
-    }).catch(swal.noop);
+        }
+    });
 }

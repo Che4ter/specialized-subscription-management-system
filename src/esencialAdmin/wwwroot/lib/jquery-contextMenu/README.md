@@ -1,6 +1,8 @@
 # jQuery contextMenu plugin & polyfill #
 
-[![Travis](https://img.shields.io/travis/swisnl/jQuery-contextMenu.svg?style=flat-square&maxAge=600)](https://travis-ci.org/swisnl/jQuery-contextMenu) [![npm](https://img.shields.io/npm/v/jquery-contextmenu.svg?style=flat-square&maxAge=600)](https://www.npmjs.com/package/jquery-contextmenu) [![npm](https://img.shields.io/npm/dm/jquery-contextmenu.svg?style=flat-square&maxAge=600)](https://www.npmjs.com/package/jquery-contextmenu) [![Bower](https://img.shields.io/bower/v/jQuery-contextMenu.svg?style=flat-square&maxAge=600)](https://github.com/swisnl/jQuery-contextMenu) [![CDNJS](https://img.shields.io/cdnjs/v/jquery-contextmenu.svg?style=flat-square&maxAge=600)](https://cdnjs.com/libraries/jquery-contextmenu) [![npm](https://img.shields.io/npm/l/jquery-contextmenu.svg?style=flat-square)]()
+[![Greenkeeper badge](https://badges.greenkeeper.io/swisnl/jQuery-contextMenu.svg)](https://greenkeeper.io/)
+
+[![Travis](https://img.shields.io/travis/swisnl/jQuery-contextMenu/master.svg?style=flat-square&maxAge=600)](https://travis-ci.org/swisnl/jQuery-contextMenu) [![npm](https://img.shields.io/npm/v/jquery-contextmenu.svg?style=flat-square&maxAge=600)](https://www.npmjs.com/package/jquery-contextmenu) [![npm](https://img.shields.io/npm/dm/jquery-contextmenu.svg?style=flat-square&maxAge=600)](https://www.npmjs.com/package/jquery-contextmenu) [![Bower](https://img.shields.io/bower/v/jQuery-contextMenu.svg?style=flat-square&maxAge=600)](https://github.com/swisnl/jQuery-contextMenu) [![CDNJS](https://img.shields.io/cdnjs/v/jquery-contextmenu.svg?style=flat-square&maxAge=600)](https://cdnjs.com/libraries/jquery-contextmenu) [![npm](https://img.shields.io/npm/l/jquery-contextmenu.svg?style=flat-square)]()
 
 $.contextMenu is a management facility for - you guessed it - context menus. It was designed for an application where there are hundreds of elements that may show a context menu - so intialization speed and memory usage are kept fairly small. It also allows to register context menus without providing actual markup, as $.contextMenu generates DOMElements as needed.
 
@@ -36,6 +38,13 @@ $.contextMenu({
 
 have a look at the [demos](http://swisnl.github.io/jQuery-contextMenu/demo.html).
 
+## Version 3.0 beta
+
+Version 3.0 is a restructure of the javascript into something more sane written in ES6. It consolidates all API's so callbacks are better documented and more concise. The basics are still the same, but all callbacks are structured differently. 
+
+The goal of this refactor was mostly to make the ContextMenu easier to maintain, and make the API's more consise. It also adds JSdoc comments so the API documentation is generated from the code and it enables code completion.
+
+Check out the [3.x branch](https://github.com/swisnl/jQuery-contextMenu/tree/3.x), or install with `npm install jquery-contextmenu@next`.
 
 ## HTML5 Compatibility ##
 

@@ -236,17 +236,20 @@ function SubscriptionDeleteConfirmation(SubID) {
         confirmButtonColor: '#d33',
         cancelButtonColor: '#929292',
         confirmButtonText: 'Ja, löschen.'
-    }).then(function () {
-        var url = "/Subscription/Delete";
-        $.post(url, { ID: SubID }, function (data) {
-            if (data) {
-                window.location.replace("/Subscription/Index");
+    }).then(result => {
+        if (result.value) {
+            var url = "/Subscription/Delete";
+            $.post(url, { ID: SubID }, function (data) {
+                if (data) {
+                    window.location.replace("/Subscription/Index");
 
-            }
-            else {
-                alert("Es gab ein Problem beim löschen!");
-            }
-        });
+                }
+                else {
+                    alert("Es gab ein Problem beim löschen!");
+                }
+            });
+        } else {
 
-    }).catch(swal.noop);
+        }
+    });
 }

@@ -9,6 +9,8 @@ using SixLabors.ImageSharp.Formats.Jpeg;
 using SixLabors.ImageSharp.Formats.Png;
 using SixLabors.ImageSharp.Formats.Gif;
 using SixLabors.ImageSharp.Processing;
+using SixLabors.ImageSharp.Processing.Transforms;
+using SixLabors.ImageSharp.PixelFormats;
 
 namespace esencialAdmin.Services
 {
@@ -44,7 +46,6 @@ namespace esencialAdmin.Services
                 string userID = this._context.Subscription.Where(x => x.Id == subID).Select(x => x.FkCustomerId).FirstOrDefault().ToString();
 
                 String path = _hostingEnvironment.WebRootPath + file.Path + file.FileName;
-                using (Image<SixLabors.ImageSharp.Rgba32> image = Image.Load(path)) //open the file and detect the file type and decode it
                 {
                     if (originalWithoutThumb.Contains("_thumb"))
                     {

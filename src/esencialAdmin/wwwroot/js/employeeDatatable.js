@@ -67,17 +67,20 @@ function EmployeeDeleteConfirmation(Username) {
         confirmButtonColor: '#d33',
         cancelButtonColor: '#929292',
         confirmButtonText: 'Ja, löschen.'
-    }).then(function () {
-        var url = "/Employee/Delete";
-        $.post(url, { username: Username }, function (data) {
-            if (data) {
-                oTable = $('#employeeTable').DataTable();
-                oTable.draw();
-            }
-            else {
-                alert("Es gab ein Problem beim löschen!");
-            }
-        });
+    }).then(result => {
+        if (result.value) {
+            var url = "/Employee/Delete";
+            $.post(url, { username: Username }, function (data) {
+                if (data) {
+                    oTable = $('#employeeTable').DataTable();
+                    oTable.draw();
+                }
+                else {
+                    alert("Es gab ein Problem beim löschen!");
+                }
+            });
+        } else {
 
-    }).catch(swal.noop);
+        }
+    });
 }
