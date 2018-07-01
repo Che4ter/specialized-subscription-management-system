@@ -46,6 +46,7 @@ namespace esencialAdmin.Services
                 string userID = this._context.Subscription.Where(x => x.Id == subID).Select(x => x.FkCustomerId).FirstOrDefault().ToString();
 
                 String path = _hostingEnvironment.WebRootPath + file.Path + file.FileName;
+                using (Image<Rgba32> image = Image.Load(path)) //open the file and detect the file type and decode it
                 {
                     if (originalWithoutThumb.Contains("_thumb"))
                     {
