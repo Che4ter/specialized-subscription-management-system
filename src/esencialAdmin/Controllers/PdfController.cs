@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using esencialAdmin.Services;
-using Rotativa.NetCore;
 using esencialAdmin.Models.SubscriptionViewModels;
-using Rotativa.NetCore.Options;
 using System.Collections.Generic;
+using Rotativa.NetCore;
+using Rotativa.NetCore.Options;
 
 //https://github.com/Stefanone91/Rotativa.NetCore
 
@@ -101,7 +101,7 @@ namespace esencialAdmin.Controllers
 
             var pdf = new ActionAsPdf("GenerateBottleLabels", filter);
             pdf.FileName = "Etiketten.pdf";
-            pdf.PageMargins = new Margins(0,0,0,0);
+            pdf.PageMargins = new Margins(0, 0, 0, 0);
             pdf.Cookies = cookieCollection;
             return pdf;
         }
