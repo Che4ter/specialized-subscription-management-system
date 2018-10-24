@@ -93,6 +93,7 @@ namespace esencialAdmin.Controllers
         [HttpPost]
         public IActionResult PrintBottleLabels(SubscriptionIndexViewModel filter)
         {
+            //return RedirectToAction("GenerateBottleLabels", filter);
             Dictionary<string, string> cookieCollection = new Dictionary<string, string>();
             foreach (var key in Request.Cookies)
             {
@@ -103,6 +104,10 @@ namespace esencialAdmin.Controllers
             pdf.FileName = "Etiketten.pdf";
             pdf.PageMargins = new Margins(0, 0, 0, 0);
             pdf.Cookies = cookieCollection;
+            pdf.PageSize = Size.A4;
+            pdf.PageOrientation = Orientation.Portrait;
+            pdf.CustomSwitches = "--disable-smart-shrinking";
+
             return pdf;
         }
 

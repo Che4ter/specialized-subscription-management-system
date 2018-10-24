@@ -3,26 +3,39 @@
     Layout = "~/Views/Shared/_PdfLayout.cshtml";
     int i = 0;
 }
-<table style="width:100%">
-        @foreach (var item in Model)
-        {
-            @if ((i % 3) == 0)
-            {
-                @:<tr>
-           
-            }
-            <td class="labelCell">
-                <span>@item.Name</span>
-                <span>@item.Typ @item.Nr </span>
-                <img src="~/images/weinetikette.jpg" width="277" />
-            </td>
 
-          if((i % 3) == 3)
-            {
-              @:</tr>
-            }
 
-            i++;
+@foreach (var item in Model)
+{
+    if (i == 0)
+    {
+        @:<table class="bottleTable">
         }
 
-</table>
+        @if ((i % 3) == 0)
+        {
+            @:<tr>
+            }
+
+        <td class="labelCell">
+            <span>@item.Name </span>
+            <span>@item.Typ @item.Nr </span>
+            <img src="~/images/weinetikette.jpg" width="277" />
+        </td>
+
+    if ((i % 3) == 3)
+    {
+        @:</tr>
+    }
+
+    @if (i == 20)
+    {
+    @:</table>
+    i = 0;
+    }
+    else
+    {
+        i++;
+
+    }
+}

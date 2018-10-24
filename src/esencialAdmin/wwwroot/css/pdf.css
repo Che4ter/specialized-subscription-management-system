@@ -11,13 +11,25 @@ table {
     table-layout: fixed;
 }
 
+    table.bottleTable {
+        border-spacing: 0; /* Removes the cell spacing via CSS */
+        border-collapse: collapse; /* Optional - if you don't want to have double border where cells touch */
+        box-sizing: border-box;
+        table-layout: fixed;
+        width: 100%;
+        page-break-before: always !important;
+        page-break-inside: avoid !important;
+        margin: 0;
+    }
+
 td.labelCell {
-    /*border: 1px solid #000;*/
     box-sizing: border-box;
-    height: 197px;
-    page-break-before: always !important;
-    page-break-inside: avoid !important;
     text-align: center;
+    height: 198px !important;
+}
+
+tr {
+    box-sizing: border-box;
 }
 
 td.adressCell {
@@ -29,6 +41,7 @@ td.adressCell {
     page-break-before: always !important;
     page-break-inside: avoid !important;
     text-align: left;
+
 }
 
     td.adressCell span {
@@ -41,24 +54,22 @@ td.adressCell {
         line-height: 1.5;
     }
 
-
 tr {
     page-break-before: always !important;
     page-break-inside: avoid !important;
 }
 
-
-
 .labelCell img {
     width: 150px;
-    height: auto;
+    height: 95px;
+    padding-top: 2px;
 }
 
 .labelCell span {
     font-size: 16px;
     font-family: Arial;
     width: 100%;
-    padding-bottom: 6px;
+    line-height: 1.8;
     display: inline-block;
     letter-spacing: 1.4px;
 }
