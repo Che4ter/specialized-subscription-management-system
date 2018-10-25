@@ -43,16 +43,24 @@ td.adressCell {
     text-align: left;
 
 }
+table.bottleTable tr:last-child td.labelCell {
+    height: 185px;
+    padding-top: 25px;
+    page-break-before: always !important;
+    page-break-inside: avoid !important;
+    overflow:hidden;
+}
 
-    td.adressCell span {
-        text-align: left !important;
-        margin-left: auto;
-        margin-right: auto;
-        display: inline-block;
-        width: auto;
-        font-size: 20px;
-        line-height: 1.5;
-    }
+
+td.adressCell span {
+    text-align: left !important;
+    margin-left: auto;
+    margin-right: auto;
+    display: inline-block;
+    width: auto;
+    font-size: 20px;
+    line-height: 1.5;
+}
 
 tr {
     page-break-before: always !important;
@@ -61,8 +69,8 @@ tr {
 
 .labelCell img {
     width: 150px;
-    height: 95px;
-    padding-top: 2px;
+    height: 90px;
+    padding-top: 6px;
 }
 
 .labelCell span {
